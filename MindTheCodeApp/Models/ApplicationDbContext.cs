@@ -33,7 +33,7 @@ namespace DBModelExercise.Data
                     .OnDelete(DeleteBehavior.NoAction);
             });
 
-            modelBuilder.Entity<AddressInformationModel>(entity =>
+            modelBuilder.Entity<AddressInformation>(entity =>
             {
                 entity.HasMany(e => e.Users)
                     .WithOne(e => e.AddressInformation)
@@ -44,7 +44,7 @@ namespace DBModelExercise.Data
                     .OnDelete(DeleteBehavior.NoAction);
             });
 
-            modelBuilder.Entity<OrderModel>(entity =>
+            modelBuilder.Entity<Order>(entity =>
             {
                 entity.HasOne(e => e.User)
                     .WithMany(e => e.Orders)
@@ -55,7 +55,7 @@ namespace DBModelExercise.Data
                     .OnDelete(DeleteBehavior.NoAction);
             });
 
-            modelBuilder.Entity<OrderModel>(entity =>
+            modelBuilder.Entity<Order>(entity =>
             {
                 entity.HasOne(e => e.User)
                     .WithMany(e => e.Orders)
@@ -106,7 +106,7 @@ namespace DBModelExercise.Data
                     .OnDelete(DeleteBehavior.NoAction);
             });
 
-            modelBuilder.Entity<BookOrderModel>(entity =>
+            modelBuilder.Entity<BookOrder>(entity =>
             {
                 entity.HasOne(e => e.Order)
                     .WithMany(e => e.BookOrder)
@@ -122,13 +122,13 @@ namespace DBModelExercise.Data
 
         public DbSet<User> UserEntity { get; set; }
         public DbSet<UserRole> UserRoleEntity { get; set; }
-        public DbSet<AddressInformationModel> AddressInformationEntity { get; set; }
-        public DbSet<OrderModel> OrderEntity { get; set; }
+        public DbSet<AddressInformation> AddressInformationEntity { get; set; }
+        public DbSet<Order> OrderEntity { get; set; }
         public DbSet<BookCategory> BookCategoryEntity { get; set; }
         public DbSet<BookAuthor> BookAuthorEntity { get; set; }
         public DbSet<BookPhoto> BookPhotoEntity { get; set; }
         public DbSet<Book> BookEntity { get; set; }
-        public DbSet<BookOrderModel> BookOrderEntity { get; set; }
+        public DbSet<BookOrder> BookOrderEntity { get; set; }
 
     }
 }

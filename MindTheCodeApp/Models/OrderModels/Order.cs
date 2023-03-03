@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace DBModelExercise.Data.Models.Orders
 {
     [Table("Orders")]
-    public class OrderModel
+    public class Order
     {
         [Key, Column("order_id"), NotNull, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrderId { get; set; }

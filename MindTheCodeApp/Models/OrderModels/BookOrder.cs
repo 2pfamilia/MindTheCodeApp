@@ -6,13 +6,13 @@ using System.Diagnostics.CodeAnalysis;
 namespace DBModelExercise.Data.Models.Orders
 {
     [Table("Books_Orders")]
-    public class BookOrderModel
+    public class BookOrder
     {
         [Key, Column("book_order_id"), NotNull, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? BookOrderId { get; set; }
 
         [Column("order_id"), ForeignKey("order_id"), NotNull]
-        public OrderModel? Order { get; set; }
+        public Order? Order { get; set; }
 
         [Column("book_id"), ForeignKey("book_id"), NotNull]
         public Book? Book { get; set; }
