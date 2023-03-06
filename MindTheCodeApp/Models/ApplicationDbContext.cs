@@ -106,7 +106,7 @@ namespace DBModelExercise.Data
                     .OnDelete(DeleteBehavior.NoAction);
             });
 
-            modelBuilder.Entity<BookOrder>(entity =>
+            modelBuilder.Entity<OrderDetails>(entity =>
             {
                 entity.HasOne(e => e.Order)
                     .WithMany(e => e.BookOrder)
@@ -128,7 +128,7 @@ namespace DBModelExercise.Data
         public DbSet<BookAuthor> BookAuthorEntity { get; set; }
         public DbSet<BookPhoto> BookPhotoEntity { get; set; }
         public DbSet<Book> BookEntity { get; set; }
-        public DbSet<BookOrder> BookOrderEntity { get; set; }
+        public DbSet<OrderDetails> OrderDetailsEntity { get; set; }
 
     }
 }

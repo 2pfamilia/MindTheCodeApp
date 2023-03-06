@@ -5,11 +5,11 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace DBModelExercise.Data.Models.Orders
 {
-    [Table("Books_Orders")]
-    public class BookOrder
+    [Table("Order_Details")]
+    public class OrderDetails
     {
-        [Key, Column("book_order_id"), NotNull, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int? BookOrderId { get; set; }
+        [Key, Column("order_details_id"), NotNull, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int? OrderDetailsId { get; set; }
 
         [Column("order_id"), ForeignKey("order_id"), NotNull]
         public Order? Order { get; set; }
