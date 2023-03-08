@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using MindTheCodeApp.Repositories.Implementation;
+using MindTheCodeApp.Repositories.IRepositories;
 using MindTheCodeApp.Repositories.Models;
+using MindTheCodeApp.Services.Implementation;
+using MindTheCodeApp.Services.IServices;
 using MindTheCodeApp.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +18,16 @@ builder.Services.AddHostedService<PopulateDb>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//Add Repository services
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+//Add Services
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 var app = builder.Build();
 
