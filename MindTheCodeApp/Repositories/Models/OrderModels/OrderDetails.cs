@@ -35,7 +35,7 @@ namespace MindTheCodeApp.Repositories.Models.OrderModels
             Required,
             Column("unit_cost"),
             NotNull,
-            Precision(2)
+            Precision(5, 2)
         ]
         public decimal? Unitcost { get; set; }
 
@@ -43,7 +43,7 @@ namespace MindTheCodeApp.Repositories.Models.OrderModels
             Required,
             Column("total_cost"),
             NotNull,
-            Precision(2)
+            Precision(10, 2)
         ]
         public decimal? TotalCost { get; set; }
 

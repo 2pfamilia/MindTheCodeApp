@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MindTheCodeApp.Repositories.Models;
 
@@ -11,9 +12,11 @@ using MindTheCodeApp.Repositories.Models;
 namespace MindTheCodeApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230308183012_UpdateDataAnotation")]
+    partial class UpdateDataAnotation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -144,8 +147,8 @@ namespace MindTheCodeApp.Migrations
 
                     b.Property<decimal?>("Price")
                         .IsRequired()
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)")
+                        .HasPrecision(2)
+                        .HasColumnType("decimal(2,2)")
                         .HasColumnName("price");
 
                     b.Property<string>("Title")
@@ -329,8 +332,8 @@ namespace MindTheCodeApp.Migrations
                         .HasColumnName("is_canceled");
 
                     b.Property<decimal>("Cost")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)")
+                        .HasPrecision(2)
+                        .HasColumnType("decimal(2,2)")
                         .HasColumnName("cost");
 
                     b.Property<DateTime>("DateCreated")
@@ -372,14 +375,14 @@ namespace MindTheCodeApp.Migrations
 
                     b.Property<decimal?>("TotalCost")
                         .IsRequired()
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)")
+                        .HasPrecision(2)
+                        .HasColumnType("decimal(2,2)")
                         .HasColumnName("total_cost");
 
                     b.Property<decimal?>("Unitcost")
                         .IsRequired()
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)")
+                        .HasPrecision(2)
+                        .HasColumnType("decimal(2,2)")
                         .HasColumnName("unit_cost");
 
                     b.Property<int>("book_id")

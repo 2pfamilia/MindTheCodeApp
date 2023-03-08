@@ -62,7 +62,7 @@ namespace MindTheCodeApp.Repositories.Models.BookModels
             Required,
             Column("price"),
             NotNull,
-            Precision(2)
+            Precision(5,2)
         ]
         public decimal? Price { get; set; }
 

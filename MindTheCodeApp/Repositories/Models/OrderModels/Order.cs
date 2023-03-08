@@ -55,7 +55,7 @@ namespace MindTheCodeApp.Repositories.Models.OrderModels
             Required,
             Column("cost"),
             NotNull,
-            Precision(2)
+            Precision(10, 2)
         ]
         public decimal Cost { get; set; }
 
