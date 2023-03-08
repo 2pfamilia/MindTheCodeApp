@@ -1,10 +1,10 @@
-﻿using DBModelExercise.Data.Models.Auth;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using MindTheCodeApp.Repositories.Models.AuthModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DBModelExercise.Data.Models.Orders
+namespace MindTheCodeApp.Repositories.Models.OrderModels
 {
     [Table("Orders")]
     public class Order

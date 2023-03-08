@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MindTheCodeApp.Models;
+using MindTheCodeApp.Repositories.Models;
 using System.Diagnostics;
 
 namespace MindTheCodeApp.Controllers

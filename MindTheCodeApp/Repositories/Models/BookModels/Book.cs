@@ -1,9 +1,9 @@
-﻿using DBModelExercise.Data.Models.Orders;
+﻿using MindTheCodeApp.Repositories.Models.OrderModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DBModelExercise.Data.Models.Books
+namespace MindTheCodeApp.Repositories.Models.BookModels
 {
     [Table("Books")]
     public class Book

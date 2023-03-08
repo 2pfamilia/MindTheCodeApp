@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DBModelExercise.Data.Models.Auth
+namespace MindTheCodeApp.Repositories.Models.AuthModels
 {
     [Table("User_Roles")]
     public class UserRole

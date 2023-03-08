@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DBModelExercise.Data.Models.Books
+namespace MindTheCodeApp.Repositories.Models.BookModels
 {
     [Table("Books_Photos")]
     public class BookPhoto

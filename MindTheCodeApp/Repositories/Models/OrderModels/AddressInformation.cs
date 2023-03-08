@@ -1,9 +1,9 @@
-﻿using DBModelExercise.Data.Models.Auth;
+﻿using MindTheCodeApp.Repositories.Models.AuthModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DBModelExercise.Data.Models.Orders
+namespace MindTheCodeApp.Repositories.Models.OrderModels
 {
     [Table("Address_Information")]
     public class AddressInformation

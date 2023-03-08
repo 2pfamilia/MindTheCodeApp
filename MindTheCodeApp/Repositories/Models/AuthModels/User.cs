@@ -1,10 +1,10 @@
-﻿using DBModelExercise.Data.Models.Orders;
+﻿using MindTheCodeApp.Repositories.Models.OrderModels;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace DBModelExercise.Data.Models.Auth
+namespace MindTheCodeApp.Repositories.Models.AuthModels
 {
     [Table("Users")]
     public class User
