@@ -1,5 +1,5 @@
-using DBModelExercise.Data;
 using Microsoft.EntityFrameworkCore;
+using MindTheCodeApp.Repositories.Models;
 using MindTheCodeApp.Utils;
 
 var builder = WebApplication.CreateBuilder(args);

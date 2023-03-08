@@ -1,8 +1,8 @@
-﻿using DBModelExercise.Data;
-using DBModelExercise.Data.Models.Auth;
-using DBModelExercise.Data.Models.Books;
-using DBModelExercise.Data.Models.Orders;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using MindTheCodeApp.Repositories.Models;
+using MindTheCodeApp.Repositories.Models.AuthModels;
+using MindTheCodeApp.Repositories.Models.BookModels;
+using MindTheCodeApp.Repositories.Models.OrderModels;
 
 namespace MindTheCodeApp.Utils
 {
