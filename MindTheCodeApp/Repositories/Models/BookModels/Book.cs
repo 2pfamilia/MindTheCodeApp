@@ -1,4 +1,5 @@
-﻿using MindTheCodeApp.Repositories.Models.OrderModels;
+﻿using Microsoft.EntityFrameworkCore;
+using MindTheCodeApp.Repositories.Models.OrderModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
@@ -8,31 +9,67 @@ namespace MindTheCodeApp.Repositories.Models.BookModels
     [Table("Books")]
     public class Book
     {
-        [Key, Column("book_id"), NotNull, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [
+            Key,
+            Column("book_id"),
+            NotNull,
+            DatabaseGenerated(DatabaseGeneratedOption.Identity)
+        ]
         public int BookId { get; set; }
 
-        [Required, Column("title"), NotNull, StringLength(100, MinimumLength = 1)]
+        [
+            Required,
+            Column("title"),
+            NotNull,
+            StringLength(100, MinimumLength = 1)
+        ]
         public string? Title { get; set; }
 
-        [Column("description"), AllowNull, StringLength(500)]
+        [
+            Column("description"),
+            AllowNull,
+            StringLength(500)
+        ]
         public string? Description { get; set; }
 
-        [Column("category_id"), ForeignKey("category_id"), AllowNull]
+        [
+            Column("category_id"),
+            ForeignKey("category_id"),
+            AllowNull
+        ]
         public BookCategory? Category { get; set; }
 
-        [Column("photo_id"), ForeignKey("photo_id"), AllowNull]
+        [
+            Column("photo_id"),
+            ForeignKey("photo_id"),
+            AllowNull
+        ]
         public BookPhoto? Photo { get; set; }
 
-        [Column("count")]
+        [
+            Column("count")
+        ]
         public int? Count { get; set; }
 
-        [Column("author_id"), ForeignKey("author_id"), AllowNull]
+        [
+            Column("author_id"),
+            ForeignKey("author_id"),
+            AllowNull
+        ]
         public BookAuthor? Author { get; set; }
 
-        [Required, Column("price"), NotNull]
-        public double? Price { get; set; }
+        [
+            Required,
+            Column("price"),
+            NotNull,
+            Precision(5,2)
+        ]
+        public decimal? Price { get; set; }
 
-        [Column("date_created"), NotNull]
+        [
+            Column("date_created"),
+            NotNull
+        ]
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
         public ICollection<OrderDetails>? BookOrder { get; set; }
