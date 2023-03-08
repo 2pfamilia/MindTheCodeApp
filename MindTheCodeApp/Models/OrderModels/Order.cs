@@ -16,13 +16,13 @@ namespace DBModelExercise.Data.Models.Orders
         public User? User { get; set; }
 
         [Column("is_fulfilled"), AllowNull]
-        public bool Fulfilled { get; set; }
+        public bool Fulfilled { get; set; } = false;
 
         [Column("is_active"), AllowNull]
-        public bool Active { get; set; }
+        public bool Active { get; set; } = true;
 
         [Column("is_canceled"), AllowNull]
-        public bool Canceled { get; set; }
+        public bool Canceled { get; set; } = false;
 
         [Required, Column("address_information_id"), ForeignKey("address_information_id"), NotNull]
         public AddressInformation? AddressInformation { get; set; }
@@ -33,7 +33,7 @@ namespace DBModelExercise.Data.Models.Orders
         [Column("date_created"), NotNull]
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
-        public ICollection<BookOrder>? BookOrder { get; set; }
+        public ICollection<OrderDetails>? BookOrder { get; set; }
 
     }
 }

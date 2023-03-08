@@ -1,4 +1,5 @@
 ﻿using DBModelExercise.Data.Models.Orders;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
@@ -17,7 +18,7 @@ namespace DBModelExercise.Data.Models.Auth
         [Required, Column("last_name"), NotNull, StringLength(50, MinimumLength = 2)]
         public string? LastName { get; set; }
 
-        [Required, Column("email"), NotNull]
+        [Required, Column("email"), NotNull, EmailAddress]
         public string? Email { get; set; }
 
         [Required, Column("birthdate"), NotNull]
@@ -26,7 +27,7 @@ namespace DBModelExercise.Data.Models.Auth
         [Required, Column("username"), NotNull, StringLength(36, MinimumLength = 5)]
         public string? Username { get; set; }
 
-        [Required, Column("password"), NotNull, StringLength(24, MinimumLength = 6)]
+        [Required, Column("password"), NotNull, StringLength(24, MinimumLength = 6), PasswordPropertyText]
         public string? Password { get; set; }
 
         [Column("address_information_id"), ForeignKey("address_information_id"), AllowNull]
