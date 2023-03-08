@@ -1,5 +1,6 @@
 using DBModelExercise.Data;
 using Microsoft.EntityFrameworkCore;
+using MindTheCodeApp.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     var connectionString = builder.Configuration.GetConnectionString("LocalDb");
     options.UseSqlServer(connectionString);
 });
+
+builder.Services.AddHostedService<PopulateDb>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

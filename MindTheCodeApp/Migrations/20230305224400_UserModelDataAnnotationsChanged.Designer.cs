@@ -4,6 +4,7 @@ using DBModelExercise.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MindTheCodeApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230305224400_UserModelDataAnnotationsChanged")]
+    partial class UserModelDataAnnotationsChanged
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -306,6 +309,45 @@ namespace MindTheCodeApp.Migrations
                     b.ToTable("Address_Information");
                 });
 
+            modelBuilder.Entity("DBModelExercise.Data.Models.Orders.BookOrder", b =>
+                {
+                    b.Property<int?>("BookOrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("book_order_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("BookOrderId"));
+
+                    b.Property<int?>("Count")
+                        .IsRequired()
+                        .HasColumnType("int")
+                        .HasColumnName("count");
+
+                    b.Property<double?>("TotalCost")
+                        .IsRequired()
+                        .HasColumnType("float")
+                        .HasColumnName("total_cost");
+
+                    b.Property<double?>("Unitcost")
+                        .IsRequired()
+                        .HasColumnType("float")
+                        .HasColumnName("unit_cost");
+
+                    b.Property<int>("book_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("order_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("BookOrderId");
+
+                    b.HasIndex("book_id");
+
+                    b.HasIndex("order_id");
+
+                    b.ToTable("Books_Orders");
+                });
+
             modelBuilder.Entity("DBModelExercise.Data.Models.Orders.Order", b =>
                 {
                     b.Property<int>("OrderId")
@@ -350,45 +392,6 @@ namespace MindTheCodeApp.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Orders.OrderDetails", b =>
-                {
-                    b.Property<int?>("OrderDetailsId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("order_details_id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("OrderDetailsId"));
-
-                    b.Property<int?>("Count")
-                        .IsRequired()
-                        .HasColumnType("int")
-                        .HasColumnName("count");
-
-                    b.Property<double?>("TotalCost")
-                        .IsRequired()
-                        .HasColumnType("float")
-                        .HasColumnName("total_cost");
-
-                    b.Property<double?>("Unitcost")
-                        .IsRequired()
-                        .HasColumnType("float")
-                        .HasColumnName("unit_cost");
-
-                    b.Property<int>("book_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("order_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderDetailsId");
-
-                    b.HasIndex("book_id");
-
-                    b.HasIndex("order_id");
-
-                    b.ToTable("Order_Details");
-                });
-
             modelBuilder.Entity("DBModelExercise.Data.Models.Auth.User", b =>
                 {
                     b.HasOne("DBModelExercise.Data.Models.Orders.AddressInformation", "AddressInformation")
@@ -430,6 +433,25 @@ namespace MindTheCodeApp.Migrations
                     b.Navigation("Photo");
                 });
 
+            modelBuilder.Entity("DBModelExercise.Data.Models.Orders.BookOrder", b =>
+                {
+                    b.HasOne("DBModelExercise.Data.Models.Books.Book", "Book")
+                        .WithMany("BookOrder")
+                        .HasForeignKey("book_id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("DBModelExercise.Data.Models.Orders.Order", "Order")
+                        .WithMany("BookOrder")
+                        .HasForeignKey("order_id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("DBModelExercise.Data.Models.Orders.Order", b =>
                 {
                     b.HasOne("DBModelExercise.Data.Models.Orders.AddressInformation", "AddressInformation")
@@ -447,25 +469,6 @@ namespace MindTheCodeApp.Migrations
                     b.Navigation("AddressInformation");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DBModelExercise.Data.Models.Orders.OrderDetails", b =>
-                {
-                    b.HasOne("DBModelExercise.Data.Models.Books.Book", "Book")
-                        .WithMany("BookOrder")
-                        .HasForeignKey("book_id")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("DBModelExercise.Data.Models.Orders.Order", "Order")
-                        .WithMany("BookOrder")
-                        .HasForeignKey("order_id")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("DBModelExercise.Data.Models.Auth.User", b =>

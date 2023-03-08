@@ -35,7 +35,7 @@ namespace DBModelExercise.Data.Models.Books
         [Column("date_created"), NotNull]
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
-        public ICollection<BookOrder>? BookOrder { get; set; }
+        public ICollection<OrderDetails>? BookOrder { get; set; }
 
     }
 }
