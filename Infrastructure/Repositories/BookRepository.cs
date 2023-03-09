@@ -3,7 +3,7 @@ using MindTheCodeApp.Repositories.IRepositories;
 using MindTheCodeApp.Repositories.Models;
 using MindTheCodeApp.Repositories.Models.BookModels;
 
-namespace MindTheCodeApp.Repositories.Implementation
+namespace MindTheCodeApp.Repositories
 {
     public class BookRepository : IBookRepository
     {

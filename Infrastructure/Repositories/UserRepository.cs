@@ -4,7 +4,7 @@ using MindTheCodeApp.Repositories.Models;
 using MindTheCodeApp.Repositories.Models.AuthModels;
 using System.Runtime.CompilerServices;
 
-namespace MindTheCodeApp.Repositories.Implementation
+namespace MindTheCodeApp.Repositories
 {
     public class UserRepository : IUserRepository
     {
