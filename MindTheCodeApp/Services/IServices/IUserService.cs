@@ -1,4 +1,4 @@
-﻿using MindTheCodeApp.Repositories.Models.AuthModels;
+﻿using MindTheCodeApp.Models.AuthModels;
 
 namespace MindTheCodeApp.Services.IServices
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MindTheCodeApp.Repositories.IRepositories;
+using MindTheCodeApp.IRepositories;
+using MindTheCodeApp.Models.BookModels;
 using MindTheCodeApp.Repositories.Models;
-using MindTheCodeApp.Repositories.Models.BookModels;
 
 namespace MindTheCodeApp.Repositories
 {

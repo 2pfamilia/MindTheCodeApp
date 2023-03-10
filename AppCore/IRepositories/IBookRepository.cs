@@ -1,6 +1,6 @@
-﻿using MindTheCodeApp.Repositories.Models.BookModels;
+﻿using MindTheCodeApp.Models.BookModels;
 
-namespace MindTheCodeApp.Repositories.IRepositories
+namespace MindTheCodeApp.IRepositories
 {
     public interface IBookRepository
     {

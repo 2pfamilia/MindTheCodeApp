@@ -1,4 +1,4 @@
-﻿using MindTheCodeApp.Repositories.Models.BookModels;
+﻿using MindTheCodeApp.Models.BookModels;
 
 namespace MindTheCodeApp.Services.IServices
 {

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MindTheCodeApp.Repositories.Models.BookModels
+namespace MindTheCodeApp.Models.BookModels
 {
     [Table("Books_Category")]
     public class BookCategory

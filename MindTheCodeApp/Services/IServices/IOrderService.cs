@@ -1,4 +1,4 @@
-﻿using MindTheCodeApp.Repositories.Models.OrderModels;
+﻿using MindTheCodeApp.Models.OrderModels;
 
 namespace MindTheCodeApp.Services.IServices
 {

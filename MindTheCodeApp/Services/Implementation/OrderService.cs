@@ -1,5 +1,5 @@
-﻿using MindTheCodeApp.Repositories.IRepositories;
-using MindTheCodeApp.Repositories.Models.OrderModels;
+﻿using MindTheCodeApp.IRepositories;
+using MindTheCodeApp.Models.OrderModels;
 using MindTheCodeApp.Services.IServices;
 
 namespace MindTheCodeApp.Services.Implementation
