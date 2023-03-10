@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MindTheCodeApp.Models.AuthModels;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MindTheCodeApp.Repositories.Models.AuthModels
+namespace MindTheCodeApp.Models.AuthModels
 {
     [Table("User_Roles")]
     public class UserRole

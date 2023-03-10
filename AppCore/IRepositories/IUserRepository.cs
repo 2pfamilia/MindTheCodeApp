@@ -1,8 +1,8 @@
 ﻿using MindTheCodeApp.Models.AuthModels;
 
-namespace MindTheCodeApp.Services.IServices
+namespace MindTheCodeApp.IRepositories
 {
-    public interface IUserService
+    public interface IUserRepository
     {
         Task<List<User>> GetAllUsers();
     }

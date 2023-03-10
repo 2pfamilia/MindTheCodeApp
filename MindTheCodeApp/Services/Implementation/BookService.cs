@@ -1,5 +1,5 @@
-﻿using MindTheCodeApp.Repositories.IRepositories;
-using MindTheCodeApp.Repositories.Models.BookModels;
+﻿using MindTheCodeApp.IRepositories;
+using MindTheCodeApp.Models.BookModels;
 using MindTheCodeApp.Services.IServices;
 
 namespace MindTheCodeApp.Services.Implementation

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MindTheCodeApp.Models.AuthModels;
+using MindTheCodeApp.Models.BookModels;
+using MindTheCodeApp.Models.OrderModels;
 using MindTheCodeApp.Repositories.Models;
-using MindTheCodeApp.Repositories.Models.AuthModels;
-using MindTheCodeApp.Repositories.Models.BookModels;
-using MindTheCodeApp.Repositories.Models.OrderModels;
 
 namespace MindTheCodeApp.Utils
 {

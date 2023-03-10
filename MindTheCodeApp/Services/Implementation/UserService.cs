@@ -1,5 +1,5 @@
-﻿using MindTheCodeApp.Repositories.IRepositories;
-using MindTheCodeApp.Repositories.Models.AuthModels;
+﻿using MindTheCodeApp.IRepositories;
+using MindTheCodeApp.Models.AuthModels;
 using MindTheCodeApp.Services.IServices;
 
 namespace MindTheCodeApp.Services.Implementation

@@ -1,8 +1,8 @@
 ﻿using MindTheCodeApp.Models.BookModels;
 
-namespace MindTheCodeApp.Services.IServices
+namespace MindTheCodeApp.IRepositories
 {
-    public interface IBookService
+    public interface IBookRepository
     {
         Task<List<Book>> GetAllBooks();
     }

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using MindTheCodeApp.Repositories.Implementation;
-using MindTheCodeApp.Repositories.IRepositories;
+using MindTheCodeApp.IRepositories;
+using MindTheCodeApp.Repositories;
 using MindTheCodeApp.Repositories.Models;
 using MindTheCodeApp.Services.Implementation;
 using MindTheCodeApp.Services.IServices;
