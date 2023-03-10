@@ -8,12 +8,14 @@ using MindTheCodeApp.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Database.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("LocalDb");
     options.UseSqlServer(connectionString);
 });
 
+// Database population service that runs when the database is empty.
 builder.Services.AddHostedService<PopulateDb>();
 
 // Add services to the container.
