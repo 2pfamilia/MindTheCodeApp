@@ -1,4 +1,5 @@
-﻿using MindTheCodeApp.Models.BookModels;
+﻿using Microsoft.EntityFrameworkCore;
+using MindTheCodeApp.Models.BookModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
