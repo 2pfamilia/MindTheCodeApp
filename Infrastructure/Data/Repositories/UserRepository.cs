@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using AppCore.IRepositories;
 using AppCore.Models.AuthModels;
-using System.Runtime.CompilerServices;
 
 namespace Infrastructure.Data.Repositories
 {

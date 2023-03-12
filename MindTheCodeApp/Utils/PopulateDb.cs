@@ -1,4 +1,4 @@
-﻿using Infrastructure.Data;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using AppCore.Models.AuthModels;
 using AppCore.Models.BookModels;
