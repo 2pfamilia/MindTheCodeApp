@@ -2,7 +2,50 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="carousel-container">
+    <div class="carousel"
+         style="background-image: url(img/textures/gold-texture.jpg)">
+        <div class="carousel-book-info-container">
+            <h2 class="carousel-book-title">The Golden Spoon</h2>
+            <h2 class="carousel-book-author">Tessa Maxwell</h2>
+        </div>
+        <img src="img/books/golden-spoon.jpg"
+             alt="book cover"
+             class="carousel-book-img" />
+    </div>
+    <div class="carousel"
+         style="
+            background-image: url(img/textures/cyan-texture.jpg);
+            display: none;
+          ">
+        <div class="carousel-book-info-container">
+            <h2 class="carousel-book-title">
+                Young Forever: The Secrets to Living Your Longest, Healthiest Life
+            </h2>
+            <h2 class="carousel-book-author">Dr. Mark Hyman MD</h2>
+        </div>
+        <img src="img/books/young-forever.jpg"
+             alt="book cover"
+             class="carousel-book-img" />
+    </div>
+    <div class="carousel"
+         style="
+            background-image: url(img/textures/film-dust-texture.jpg);
+            display: none;
+          ">
+        <div class="carousel-book-info-container">
+            <h2 class="carousel-book-title">
+                Never Never: A twisty, angsty romance
+            </h2>
+            <h2 class="carousel-book-author">Tessa Maxwell</h2>
+        </div>
+        <img src="img/books/never-never.jpg"
+             alt="book cover"
+             class="carousel-book-img" />
+    </div>
+    <div class="carousel-dots">
+        <button class="carousel-dot carousel-dot-fill">&nbsp;</button>
+        <button class="carousel-dot">&nbsp;</button>
+        <button class="carousel-dot">&nbsp;</button>
+    </div>
 </div>

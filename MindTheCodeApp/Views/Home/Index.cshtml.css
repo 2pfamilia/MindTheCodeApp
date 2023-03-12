@@ -1,0 +1,87 @@
+﻿/**************************/
+/* HOME */
+/**************************/
+
+/**************************/
+/* CAROUSEL */
+/**************************/
+
+/* Fading animation */
+@keyframes fadeSlide {
+    from {
+        opacity: 0.6;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.carousel-container {
+    width: 100%;
+    position: relative;
+}
+
+.carousel {
+    display: flex;
+    justify-content: center;
+    height: 60vh;
+    gap: 15%;
+    padding: 4.8rem;
+    background-size: cover;
+    animation-name: fadeSlide;
+    animation-duration: 0.8s;
+}
+
+.carousel-book-info-container {
+    max-width: 48rem;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+}
+
+.carousel-book-author,
+.carousel-book-title {
+    font-size: 4.4rem;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.carousel-book-author {
+    font-size: 4.4rem;
+}
+
+.carousel-book-author {
+    align-self: flex-end;
+    font-size: 3.6rem;
+}
+
+.carousel-book-img {
+    width: 22rem;
+    box-shadow: 0 0.1rem 2rem rgba(0, 0, 0, 0.6);
+}
+
+.carousel-dots {
+    position: absolute;
+    left: 50%;
+    bottom: 2.4rem;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 1.2rem;
+}
+
+.carousel-dot {
+    height: 1.6rem;
+    width: 1.6rem;
+    background-color: #f8f9fa;
+    border: 0.1rem solid #212529;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0.1rem 2rem rgba(0, 0, 0, 0.6);
+}
+
+.carousel-dot:hover,
+.carousel-dot-fill {
+    background-color: #212529;
+}

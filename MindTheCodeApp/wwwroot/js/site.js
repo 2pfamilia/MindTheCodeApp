@@ -1,22 +1,23 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
-
-"use strict";
+﻿"use strict";
 // Elements
+// Header icons
 const cartIcon = document.querySelector(".cart-icon");
 const cartDropdownList = document.querySelector(".cart-dropdown-list");
 
 const accountIcon = document.querySelector(".account-icon");
 const accountDropdownMenu = document.querySelector(".account-dropdown-menu");
 
+// Navbar links
 const navLinks = document.querySelectorAll(".navlink-container");
+
+// Home page courousel elements
+const carouselDots = document.querySelectorAll(".carousel-dot");
+const carouselSlides = document.querySelectorAll(".carousel");
 
 ///////////////////////////////////////
 // Event handlers
 
+// Close elements on click outeside of them
 window.addEventListener("click", function (e) {
     // Close cart dropdown list if the user clicks outside
     if (!(cartIcon.contains(e.target) || cartDropdownList.contains(e.target))) {
@@ -50,10 +51,56 @@ accountIcon.addEventListener("click", function (e) {
     }
 });
 
-
-// Header navlinks
 navLinks.forEach((link) => {
     link.addEventListener("click", function (e) {
         link.classList.add("active-navlink");
     });
 });
+
+// Carousel change screen handler
+// Kee[s track of current slide ]
+let slideIndex = 0;
+carouselDots.forEach((dot, index) => {
+    dot.addEventListener("click", function (e) {
+        for (let i = 0; i < carouselSlides.length; i++) {
+            carouselSlides[i].style.display = "none";
+        }
+
+        for (let i = 0; i < carouselDots.length; i++) {
+            carouselDots[i].classList.remove("carousel-dot-fill");
+        }
+
+        slideIndex = index;
+
+        carouselSlides[index].style.display = "flex";
+        carouselDots[index].classList.add("carousel-dot-fill");
+    });
+});
+
+showSlides();
+
+// Automatic slideshow
+function showSlides() {
+    let i;
+    const slidesSize = carouselSlides.length;
+    const dotsSize = carouselDots.length;
+
+    for (i = 0; i < slidesSize; i++) {
+        carouselSlides[i].style.display = "none";
+    }
+
+    slideIndex++;
+
+    if (slideIndex > slidesSize) {
+        slideIndex = 1;
+    }
+
+    for (i = 0; i < dotsSize; i++) {
+        carouselDots[i].classList.remove("carousel-dot-fill");
+    }
+
+    carouselSlides[slideIndex - 1].style.display = "flex";
+    carouselDots[slideIndex - 1].classList.add("carousel-dot-fill");
+
+    setTimeout(showSlides, 4000); // Change image every 2 seconds
+}

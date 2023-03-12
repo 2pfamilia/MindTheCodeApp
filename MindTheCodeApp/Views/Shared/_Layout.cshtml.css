@@ -16,7 +16,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 9.6rem;
     padding: 0 4.8rem;
 }
 
@@ -34,18 +33,18 @@
     padding: 0.8rem;
 }
 
-.search-bar:focus-within {
-    outline: 0.2rem solid #ffd8a8;
-}
+    .search-bar:focus-within {
+        outline: 0.2rem solid #ffd8a8;
+    }
 
-.search-bar input {
-    width: 30rem;
-    background-color: #f8f9fa;
-    outline: none;
-    border: none;
-    font-size: 1.6rem;
-    color: #6f6f6f;
-}
+    .search-bar input {
+        width: 30rem;
+        background-color: #f8f9fa;
+        outline: none;
+        border: none;
+        font-size: 1.6rem;
+        color: #6f6f6f;
+    }
 
 .search-bar-btn {
     background: none;
@@ -54,9 +53,9 @@
     cursor: pointer;
 }
 
-.search-bar-btn svg {
-    fill: #6f6f6f;
-}
+    .search-bar-btn svg {
+        fill: #6f6f6f;
+    }
 
 /* Cart and account icons container */
 .topbar-menu {
@@ -72,9 +71,9 @@
     padding: 0 1.2rem;
 }
 
-.topbar-menu-icon-container svg {
-    cursor: pointer;
-}
+    .topbar-menu-icon-container svg {
+        cursor: pointer;
+    }
 
 /* Cart Icon */
 .cart-icon-items {
@@ -112,11 +111,11 @@
     padding-top: 1.2rem;
 }
 
-.cart-dropdown-list ul {
-    padding: 1.2rem;
-    max-height: 30rem;
-    overflow-x: hidden;
-}
+    .cart-dropdown-list ul {
+        padding: 1.2rem;
+        max-height: 30rem;
+        overflow-x: hidden;
+    }
 
 .cart-dropdown-list-item {
     display: grid;
@@ -129,10 +128,10 @@
     cursor: pointer;
 }
 
-.cart-dropdown-list-item img {
-    grid-area: 1 / 1 / 3 / 2;
-    height: 7.5rem;
-}
+    .cart-dropdown-list-item img {
+        grid-area: 1 / 1 / 3 / 2;
+        height: 7.5rem;
+    }
 
 .cart-dropdown-list-item-title,
 .cart-dropdown-list-item-price {
@@ -197,13 +196,13 @@
     box-shadow: 0 0.1rem 2rem rgba(0, 0, 0, 0.2);
 }
 
-.account-dropdown-menu span {
-    font-size: 1.6rem;
-    color: #212529;
-}
+    .account-dropdown-menu span {
+        font-size: 1.6rem;
+        color: #212529;
+    }
 
 /**************************/
-/* Navbar */
+/* NAVBAR */
 /**************************/
 
 .navbar-main-container {
@@ -232,11 +231,11 @@
     position: relative;
 }
 
-.navlink-container svg {
-    position: absolute;
-    display: none;
-    left: 110%;
-}
+    .navlink-container svg {
+        position: absolute;
+        display: none;
+        left: 110%;
+    }
 
 .active-navlink svg {
     display: block;
@@ -249,24 +248,22 @@
     letter-spacing: 0.075rem;
 }
 
-.navlink:hover,
-.navlink:active {
-    text-shadow: 0 0 0.1rem #212529;
-}
+    .navlink:hover,
+    .navlink:active {
+        text-shadow: 0 0 0.1rem #212529;
+    }
 
 /**************************/
-/* Footer */
+/* FOOTER */
 /**************************/
 
 .footer {
-    position: fixed;
-    bottom: 0;
     width: 100%;
 }
 
 .footer-container {
     width: 100%;
-    background-color: #495057;    
+    background-color: #495057;
 }
 
 .footer-inner-container {
