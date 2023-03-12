@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MindTheCodeApp.IRepositories;
-using MindTheCodeApp.Models.BookModels;
-using MindTheCodeApp.Repositories.Models;
+using AppCore.IRepositories;
+using AppCore.Models.BookModels;
 
-namespace MindTheCodeApp.Repositories
+namespace Infrastructure.Data.Repositories
 {
     public class BookRepository : IBookRepository
     {

@@ -1,10 +1,10 @@
-﻿using MindTheCodeApp.Models.OrderModels;
+﻿using AppCore.Models.OrderModels;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MindTheCodeApp.Models.AuthModels
+namespace AppCore.Models.AuthModels
 {
     [Table("Users")]
     public class User

@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MindTheCodeApp.IRepositories;
-using MindTheCodeApp.Models.OrderModels;
-using MindTheCodeApp.Repositories.Models;
+using AppCore.IRepositories;
+using AppCore.Models.OrderModels;
 
-namespace MindTheCodeApp.Repositories
+namespace Infrastructure.Data.Repositories
 {
     public class OrderRepository : IOrderRepository
     {

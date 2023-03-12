@@ -1,8 +1,8 @@
-﻿using MindTheCodeApp.IRepositories;
-using MindTheCodeApp.Models.BookModels;
-using MindTheCodeApp.Services.IServices;
+﻿using AppCore.IRepositories;
+using AppCore.Models.BookModels;
+using AppCore.Services.IServices;
 
-namespace MindTheCodeApp.Services.Implementation
+namespace AppCore.Services.Implementation
 {
     public class BookService : IBookService
     {

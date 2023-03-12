@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230303235620_InitialModels")]
-    partial class InitialModels
+    [Migration("20230312201434_UpdateOnDeleteToCascade")]
+    partial class UpdateOnDeleteToCascade
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace AppCore.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Auth.User", b =>
+            modelBuilder.Entity("AppCore.Models.AuthModels.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
@@ -87,7 +87,7 @@ namespace AppCore.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Auth.UserRole", b =>
+            modelBuilder.Entity("AppCore.Models.AuthModels.UserRole", b =>
                 {
                     b.Property<int>("RoleId")
                         .ValueGeneratedOnAdd()
@@ -123,7 +123,7 @@ namespace AppCore.Migrations
                     b.ToTable("User_Roles");
                 });
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Books.Book", b =>
+            modelBuilder.Entity("AppCore.Models.BookModels.Book", b =>
                 {
                     b.Property<int>("BookId")
                         .ValueGeneratedOnAdd()
@@ -145,9 +145,10 @@ namespace AppCore.Migrations
                         .HasColumnType("nvarchar(500)")
                         .HasColumnName("description");
 
-                    b.Property<double?>("Price")
+                    b.Property<decimal?>("Price")
                         .IsRequired()
-                        .HasColumnType("float")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)")
                         .HasColumnName("price");
 
                     b.Property<string>("Title")
@@ -176,7 +177,7 @@ namespace AppCore.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Books.BookAuthor", b =>
+            modelBuilder.Entity("AppCore.Models.BookModels.BookAuthor", b =>
                 {
                     b.Property<int>("AuthorId")
                         .ValueGeneratedOnAdd()
@@ -205,7 +206,7 @@ namespace AppCore.Migrations
                     b.ToTable("Books_Authors");
                 });
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Books.BookCategory", b =>
+            modelBuilder.Entity("AppCore.Models.BookModels.BookCategory", b =>
                 {
                     b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
@@ -241,7 +242,7 @@ namespace AppCore.Migrations
                     b.ToTable("Books_Category");
                 });
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Books.BookPhoto", b =>
+            modelBuilder.Entity("AppCore.Models.BookModels.BookPhoto", b =>
                 {
                     b.Property<int>("PhotoId")
                         .ValueGeneratedOnAdd()
@@ -275,7 +276,7 @@ namespace AppCore.Migrations
                     b.ToTable("Books_Photos");
                 });
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Orders.AddressInformation", b =>
+            modelBuilder.Entity("AppCore.Models.OrderModels.AddressInformation", b =>
                 {
                     b.Property<int>("AddressInformationId")
                         .ValueGeneratedOnAdd()
@@ -286,22 +287,26 @@ namespace AppCore.Migrations
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("city");
 
                     b.Property<string>("Country")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("country");
 
                     b.Property<string>("PostalCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)")
                         .HasColumnName("postal_code");
 
                     b.Property<string>("StreetAddress")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("street_address");
 
                     b.HasKey("AddressInformationId");
@@ -309,46 +314,7 @@ namespace AppCore.Migrations
                     b.ToTable("Address_Information");
                 });
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Orders.BookOrder", b =>
-                {
-                    b.Property<int?>("BookOrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("book_order_id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("BookOrderId"));
-
-                    b.Property<int?>("Count")
-                        .IsRequired()
-                        .HasColumnType("int")
-                        .HasColumnName("count");
-
-                    b.Property<double?>("TotalCost")
-                        .IsRequired()
-                        .HasColumnType("float")
-                        .HasColumnName("total_cost");
-
-                    b.Property<double?>("Unitcost")
-                        .IsRequired()
-                        .HasColumnType("float")
-                        .HasColumnName("unit_cost");
-
-                    b.Property<int>("book_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("order_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("BookOrderId");
-
-                    b.HasIndex("book_id");
-
-                    b.HasIndex("order_id");
-
-                    b.ToTable("Books_Orders");
-                });
-
-            modelBuilder.Entity("DBModelExercise.Data.Models.Orders.Order", b =>
+            modelBuilder.Entity("AppCore.Models.OrderModels.Order", b =>
                 {
                     b.Property<int>("OrderId")
                         .ValueGeneratedOnAdd()
@@ -365,8 +331,9 @@ namespace AppCore.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("is_canceled");
 
-                    b.Property<double>("Cost")
-                        .HasColumnType("float")
+                    b.Property<decimal>("Cost")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)")
                         .HasColumnName("cost");
 
                     b.Property<DateTime>("DateCreated")
@@ -392,39 +359,80 @@ namespace AppCore.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Auth.User", b =>
+            modelBuilder.Entity("AppCore.Models.OrderModels.OrderDetails", b =>
                 {
-                    b.HasOne("DBModelExercise.Data.Models.Orders.AddressInformation", "AddressInformation")
+                    b.Property<int?>("OrderDetailsId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("order_details_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("OrderDetailsId"));
+
+                    b.Property<int?>("Count")
+                        .IsRequired()
+                        .HasColumnType("int")
+                        .HasColumnName("count");
+
+                    b.Property<decimal?>("TotalCost")
+                        .IsRequired()
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)")
+                        .HasColumnName("total_cost");
+
+                    b.Property<decimal?>("Unitcost")
+                        .IsRequired()
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)")
+                        .HasColumnName("unit_cost");
+
+                    b.Property<int>("book_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("order_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderDetailsId");
+
+                    b.HasIndex("book_id");
+
+                    b.HasIndex("order_id");
+
+                    b.ToTable("Order_Details");
+                });
+
+            modelBuilder.Entity("AppCore.Models.AuthModels.User", b =>
+                {
+                    b.HasOne("AppCore.Models.OrderModels.AddressInformation", "AddressInformation")
                         .WithMany("Users")
                         .HasForeignKey("address_information_id")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DBModelExercise.Data.Models.Auth.UserRole", "Role")
+                    b.HasOne("AppCore.Models.AuthModels.UserRole", "Role")
                         .WithMany("Users")
                         .HasForeignKey("role_id")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("AddressInformation");
 
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Books.Book", b =>
+            modelBuilder.Entity("AppCore.Models.BookModels.Book", b =>
                 {
-                    b.HasOne("DBModelExercise.Data.Models.Books.BookAuthor", "Author")
+                    b.HasOne("AppCore.Models.BookModels.BookAuthor", "Author")
                         .WithMany("Books")
                         .HasForeignKey("author_id")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DBModelExercise.Data.Models.Books.BookCategory", "Category")
+                    b.HasOne("AppCore.Models.BookModels.BookCategory", "Category")
                         .WithMany("Books")
                         .HasForeignKey("category_id")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DBModelExercise.Data.Models.Books.BookPhoto", "Photo")
+                    b.HasOne("AppCore.Models.BookModels.BookPhoto", "Photo")
                         .WithMany("Books")
                         .HasForeignKey("photo_id")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Author");
 
@@ -433,37 +441,18 @@ namespace AppCore.Migrations
                     b.Navigation("Photo");
                 });
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Orders.BookOrder", b =>
+            modelBuilder.Entity("AppCore.Models.OrderModels.Order", b =>
                 {
-                    b.HasOne("DBModelExercise.Data.Models.Books.Book", "Book")
-                        .WithMany("BookOrder")
-                        .HasForeignKey("book_id")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("DBModelExercise.Data.Models.Orders.Order", "Order")
-                        .WithMany("BookOrder")
-                        .HasForeignKey("order_id")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("DBModelExercise.Data.Models.Orders.Order", b =>
-                {
-                    b.HasOne("DBModelExercise.Data.Models.Orders.AddressInformation", "AddressInformation")
+                    b.HasOne("AppCore.Models.OrderModels.AddressInformation", "AddressInformation")
                         .WithMany("Orders")
                         .HasForeignKey("address_information_id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("DBModelExercise.Data.Models.Auth.User", "User")
+                    b.HasOne("AppCore.Models.AuthModels.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("user_id")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AddressInformation");
@@ -471,46 +460,65 @@ namespace AppCore.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Auth.User", b =>
+            modelBuilder.Entity("AppCore.Models.OrderModels.OrderDetails", b =>
+                {
+                    b.HasOne("AppCore.Models.BookModels.Book", "Book")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("book_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AppCore.Models.OrderModels.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("order_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("AppCore.Models.AuthModels.User", b =>
                 {
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Auth.UserRole", b =>
+            modelBuilder.Entity("AppCore.Models.AuthModels.UserRole", b =>
                 {
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Books.Book", b =>
+            modelBuilder.Entity("AppCore.Models.BookModels.Book", b =>
                 {
-                    b.Navigation("BookOrder");
+                    b.Navigation("OrderDetails");
                 });
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Books.BookAuthor", b =>
-                {
-                    b.Navigation("Books");
-                });
-
-            modelBuilder.Entity("DBModelExercise.Data.Models.Books.BookCategory", b =>
+            modelBuilder.Entity("AppCore.Models.BookModels.BookAuthor", b =>
                 {
                     b.Navigation("Books");
                 });
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Books.BookPhoto", b =>
+            modelBuilder.Entity("AppCore.Models.BookModels.BookCategory", b =>
                 {
                     b.Navigation("Books");
                 });
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Orders.AddressInformation", b =>
+            modelBuilder.Entity("AppCore.Models.BookModels.BookPhoto", b =>
+                {
+                    b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("AppCore.Models.OrderModels.AddressInformation", b =>
                 {
                     b.Navigation("Orders");
 
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("DBModelExercise.Data.Models.Orders.Order", b =>
+            modelBuilder.Entity("AppCore.Models.OrderModels.Order", b =>
                 {
-                    b.Navigation("BookOrder");
+                    b.Navigation("OrderDetails");
                 });
 #pragma warning restore 612, 618
         }

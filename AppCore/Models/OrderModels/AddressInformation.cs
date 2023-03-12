@@ -1,9 +1,9 @@
-﻿using MindTheCodeApp.Models.AuthModels;
+﻿using AppCore.Models.AuthModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MindTheCodeApp.Models.OrderModels
+namespace AppCore.Models.OrderModels
 {
     [Table("Address_Information")]
     public class AddressInformation

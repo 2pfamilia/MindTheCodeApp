@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MindTheCodeApp.Models.AuthModels;
-using MindTheCodeApp.Models.BookModels;
-using MindTheCodeApp.Models.OrderModels;
+using AppCore.Models.AuthModels;
+using AppCore.Models.BookModels;
+using AppCore.Models.OrderModels;
 
-namespace MindTheCodeApp.Repositories.Models
+namespace Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
     {
@@ -15,11 +15,11 @@ namespace MindTheCodeApp.Repositories.Models
             {
                 entity.HasOne(e => e.Role)
                     .WithMany(e => e.Users)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.AddressInformation)
                     .WithMany(e => e.Users)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasMany(e => e.Orders)
                     .WithOne(e => e.User)
@@ -29,16 +29,16 @@ namespace MindTheCodeApp.Repositories.Models
             modelBuilder.Entity<UserRole>(entity =>
             {
                 entity.HasMany(e => e.Users)
-                    .WithOne(e => e.Role)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .WithOne(e => e.Role);
             });
 
             modelBuilder.Entity<AddressInformation>(entity =>
             {
                 entity.HasMany(e => e.Users)
                     .WithOne(e => e.AddressInformation)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade);
 
+                // TODO: fix bug when user has changed address information.
                 entity.HasMany(e => e.Orders)
                     .WithOne(e => e.AddressInformation)
                     .OnDelete(DeleteBehavior.NoAction);
@@ -48,73 +48,61 @@ namespace MindTheCodeApp.Repositories.Models
             {
                 entity.HasOne(e => e.User)
                     .WithMany(e => e.Orders)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.AddressInformation)
                     .WithMany(e => e.Orders)
                     .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasMany(e => e.OrderDetails)
+                    .WithOne(e => e.Order);
             });
 
-            modelBuilder.Entity<Order>(entity =>
+            modelBuilder.Entity<OrderDetails>(entity =>
             {
-                entity.HasOne(e => e.User)
-                    .WithMany(e => e.Orders)
-                    .OnDelete(DeleteBehavior.NoAction);
+                entity.HasOne(e => e.Order)
+                    .WithMany(e => e.OrderDetails)
+                    .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasMany(e => e.BookOrder)
-                    .WithOne(e => e.Order)
-                    .OnDelete(DeleteBehavior.NoAction);
+                entity.HasOne(e => e.Book)
+                    .WithMany(e => e.OrderDetails)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<BookCategory>(entity =>
             {
                 entity.HasMany(e => e.Books)
-                    .WithOne(e => e.Category)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .WithOne(e => e.Category);
             });
 
             modelBuilder.Entity<BookAuthor>(entity =>
             {
                 entity.HasMany(e => e.Books)
-                    .WithOne(e => e.Author)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .WithOne(e => e.Author);
             });
 
             modelBuilder.Entity<BookPhoto>(entity =>
             {
                 entity.HasMany(e => e.Books)
-                    .WithOne(e => e.Photo)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .WithOne(e => e.Photo);
             });
 
             modelBuilder.Entity<Book>(entity =>
             {
                 entity.HasOne(e => e.Category)
                     .WithMany(e => e.Books)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.Author)
                     .WithMany(e => e.Books)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(e => e.Photo)
                     .WithMany(e => e.Books)
-                    .OnDelete(DeleteBehavior.NoAction);
+                    .OnDelete(DeleteBehavior.Cascade);
 
-                entity.HasMany(e => e.BookOrder)
-                    .WithOne(e => e.Book)
-                    .OnDelete(DeleteBehavior.NoAction);
-            });
-
-            modelBuilder.Entity<OrderDetails>(entity =>
-            {
-                entity.HasOne(e => e.Order)
-                    .WithMany(e => e.BookOrder)
-                    .OnDelete(DeleteBehavior.NoAction);
-
-                entity.HasOne(e => e.Book)
-                    .WithMany(e => e.BookOrder)
-                    .OnDelete(DeleteBehavior.NoAction);
+                entity.HasMany(e => e.OrderDetails)
+                    .WithOne(e => e.Book);
             });
 
             base.OnModelCreating(modelBuilder);
@@ -124,11 +112,11 @@ namespace MindTheCodeApp.Repositories.Models
         public DbSet<UserRole> UserRoleEntity { get; set; }
         public DbSet<AddressInformation> AddressInformationEntity { get; set; }
         public DbSet<Order> OrderEntity { get; set; }
+        public DbSet<OrderDetails> OrderDetailsEntity { get; set; }
         public DbSet<BookCategory> BookCategoryEntity { get; set; }
         public DbSet<BookAuthor> BookAuthorEntity { get; set; }
         public DbSet<BookPhoto> BookPhotoEntity { get; set; }
         public DbSet<Book> BookEntity { get; set; }
-        public DbSet<OrderDetails> OrderDetailsEntity { get; set; }
 
     }
 }
