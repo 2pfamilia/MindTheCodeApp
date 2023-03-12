@@ -3,7 +3,7 @@ using MindTheCodeApp.Models.AuthModels;
 using MindTheCodeApp.Models.BookModels;
 using MindTheCodeApp.Models.OrderModels;
 
-namespace MindTheCodeApp.Repositories.Models
+namespace Infrastructure
 {
     public class ApplicationDbContext : DbContext
     {
