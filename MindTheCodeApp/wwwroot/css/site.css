@@ -105,16 +105,16 @@ main {
     box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.2);
 }
 
-    .link-btn:hover {
-        color: #fff;
-        text-shadow: 0 0 0.1rem #fff;
-        background-color: #212529;
-    }
+.link-btn:hover {
+    color: #fff;
+    text-shadow: 0 0 0.1rem #fff;
+    background-color: #212529;
+}
 
-    .link-btn :active {
-        color: #fff;
-        background-color: #212529;
-    }
+.link-btn :active {
+    color: #fff;
+    background-color: #212529;
+}
 
 .link-btn-revert {
     text-decoration: none;
@@ -126,18 +126,18 @@ main {
     box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.2);
 }
 
-    .link-btn-revert:active {
-        color: #212529;
-        border: 0.1rem solid #212529;
-        text-shadow: 0 0 0.1rem #212529;
-        background-color: #fff;
-    }
+.link-btn-revert:active {
+    color: #212529;
+    border: 0.1rem solid #212529;
+    text-shadow: 0 0 0.1rem #212529;
+    background-color: #fff;
+}
 
-    .link-btn-revert:hover {
-        border: 0.1rem solid #212529;
-        color: #212529;
-        background-color: #fff;
-    }
+.link-btn-revert:hover {
+    border: 0.1rem solid #212529;
+    color: #212529;
+    background-color: #fff;
+}
 
 .hr-divider-90 {
     width: 90%;

@@ -72,8 +72,8 @@
 .carousel-dot {
     height: 1.6rem;
     width: 1.6rem;
-    background-color: #f8f9fa;
-    border: 0.1rem solid #212529;
+    background-color: #e9ecef;
+    border: 0.1rem solid rgba(0, 0, 0, 0.3);
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 0 0.1rem 2rem rgba(0, 0, 0, 0.6);
@@ -186,7 +186,6 @@
     font-size: 1.6rem;
     font-weight: 600;
 }
-
 
 /**************************/
 /* FAVORITE AUTHORS SECTION */
