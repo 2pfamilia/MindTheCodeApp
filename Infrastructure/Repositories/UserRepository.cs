@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using MindTheCodeApp.IRepositories;
 using MindTheCodeApp.Models.AuthModels;
 using MindTheCodeApp.Repositories.Models;

@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using MindTheCodeApp.IRepositories;
 using MindTheCodeApp.Models.OrderModels;
-using MindTheCodeApp.Repositories.Models;
+
 
 namespace MindTheCodeApp.Repositories
 {
