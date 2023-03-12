@@ -25,7 +25,6 @@
 .carousel {
     display: flex;
     justify-content: center;
-    height: 60vh;
     gap: 15%;
     padding: 4.8rem;
     background-size: cover;
@@ -58,7 +57,7 @@
 }
 
 .carousel-book-img {
-    width: 22rem;
+    height: 30rem;
     box-shadow: 0 0.1rem 2rem rgba(0, 0, 0, 0.6);
 }
 
