@@ -207,6 +207,7 @@
 
 .navbar-main-container {
     width: 100%;
+    position: relative;
     /* background-color: #ffc078; */
 }
 
@@ -224,34 +225,78 @@
 }
 
 /* Header navbar links */
-.navlink-container {
+.navlink-shop-container {
     display: flex;
     align-items: center;
-    gap: 1.2rem;
-    position: relative;
+    gap: 0.4rem;
 }
 
-    .navlink-container svg {
-        position: absolute;
-        display: none;
-        left: 110%;
-    }
+.navlink-shop-container svg {
+    cursor: pointer;
+    fill: #212529;
+}
 
-.active-navlink svg {
-    display: block;
+.navlink-shop-container span {
+    cursor: pointer;
+}
+
+.navlink-shop-container span,
+.navlink {
+    color: #212529;
+    font-size: 1.6rem;
+    font-weight: 500;
+    letter-spacing: 0.075rem;
 }
 
 .navlink {
     text-decoration: none;
-    color: #212529;
-    font-size: 1.8rem;
-    letter-spacing: 0.075rem;
 }
 
-    .navlink:hover,
-    .navlink:active {
-        text-shadow: 0 0 0.1rem #212529;
-    }
+.navlink-shop-container:hover,
+.navlink:hover {
+    text-shadow: 0 0 0.1rem #212529;
+}
+
+/* Shop dropdown menu */
+.navbar-dropdown-menu {
+    position: absolute;
+    top: 5.2rem;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    z-index: 5;
+    background-color: #f8f9fa;
+    box-shadow: 0 0.1rem 2rem rgba(0, 0, 0, 0.4);
+    border-radius: 0.6rem;
+    padding: 2.4rem 4.8rem;
+    display: none;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(5, auto);
+    grid-template-rows: repeat(10, auto);
+    row-gap: 1.2rem;
+    column-gap: 2rem;
+}
+
+.navbar-dropdown-menu-subcategory,
+.navbar-dropdown-menu-category {
+    text-decoration: none;
+    color: #212529;
+    font-size: 1.6rem;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.navbar-dropdown-menu-subcategory:hover,
+.navbar-dropdown-menu-category:hover {
+    text-shadow: 0 0 0.1rem #212529;
+}
+
+.navbar-dropdown-menu-category {
+    font-weight: 600;
+}
+
+.navbar-dropdown-menu-subcategory {
+    padding-left: 0.8rem;
+}
 
 /**************************/
 /* FOOTER */

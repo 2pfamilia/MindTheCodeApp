@@ -4,7 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - MindTheCodeApp</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap"
+          rel="stylesheet" />
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MindTheCodeApp.styles.css" asp-append-version="true" />
 </head>
@@ -112,24 +116,59 @@
         </div>
         <nav class="navbar-main-container">
             <div class="navbar">
-                <div class="navlink-container active-navlink">
-                    <a href="#" class="navlink">SHOP</a>
+                <div class="navlink-shop-container">
+                    <span>SHOP</span>
                     <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
                         <path d="m12 15.375-6-6 1.4-1.4 4.6 4.6 4.6-4.6 1.4 1.4Z" />
                     </svg>
                 </div>
-                <div class="navlink-container">
-                    <a href="#" class="navlink">ABOUT US</a>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
-                        <path d="m12 15.375-6-6 1.4-1.4 4.6 4.6 4.6-4.6 1.4 1.4Z" />
-                    </svg>
-                </div>
-                <div class="navlink-container">
-                    <a href="#" class="navlink">CONTACT US</a>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
-                        <path d="m12 15.375-6-6 1.4-1.4 4.6 4.6 4.6-4.6 1.4 1.4Z" />
-                    </svg>
-                </div>
+                <a href="#" class="navlink">ABOUT US</a>
+                <a href="#" class="navlink">CONTACT US</a>
+            </div>
+            <div class="navbar-dropdown-menu">
+                <a href="" class="navbar-dropdown-menu-category">Bestsellers</a>
+                <a href="" class="navbar-dropdown-menu-category">Children’s</a>
+                <a href="" class="navbar-dropdown-menu-category">Non-Fiction</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Arts</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Biography</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Business</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Environmental</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Fashion</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">History</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Political</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Science</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Sports</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Travel</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">True crime</a>
+
+                <a href="" class="navbar-dropdown-menu-category">Finction</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">
+                    Action and adventure
+                </a>
+                <a href="" class="navbar-dropdown-menu-subcategory">
+                    Crime and mystery
+                </a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Romance</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">
+                    Speculative fiction
+                </a>
+                <a href="" class="navbar-dropdown-menu-subcategory">
+                    Science fiction
+                </a>
+                <a href="" class="navbar-dropdown-menu-category">Finction</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">
+                    Action and adventure
+                </a>
+                <a href="" class="navbar-dropdown-menu-subcategory">
+                    Crime and mystery
+                </a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Romance</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">
+                    Speculative fiction
+                </a>
+                <a href="" class="navbar-dropdown-menu-subcategory">
+                    Science fiction
+                </a>
             </div>
         </nav>
     </header>

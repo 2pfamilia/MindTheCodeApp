@@ -7,7 +7,11 @@ const cartDropdownList = document.querySelector(".cart-dropdown-list");
 const accountIcon = document.querySelector(".account-icon");
 const accountDropdownMenu = document.querySelector(".account-dropdown-menu");
 
-// Navbar links
+const navbarShopBtn = document.querySelector(".navlink-shop-container");
+const navbarShopBtnIcon = document.querySelector(".navlink-shop-container svg");
+const shopDropdownMenu = document.querySelector(".navbar-dropdown-menu");
+
+// Navbar linksa
 const navLinks = document.querySelectorAll(".navlink-container");
 
 // Home page courousel elements
@@ -27,6 +31,12 @@ window.addEventListener("click", function (e) {
         !(accountIcon.contains(e.target) || accountDropdownMenu.contains(e.target))
     ) {
         accountDropdownMenu.style.setProperty("display", "none");
+    }
+    if (
+        !(navbarShopBtn.contains(e.target) || shopDropdownMenu.contains(e.target))
+    ) {
+        navbarShopBtnIcon.style.setProperty("transform", "rotate(0)");
+        shopDropdownMenu.style.setProperty("display", "none");
     }
 });
 
@@ -51,11 +61,22 @@ accountIcon.addEventListener("click", function (e) {
     }
 });
 
-navLinks.forEach((link) => {
-    link.addEventListener("click", function (e) {
-        link.classList.add("active-navlink");
-    });
+navbarShopBtn.addEventListener("click", function (e) {
+    const display = shopDropdownMenu.style.getPropertyValue("display");
+    if (display == "none" || display == "") {
+        shopDropdownMenu.style.setProperty("display", "grid");
+        navbarShopBtnIcon.style.setProperty("transform", "rotate(-90deg)");
+    } else {
+        shopDropdownMenu.style.setProperty("display", "none");
+        navbarShopBtnIcon.style.setProperty("transform", "rotate(0)");
+    }
 });
+
+// navLinks.forEach((link) => {
+//   link.addEventListener("click", function (e) {
+//     link.classList.add("active-navlink");
+//   });
+// });
 
 // Carousel change screen handler
 // Kee[s track of current slide ]
