@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MindTheCodeApp.Models.AuthModels;
-using MindTheCodeApp.Models.BookModels;
-using MindTheCodeApp.Models.OrderModels;
+﻿using AppCore.Models.AuthModels;
+using AppCore.Models.BookModels;
+using AppCore.Models.OrderModels;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Infrastructure.Repositories
 {
@@ -61,9 +62,9 @@ namespace Infrastructure.Repositories
                     .WithMany(e => e.Orders)
                     .OnDelete(DeleteBehavior.NoAction);
 
-                entity.HasMany(e => e.BookOrder)
-                    .WithOne(e => e.Order)
-                    .OnDelete(DeleteBehavior.NoAction);
+                //entity.HasMany(e => e.BookOrder)
+                //    .WithOne(e => e.Order)
+                //    .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<BookCategory>(entity =>
@@ -101,21 +102,21 @@ namespace Infrastructure.Repositories
                     .WithMany(e => e.Books)
                     .OnDelete(DeleteBehavior.NoAction);
 
-                entity.HasMany(e => e.BookOrder)
-                    .WithOne(e => e.Book)
-                    .OnDelete(DeleteBehavior.NoAction);
+                //entity.HasMany(e => e.BookOrder)
+                //    .WithOne(e => e.Book)
+                //    .OnDelete(DeleteBehavior.NoAction);
             });
 
-            modelBuilder.Entity<OrderDetails>(entity =>
-            {
-                entity.HasOne(e => e.Order)
-                    .WithMany(e => e.BookOrder)
-                    .OnDelete(DeleteBehavior.NoAction);
+            //modelBuilder.Entity<OrderDetails>(entity =>
+            //{
+            //    entity.HasOne(e => e.Order)
+            //        .WithMany(e => e.BookOrder)
+            //        .OnDelete(DeleteBehavior.NoAction);
 
-                entity.HasOne(e => e.Book)
-                    .WithMany(e => e.BookOrder)
-                    .OnDelete(DeleteBehavior.NoAction);
-            });
+            //    entity.HasOne(e => e.Book)
+            //        .WithMany(e => e.BookOrder)
+            //        .OnDelete(DeleteBehavior.NoAction);
+            //});
 
             base.OnModelCreating(modelBuilder);
         }
