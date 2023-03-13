@@ -1,6 +1,6 @@
-﻿using MindTheCodeApp.Models.OrderModels;
+﻿using AppCore.Models.OrderModels;
 
-namespace MindTheCodeApp.Services.IServices
+namespace AppCore.Services.IServices
 {
     public interface IOrderService
     {

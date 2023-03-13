@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace MindTheCodeApp.Migrations
+namespace AppCore.Migrations
 {
     /// <inheritdoc />
     public partial class UpdateDecimalRangeOnPrices : Migration

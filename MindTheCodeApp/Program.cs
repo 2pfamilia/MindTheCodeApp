@@ -1,11 +1,11 @@
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using MindTheCodeApp.IRepositories;
-using MindTheCodeApp.Repositories;
-using MindTheCodeApp.Repositories.Models;
-using MindTheCodeApp.Services.Implementation;
-using MindTheCodeApp.Services.IServices;
-using MindTheCodeApp.Utils;
+using Infrastructure.Data;
+using Infrastructure.Data.Repositories;
+using AppCore.IRepositories;
+using AppCore.Services.Implementation;
+using AppCore.Services.IServices;
+using AppCore.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 

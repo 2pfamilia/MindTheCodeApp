@@ -1,4 +1,4 @@
-namespace MindTheCodeApp.Repositories.Models
+namespace AppCore.Models
 {
     public class ErrorViewModel
     {
