@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MindTheCodeApp.Migrations
+namespace AppCore.Migrations
 {
     /// <inheritdoc />
     public partial class InitialModels : Migration

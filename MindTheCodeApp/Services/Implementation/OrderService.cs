@@ -1,8 +1,8 @@
-﻿using MindTheCodeApp.IRepositories;
-using MindTheCodeApp.Models.OrderModels;
-using MindTheCodeApp.Services.IServices;
+﻿using AppCore.IRepositories;
+using AppCore.Models.OrderModels;
+using AppCore.Services.IServices;
 
-namespace MindTheCodeApp.Services.Implementation
+namespace AppCore.Services.Implementation
 {
     public class OrderService : IOrderService
     {

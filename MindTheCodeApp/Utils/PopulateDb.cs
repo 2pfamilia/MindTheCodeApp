@@ -1,17 +1,15 @@
-﻿using Infrastructure;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using MindTheCodeApp.Models.AuthModels;
-using MindTheCodeApp.Models.BookModels;
-using MindTheCodeApp.Models.OrderModels;
-using MindTheCodeApp.Repositories.Models;
+using AppCore.Models.AuthModels;
+using AppCore.Models.BookModels;
+using AppCore.Models.OrderModels;
 
-namespace MindTheCodeApp.Utils
+namespace AppCore.Utils
 {
     public class PopulateDb : BackgroundService
     {
         private readonly ILogger<PopulateDb> _logger;
         private readonly ApplicationDbContext _dbcontext;
-        private readonly IServiceProvider _serviceProvider;
 
         public PopulateDb(ILogger<PopulateDb> logger, IServiceProvider serviceScopeFactory)
         {

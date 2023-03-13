@@ -1,6 +1,6 @@
-﻿using MindTheCodeApp.Models.AuthModels;
+﻿using AppCore.Models.AuthModels;
 
-namespace MindTheCodeApp.Services.IServices
+namespace AppCore.Services.IServices
 {
     public interface IUserService
     {
