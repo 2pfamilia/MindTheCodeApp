@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MindTheCodeApp.Models.OrderModels;
+using AppCore.Models.OrderModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MindTheCodeApp.Models.BookModels
+namespace AppCore.Models.BookModels
 {
     [Table("Books")]
     public class Book
@@ -72,7 +72,7 @@ namespace MindTheCodeApp.Models.BookModels
         ]
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
-        public ICollection<OrderDetails>? BookOrder { get; set; }
+        public ICollection<OrderDetails>? OrderDetails { get; set; }
 
     }
 }

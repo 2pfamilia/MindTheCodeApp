@@ -1,6 +1,6 @@
-﻿using MindTheCodeApp.Models.AuthModels;
+﻿using AppCore.Models.AuthModels;
 
-namespace MindTheCodeApp.IRepositories
+namespace AppCore.IRepositories
 {
     public interface IUserRepository
     {

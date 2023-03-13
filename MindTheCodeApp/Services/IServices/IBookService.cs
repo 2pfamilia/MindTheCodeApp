@@ -1,6 +1,6 @@
-﻿using MindTheCodeApp.Models.BookModels;
+﻿using AppCore.Models.BookModels;
 
-namespace MindTheCodeApp.Services.IServices
+namespace AppCore.Services.IServices
 {
     public interface IBookService
     {

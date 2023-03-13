@@ -1,6 +1,6 @@
-﻿using MindTheCodeApp.Models.OrderModels;
+﻿using AppCore.Models.OrderModels;
 
-namespace MindTheCodeApp.IRepositories
+namespace AppCore.IRepositories
 {
     public interface IOrderRepository
     {

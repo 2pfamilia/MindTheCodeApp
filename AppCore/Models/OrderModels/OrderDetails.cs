@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MindTheCodeApp.Models.BookModels;
+using AppCore.Models.BookModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MindTheCodeApp.Models.OrderModels
+namespace AppCore.Models.OrderModels
 {
     [Table("Order_Details")]
     public class OrderDetails

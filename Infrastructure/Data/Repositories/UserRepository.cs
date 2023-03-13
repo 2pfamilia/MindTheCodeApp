@@ -1,11 +1,8 @@
-﻿using Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using MindTheCodeApp.IRepositories;
-using MindTheCodeApp.Models.AuthModels;
-using MindTheCodeApp.Repositories.Models;
-using System.Runtime.CompilerServices;
+using AppCore.IRepositories;
+using AppCore.Models.AuthModels;
 
-namespace MindTheCodeApp.Repositories
+namespace Infrastructure.Data.Repositories
 {
     public class UserRepository : IUserRepository
     {
