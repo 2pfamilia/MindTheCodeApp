@@ -16,5 +16,11 @@ namespace AppCore.Services.Implementation
             var books = await _bookRepository.GetAllBooks();
             return books;
         }
+
+        public async Task<List<Book>> GetBestSellers()
+        {
+            var bestSellers = await _bookRepository.GetBestSellers();
+            return bestSellers;
+        }
     }
 }

@@ -5,5 +5,7 @@ namespace AppCore.IRepositories
     public interface IBookRepository
     {
         Task<List<Book>> GetAllBooks();
+        Task<List<Book>> GetBestSellers();
+        Task<List<Book>> GetNewArrivals();
     }
 }

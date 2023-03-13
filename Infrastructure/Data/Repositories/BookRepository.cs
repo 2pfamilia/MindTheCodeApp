@@ -17,5 +17,16 @@ namespace Infrastructure.Data.Repositories
             var books = await _context.BookEntity.ToListAsync();
             return books;
         }
+
+        public async Task<List<Book>> GetBestSellers()
+        {
+            var bestSellers = await _context.BookEntity.Take(5).ToListAsync();
+            return bestSellers;
+        }
+
+        public Task<List<Book>> GetNewArrivals()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
