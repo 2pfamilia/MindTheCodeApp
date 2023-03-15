@@ -24,9 +24,17 @@ namespace Infrastructure.Data.Repositories
             return bestSellers;
         }
 
+        public Task<List<BookAuthor>> GetBestSellingAuthors()
+        {
+            var bestSelling = _context.BookAuthorEntity.Take(5).ToListAsync();
+            return bestSelling;
+        }
+
         public Task<List<Book>> GetNewArrivals()
         {
-            throw new NotImplementedException();
+            //get the first 5 books that are newer in the library
+            var newArrivals = _context.BookEntity.OrderByDescending(mybook => mybook.DateCreated).Take(5).ToListAsync();
+            return newArrivals;
         }
     }
 }

@@ -6,5 +6,7 @@ namespace AppCore.Services.IServices
     {
         Task<List<Book>> GetAllBooks();
         Task<List<Book>> GetBestSellers();
+        Task<List<Book>> GetNewArrivals();
+        Task<List<BookAuthor>> GetBestSellingAuthors();
     }
 }
