@@ -33,12 +33,12 @@ builder.Services.AddHostedService<PopulateDb>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//Add Repository services.
+//Add Repository services
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
-//Add Services.
+//Add Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
@@ -58,7 +58,6 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
