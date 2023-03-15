@@ -1,11 +1,82 @@
 ﻿/**************************/
 /* HEADER */
 /**************************/
+
 .header {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 4.8rem;
+}
+
+
+/**************************/
+/* Singin pop up form  */
+/**************************/
+
+@keyframes overlayDelay {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.overlay {
+    position: fixed; /* Sit on top of the page content */
+    display: none; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+
+    animation-name: overlayDelay;
+    animation-duration: 0.5s;
+}
+
+.signin-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8f9fa;
+    border-radius: 0.6rem;
+    padding: 2.4rem;
+    z-index: 7;
+    box-shadow: 0 0.1rem 2rem rgba(0, 0, 0, 0.2);
+    display: none;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.signin-form .btn {
+    align-self: center;
+}
+
+.signin-form-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.signin-form-header h2 {
+    font-size: 2rem;
+    font-weight: 500;
+    color: #212529;
+}
+
+.signin-form-header span {
+    font-size: 1.2rem;
+    font-style: italic;
+    font-weight: 400;
+    color: #212529;
 }
 
 /**************************/
@@ -34,18 +105,18 @@
     padding: 0.8rem;
 }
 
-    .search-bar:focus-within {
-        outline: 0.2rem solid #ffd8a8;
-    }
+.search-bar:focus-within {
+    outline: 0.2rem solid #ffd8a8;
+}
 
-    .search-bar input {
-        width: 30rem;
-        background-color: #f8f9fa;
-        outline: none;
-        border: none;
-        font-size: 1.6rem;
-        color: #6f6f6f;
-    }
+.search-bar input {
+    width: 30rem;
+    background-color: #f8f9fa;
+    outline: none;
+    border: none;
+    font-size: 1.6rem;
+    color: #6f6f6f;
+}
 
 .search-bar-btn {
     background: none;
@@ -54,9 +125,9 @@
     cursor: pointer;
 }
 
-    .search-bar-btn svg {
-        fill: #6f6f6f;
-    }
+.search-bar-btn svg {
+    fill: #6f6f6f;
+}
 
 /* Cart and account icons container */
 .topbar-menu {
@@ -78,6 +149,7 @@
 
 /* Cart Icon */
 .cart-icon-items {
+    min-width: 1.8rem;
     position: absolute;
     top: -0.5rem;
     left: 2.4rem;
@@ -112,11 +184,20 @@
     padding-top: 1.2rem;
 }
 
-    .cart-dropdown-list ul {
-        padding: 1.2rem;
-        max-height: 30rem;
-        overflow-x: hidden;
-    }
+.cart-dropdown-list ul {
+    padding: 1.2rem;
+    max-height: 30rem;
+    overflow-x: hidden;
+}
+
+
+
+.cart-dropdown-list-empty {
+    font-size: 1.6rem;
+    text-align: center;
+    font-style: italic;
+    color: #212529;
+}
 
 .cart-dropdown-list-item {
     display: grid;
@@ -139,7 +220,6 @@
     font-size: 1.4rem;
     color: #212529;
     overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .cart-dropdown-list-item-title {
@@ -197,10 +277,10 @@
     box-shadow: 0 0.1rem 2rem rgba(0, 0, 0, 0.2);
 }
 
-    .account-dropdown-menu span {
-        font-size: 1.6rem;
-        color: #212529;
-    }
+.account-dropdown-menu span {
+    font-size: 1.6rem;
+    color: #212529;
+}
 
 /**************************/
 /* NAVBAR */
@@ -253,10 +333,10 @@
     text-decoration: none;
 }
 
-.navlink-shop-container:hover,
-.navlink:hover {
-    text-shadow: 0 0 0.1rem #212529;
-}
+    .navlink-shop-container:hover,
+    .navlink:hover {
+        text-shadow: 0 0 0.1rem #212529;
+    }
 
 /* Shop dropdown menu */
 .navbar-dropdown-menu {
@@ -356,21 +436,21 @@
     align-items: center;
 }
 
-    .footer-info-list-item svg {
-        fill: #f8f9fa;
-    }
+.footer-info-list-item svg {
+    fill: #f8f9fa;
+}
 
-    .footer-info-list-item address,
-    .footer-info-list-item a,
-    .footer-info-list-item span {
-        color: #f8f9fa;
-        font-size: 1.4rem;
-        margin: auto 0;
-    }
+.footer-info-list-item address,
+.footer-info-list-item a,
+.footer-info-list-item span {
+    color: #f8f9fa;
+    font-size: 1.4rem;
+    margin: auto 0;
+}
 
-    .footer-info-list-item a {
-        text-decoration: none;
-    }
+.footer-info-list-item a {
+    text-decoration: none;
+}
 
 .footer-info-social {
     display: flex;
@@ -378,7 +458,7 @@
     gap: 1.2rem;
 }
 
-    .footer-info-social svg {
-        width: 2.4rem;
-        fill: #f8f9fa;
-    }
+.footer-info-social svg {
+    width: 2.4rem;
+    fill: #f8f9fa;
+}

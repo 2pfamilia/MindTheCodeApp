@@ -64,6 +64,7 @@ Medium: 11px
 2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
 */
 
+
 * {
     padding: 0;
     margin: 0;
@@ -86,6 +87,7 @@ body {
     font-weight: 400;
     color: #555;
     background-color: #f8f9fa;
+    position: relative;
     /* Only works if there is nothing absolutely positioned in relation to body */
     /* overflow-x: hidden; */
 }
@@ -95,49 +97,68 @@ main {
     margin: 0 auto;
 }
 
+.btn,
 .link-btn {
-    text-decoration: none;
+    line-height: 1;
     font-size: 1.6rem;
     color: #212529;
+    background-color: #f8f9fa;
+    padding: 1.2rem;
     border: 0.1rem solid #212529;
+    border-radius: 0.4rem;
+    box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.link-btn {
+    text-decoration: none;
+}
+
+.btn {
+    font-family: inherit;
+}
+
+    .btn:hover,
+    .link-btn:hover {
+        color: #fff;
+        text-shadow: 0 0 0.1rem #fff;
+        background-color: #212529;
+    }
+
+    .btn:active,
+    .link-btn:active {
+        color: #fff;
+        background-color: #212529;
+    }
+
+.btn-revert,
+.link-btn-revert {
+    line-height: 1;
+    font-size: 1.6rem;
+    color: #fff;
+    background-color: #212529;
     border-radius: 0.4rem;
     padding: 1.2rem;
     box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.2);
-}
-
-.link-btn:hover {
-    color: #fff;
-    text-shadow: 0 0 0.1rem #fff;
-    background-color: #212529;
-}
-
-.link-btn :active {
-    color: #fff;
-    background-color: #212529;
 }
 
 .link-btn-revert {
     text-decoration: none;
-    font-size: 1.6rem;
-    color: #fff;
-    background-color: #212529;
-    border-radius: 0.4rem;
-    padding: 1.2rem;
-    box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.2);
 }
 
-.link-btn-revert:active {
-    color: #212529;
-    border: 0.1rem solid #212529;
-    text-shadow: 0 0 0.1rem #212529;
-    background-color: #fff;
-}
+    .btn-revert:active,
+    .link-btn-revert:active,
+    .btn-revert:hover,
+    .link-btn-revert:hover {
+        border: 0.1rem solid #212529;
+        color: #212529;
+        background-color: #fff;
+    }
 
-.link-btn-revert:hover {
-    border: 0.1rem solid #212529;
-    color: #212529;
-    background-color: #fff;
-}
+    .btn-revert:active,
+    .link-btn-revert:active {
+        text-shadow: 0 0 0.1rem #212529;
+    }
 
 .hr-divider-90 {
     width: 90%;
@@ -152,8 +173,67 @@ main {
     margin: 0 auto;
 }
 
+.vr-divider-100 {
+    border-left: 0.1rem solid rgba(0, 0, 0, 0.2);
+    padding: 0;
+    margin: 0 auto;
+}
+
 .box-bullet-sm {
     width: 0.4rem;
     height: 0.4rem;
     background-color: #f8f9fa;
+}
+
+.form-input {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+    .form-input input {
+        font-family: inherit;
+        font-size: 1.6rem;
+        background-color: transparent;
+        border-width: 0 0 0.1rem 0;
+        border-style: solid;
+        border-color: rgba(0, 0, 0, 0.2);
+        color: #212529;
+        outline: none;
+    }
+
+@keyframes moveInputLabelUp {
+    from {
+        font-size: 1.6rem;
+        top: 0.3rem;
+        left: 0;
+    }
+
+    to {
+        font-size: 1.2rem;
+        top: -2rem;
+        left: 0;
+    }
+}
+
+.form-input-label-up {
+    font-size: 1.2rem;
+    position: absolute;
+    top: -2rem;
+    left: 0;
+    animation: 0.3s ease-in 0s moveInputLabelUp;
+}
+
+.form-input-label {
+    font-size: 1.6rem;
+    position: absolute;
+    z-index: -1;
+    top: 0.3rem;
+    left: 0;
+}
+
+.form-error-msg {
+    font-size: 1.2rem;
+    color: #c92a2a;
 }
