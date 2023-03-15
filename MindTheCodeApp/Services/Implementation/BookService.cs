@@ -11,6 +11,9 @@ namespace AppCore.Services.Implementation
         {
             _bookRepository = bookRepository;
         }
+
+       
+
         public async Task<List<Book>> GetAllBooks()
         {
             var books = await _bookRepository.GetAllBooks();
@@ -21,6 +24,19 @@ namespace AppCore.Services.Implementation
         {
             var bestSellers = await _bookRepository.GetBestSellers();
             return bestSellers;
+        }
+
+        //george
+        public async Task<List<Book>> GetNewArrivals()
+        {
+            var newArrivals = await _bookRepository.GetNewArrivals();
+            return newArrivals;
+        }
+        //george
+        public async Task<List<BookAuthor>> GetAllAuthors()
+        {
+            var allAuthors = await _bookRepository.GetAllAuthors();
+            return allAuthors;
         }
     }
 }

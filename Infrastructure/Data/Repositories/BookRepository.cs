@@ -24,9 +24,19 @@ namespace Infrastructure.Data.Repositories
             return bestSellers;
         }
 
-        public Task<List<Book>> GetNewArrivals()
+        public async Task<List<Book>> GetNewArrivals()
         {
-            throw new NotImplementedException();
+            //george
+            var newArrivals = await _context.BookEntity.Take(5).ToListAsync();
+            return newArrivals;
+        }
+
+        public async Task<List<BookAuthor>> GetAllAuthors()
+        {
+            //george
+            var allAuthors = await _context.BookAuthorEntity.Take(5).ToListAsync();
+            return allAuthors;
+
         }
     }
 }
