@@ -1,0 +1,428 @@
+﻿@{
+    ViewData["Title"] = "Shop";
+}
+
+
+<div class="shop-page-container">
+    <form class="shop-filters-sidebar">
+        <h2>FILTERS</h2>
+        <fieldset class="shop-filters-filter-container">
+            <div class="shop-filters-filter-label-container">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+                    <path d="M9.4 18 8 16.6l4.6-4.6L8 7.4 9.4 6l6 6Z" />
+                </svg>
+                <h3>CATEGORY</h3>
+            </div>
+            <div class="shop-filters-box-filter">
+                <div class="shop-filters-box-filter-item">
+                    <input type="checkbox" id="category-filter-1" name="arts" />
+                    <label for="category-filter-1">Arts</label>
+                </div>
+                <div class="shop-filters-box-filter-item">
+                    <input type="checkbox" id="category-filter-2" name="history" />
+                    <label for="category-filter-2">History</label>
+                </div>
+                <div class="shop-filters-box-filter-item">
+                    <input type="checkbox" id="category-filter-12" name="horror" />
+                    <label for="category-filter-12">Horror</label>
+                </div>
+                <div class="shop-filters-box-filter-item">
+                    <input type="checkbox"
+                           id="category-filter-13"
+                           name="speculative fiction" />
+                    <label for="category-filter-14">Speculative fiction</label>
+                </div>
+                <div class="shop-filters-box-filter-item">
+                    <input type="checkbox"
+                           id="category-filter-15"
+                           name="action and adventure" />
+                    <label for="category-filter-15">
+                        Action and adventure Action and adventureAction and
+                        adventure
+                    </label>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="shop-filters-filter-container">
+            <div class="shop-filters-filter-label-container">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+                    <path d="M9.4 18 8 16.6l4.6-4.6L8 7.4 9.4 6l6 6Z" />
+                </svg>
+                <h3>AUTHOR</h3>
+            </div>
+            <div class="shop-filters-box-filter">
+                <div class="shop-filters-box-filter-item">
+                    <input type="checkbox" id="h3" name="arts" />
+                    <label for="h3">Arts</label>
+                </div>
+                <div class="shop-filters-box-filter-item">
+                    <input type="checkbox" id="category-filter-21" name="history" />
+                    <label for="category-filter-21">History</label>
+                </div>
+                <div class="shop-filters-box-filter-item">
+                    <input type="checkbox" id="category-filter-22" name="horror" />
+                    <label for="category-filter-22">Horror</label>
+                </div>
+                <div class="shop-filters-box-filter-item">
+                    <input type="checkbox"
+                           id="category-filter-3"
+                           name="speculative fiction" />
+                    <label for="category-filter-3">Speculative fiction</label>
+                </div>
+                <div class="shop-filters-box-filter-item">
+                    <input type="checkbox"
+                           id="category-filter-11"
+                           name="action and adventure" />
+                    <label for="category-filter-11">
+                        Action and adventure Action and adventureAction and
+                        adventure
+                    </label>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="shop-filters-filter-container">
+            <div class="shop-filters-filter-label-container">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+                    <path d="M9.4 18 8 16.6l4.6-4.6L8 7.4 9.4 6l6 6Z" />
+                </svg>
+                <h3>PUBLISHER</h3>
+            </div>
+            <div class="shop-filters-box-filter">
+                <div class="shop-filters-box-filter-item">
+                    <input type="checkbox" id="category-filter-7" name="arts" />
+                    <label for="category-filter-7">Arts</label>
+                </div>
+                <div class="shop-filters-box-filter-item">
+                    <input type="checkbox" id="category-filter-8" name="history" />
+                    <label for="category-filter-8">History</label>
+                </div>
+                <div class="shop-filters-box-filter-item">
+                    <input type="checkbox" id="category-filter-9" name="horror" />
+                    <label for="category-filter-9">Horror</label>
+                </div>
+                <div class="shop-filters-box-filter-item">
+                    <input type="checkbox"
+                           id="category-filter-20"
+                           name="speculative fiction" />
+                    <label for="category-filter-20">Speculative fiction</label>
+                </div>
+                <div class="shop-filters-box-filter-item">
+                    <input type="checkbox"
+                           id="category-filter-10"
+                           name="action and adventure" />
+                    <label for="category-filter-10">
+                        Action and adventure Action and adventureAction and
+                        adventure
+                    </label>
+                </div>
+            </div>
+        </fieldset>
+        <div class="shop-filters-price-container">
+            <h3>PRICE</h3>
+            <div>
+                <span>1€ - </span>
+                <span class="shop-filters-price-selection">69€</span>
+            </div>
+            <input type="range"
+                   min="1"
+                   max="100"
+                   value="50"
+                   class="slider"
+                   id="myRange" />
+        </div>
+    </form>
+    <!-- <div class="vr-divider-100"></div> -->
+    <div class="shop-content">
+        <header class="shop-content-header">
+            <span>Showing 1–16 of 799 results</span>
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 height="24"
+                 width="24"
+                 class="shop-content-header-left-arrow">
+                <path d="m14 18-6-6 6-6 1.4 1.4-4.6 4.6 4.6 4.6Z" />
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 height="24"
+                 width="24"
+                 class="shop-content-header-right-arrow">
+                <path d="M9.4 18 8 16.6l4.6-4.6L8 7.4 9.4 6l6 6Z" />
+            </svg>
+        </header>
+        <div class="shop-content-list">
+            <div class="shop-content-product-card">
+                <img src="img/books/41iqgj-ImVL._SY344_BO1,204,203,200_.jpg"
+                     alt="" />
+
+                <a href="#" class="shop-content-product-card-title">The Silent Patient</a>
+                <a href="#" class="shop-content-product-card-author">
+                    Alex Michaelides
+                </a>
+                <span class="shop-content-product-card-price">€ 12.90</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     height="24"
+                     width="24"
+                     class="shop-content-product-card-bag-icon">
+                    <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z" />
+                </svg>
+            </div>
+            <div class="shop-content-product-card">
+                <img src="img/books/51mN3bY0JjL._SY344_BO1,204,203,200_.jpg"
+                     alt="" />
+
+                <a href="#" class="shop-content-product-card-title">
+                    The Handmaid's Tale
+                </a>
+                <a href="#" class="shop-content-product-card-author">
+                    Margaret Atwood
+                </a>
+                <span class="shop-content-product-card-price">€ 12.00</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     height="24"
+                     width="24"
+                     class="shop-content-product-card-bag-icon">
+                    <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z" />
+                </svg>
+            </div>
+            <div class="shop-content-product-card">
+                <img src="img/books/516YkEzLC+L._SY344_BO1,204,203,200_.jpg"
+                     alt="" />
+
+                <a href="#" class="shop-content-product-card-title">
+                    The Great Gatsby
+                </a>
+                <a href="#" class="shop-content-product-card-author">
+                    F. Scott Fitzgerald
+                </a>
+                <span class="shop-content-product-card-price">€ 12.00</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     height="24"
+                     width="24"
+                     class="shop-content-product-card-bag-icon">
+                    <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z" />
+                </svg>
+            </div>
+            <div class="shop-content-product-card">
+                <img src="img/books/41iqgj-ImVL._SY344_BO1,204,203,200_.jpg"
+                     alt="" />
+
+                <a href="#" class="shop-content-product-card-title">
+                    Little Fires Everywhere
+                </a>
+                <a href="#" class="shop-content-product-card-author">
+                    Celeste Ng
+                </a>
+                <span class="shop-content-product-card-price">€ 12.00</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     height="24"
+                     width="24"
+                     class="shop-content-product-card-bag-icon">
+                    <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z" />
+                </svg>
+            </div>
+            <div class="shop-content-product-card">
+                <img src="img/books/golden-spoon.jpg" alt="" />
+
+                <a href="#" class="shop-content-product-card-title">
+                    The Girl on the Train
+                </a>
+                <a href="#" class="shop-content-product-card-author">
+                    Paula Hawkins
+                </a>
+                <span class="shop-content-product-card-price">€ 12.00</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     height="24"
+                     width="24"
+                     class="shop-content-product-card-bag-icon">
+                    <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z" />
+                </svg>
+            </div>
+            <div class="shop-content-product-card">
+                <img src="img/books/young-forever.jpg" alt="" />
+
+                <a href="#" class="shop-content-product-card-title">
+                    To Kill a Mockingbird
+                </a>
+                <a href="#" class="shop-content-product-card-author">
+                    Harper Lee
+                </a>
+                <span class="shop-content-product-card-price">€ 12.00</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     height="24"
+                     width="24"
+                     class="shop-content-product-card-bag-icon">
+                    <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z" />
+                </svg>
+            </div>
+            <div class="shop-content-product-card">
+                <img src="img/books/never-never.jpg" alt="" />
+
+                <a href="#" class="shop-content-product-card-title">
+                    Sapiens: A Brief History of Humankind
+                </a>
+                <a href="#" class="shop-content-product-card-author">
+                    Yuval Noah Harari
+                </a>
+                <span class="shop-content-product-card-price">€ 12.00</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     height="24"
+                     width="24"
+                     class="shop-content-product-card-bag-icon">
+                    <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z" />
+                </svg>
+            </div>
+            <div class="shop-content-product-card">
+                <img src="img/books/41iqgj-ImVL._SY344_BO1,204,203,200_.jpg"
+                     alt="" />
+
+                <a href="#" class="shop-content-product-card-title">
+                    1600.io SAT Math Orange Book Volume I: Every SAT Math Topic,
+                    Patiently Explained
+                </a>
+                <a href="#" class="shop-content-product-card-author"> 1600.io </a>
+                <span class="shop-content-product-card-price">€ 12.00</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     height="24"
+                     width="24"
+                     class="shop-content-product-card-bag-icon">
+                    <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z" />
+                </svg>
+            </div>
+            <div class="shop-content-product-card">
+                <img src="img/books/51B7kuFwQFL._SY344_BO1,204,203,200_.jpg"
+                     alt="" />
+
+                <a href="#" class="shop-content-product-card-title">
+                    1600.io SAT Math Orange Book Volume I: Every SAT Math Topic,
+                    Patiently Explained
+                </a>
+                <a href="#" class="shop-content-product-card-author"> 1600.io </a>
+                <span class="shop-content-product-card-price">€ 12.00</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     height="24"
+                     width="24"
+                     class="shop-content-product-card-bag-icon">
+                    <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z" />
+                </svg>
+            </div>
+            <div class="shop-content-product-card">
+                <img src="img/books/51VyW1qRmSL._SY344_BO1,204,203,200_.jpg"
+                     alt="" />
+
+                <a href="#" class="shop-content-product-card-title">
+                    1600.io SAT Math Orange Book Volume I: Every SAT Math Topic,
+                    Patiently Explained
+                </a>
+                <a href="#" class="shop-content-product-card-author"> 1600.io </a>
+                <span class="shop-content-product-card-price">€ 12.00</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     height="24"
+                     width="24"
+                     class="shop-content-product-card-bag-icon">
+                    <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z" />
+                </svg>
+            </div>
+            <div class="shop-content-product-card">
+                <img src="img/books/41iqgj-ImVL._SY344_BO1,204,203,200_.jpg"
+                     alt="" />
+
+                <a href="#" class="shop-content-product-card-title">
+                    1600.io SAT Math Orange Book Volume I: Every SAT Math Topic,
+                    Patiently Explained
+                </a>
+                <a href="#" class="shop-content-product-card-author"> 1600.io </a>
+                <span class="shop-content-product-card-price">€ 12.00</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     height="24"
+                     width="24"
+                     class="shop-content-product-card-bag-icon">
+                    <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z" />
+                </svg>
+            </div>
+            <div class="shop-content-product-card">
+                <img src="img/books/41iqgj-ImVL._SY344_BO1,204,203,200_.jpg"
+                     alt="" />
+
+                <a href="#" class="shop-content-product-card-title">
+                    1600.io SAT Math Orange Book Volume I: Every SAT Math Topic,
+                    Patiently Explained
+                </a>
+                <a href="#" class="shop-content-product-card-author"> 1600.io </a>
+                <span class="shop-content-product-card-price">€ 12.00</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     height="24"
+                     width="24"
+                     class="shop-content-product-card-bag-icon">
+                    <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z" />
+                </svg>
+            </div>
+            <div class="shop-content-product-card">
+                <img src="img/books/310KDa7YvxL._SY344_BO1,204,203,200_.jpg"
+                     alt="" />
+
+                <a href="#" class="shop-content-product-card-title">
+                    1600.io SAT Math Orange Book Volume I: Every SAT Math Topic,
+                    Patiently Explained
+                </a>
+                <a href="#" class="shop-content-product-card-author"> 1600.io </a>
+                <span class="shop-content-product-card-price">€ 12.00</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     height="24"
+                     width="24"
+                     class="shop-content-product-card-bag-icon">
+                    <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z" />
+                </svg>
+            </div>
+            <div class="shop-content-product-card">
+                <img src="img/books/41iqgj-ImVL._SY344_BO1,204,203,200_.jpg"
+                     alt="" />
+
+                <a href="#" class="shop-content-product-card-title">
+                    1600.io SAT Math Orange Book Volume I: Every SAT Math Topic,
+                    Patiently Explained
+                </a>
+                <a href="#" class="shop-content-product-card-author"> 1600.io </a>
+                <span class="shop-content-product-card-price">€ 12.00</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     height="24"
+                     width="24"
+                     class="shop-content-product-card-bag-icon">
+                    <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z" />
+                </svg>
+            </div>
+            <div class="shop-content-product-card">
+                <img src="img/books/41iqgj-ImVL._SY344_BO1,204,203,200_.jpg"
+                     alt="" />
+
+                <a href="#" class="shop-content-product-card-title">
+                    1600.io SAT Math Orange Book Volume I: Every SAT Math Topic,
+                    Patiently Explained
+                </a>
+                <a href="#" class="shop-content-product-card-author"> 1600.io </a>
+                <span class="shop-content-product-card-price">€ 12.00</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     height="24"
+                     width="24"
+                     class="shop-content-product-card-bag-icon">
+                    <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z" />
+                </svg>
+            </div>
+            <div class="shop-content-product-card">
+                <img src="img/books/51B7kuFwQFL._SY344_BO1,204,203,200_.jpg"
+                     alt="" />
+
+                <a href="#" class="shop-content-product-card-title">
+                    1600.io SAT Math Orange Book Volume I: Every SAT Math Topic,
+                    Patiently Explained
+                </a>
+                <a href="#" class="shop-content-product-card-author"> 1600.io </a>
+                <span class="shop-content-product-card-price">€ 12.00</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     height="24"
+                     width="24"
+                     class="shop-content-product-card-bag-icon">
+                    <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z" />
+                </svg>
+            </div>
+        </div>
+    </div>
+</div>
