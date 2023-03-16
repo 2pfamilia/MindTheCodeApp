@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
     @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+    <link rel="stylesheet" href="~/css/general.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MindTheCodeApp.styles.css" asp-append-version="true" />
 </head>
@@ -32,7 +33,7 @@
     </form>
     <header class="header">
         <div class="topbar">
-            <a href="#">
+            <a href="/index.html">
                 <img class="logo"
                      alt="bookstore logo"
                      src="img/logos/logo-simple.png" />
@@ -85,7 +86,8 @@
                 </div>
             </div>
         </div>
-        <nav class="navbar-main-container">
+        <nav class="navbar-main-container" 
+             style="@(ViewData["Title"].Equals("Home Page") ? Html.Raw("background-color:transparent") : Html.Raw(""))">
             <div class="navbar">
                 <div class="navlink-shop-container">
                     <span>SHOP</span>
@@ -170,13 +172,13 @@
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
                                 <path d="M19.95 21q-3.225 0-6.287-1.438-3.063-1.437-5.425-3.8-2.363-2.362-3.8-5.425Q3 7.275 3 4.05q0-.45.3-.75t.75-.3H8.1q.35 0 .625.225t.325.575l.65 3.5q.05.35-.012.637-.063.288-.288.513L6.975 10.9q1.05 1.8 2.638 3.375Q11.2 15.85 13.1 17l2.35-2.35q.225-.225.588-.338.362-.112.712-.062l3.45.7q.35.075.575.337.225.263.225.613v4.05q0 .45-.3.75t-.75.3ZM6.025 9l1.65-1.65L7.25 5H5.025q.125 1.025.35 2.025.225 1 .65 1.975Zm8.95 8.95q.975.425 1.988.675 1.012.25 2.037.325v-2.2l-2.35-.475ZM6.025 9Zm8.95 8.95Z" />
                             </svg>
-                            <span> 210 745-321 </span>
+                            <span>210 745-321</span>
                         </li>
                         <li class="footer-info-list-item">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
                                 <path d="m15.3 16.7 1.4-1.4-3.7-3.7V7h-2v5.4ZM12 22q-2.075 0-3.9-.788-1.825-.787-3.175-2.137-1.35-1.35-2.137-3.175Q2 14.075 2 12t.788-3.9q.787-1.825 2.137-3.175 1.35-1.35 3.175-2.138Q9.925 2 12 2t3.9.787q1.825.788 3.175 2.138 1.35 1.35 2.137 3.175Q22 9.925 22 12t-.788 3.9q-.787 1.825-2.137 3.175-1.35 1.35-3.175 2.137Q14.075 22 12 22Zm0-10Zm0 8q3.325 0 5.663-2.337Q20 15.325 20 12t-2.337-5.663Q15.325 4 12 4T6.338 6.337Q4 8.675 4 12t2.338 5.663Q8.675 20 12 20Z" />
                             </svg>
-                            <span> MON-SAT: 8:00AM - 6:30PM </span>
+                            <span>MON-SAT: 8:00AM - 6:30PM </span>
                         </li>
                         <li class="footer-info-list-item">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
@@ -212,7 +214,7 @@
                             </svg>
                         </a>
                         <a href="">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">                              
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                                 <path d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm-48.9 158.8c.2 2.8.2 5.7.2 8.5 0 86.7-66 186.6-186.6 186.6-37.2 0-71.7-10.8-100.7-29.4 5.3.6 10.4.8 15.8.8 30.7 0 58.9-10.4 81.4-28-28.8-.6-53-19.5-61.3-45.5 10.1 1.5 19.2 1.5 29.6-1.2-30-6.1-52.5-32.5-52.5-64.4v-.8c8.7 4.9 18.9 7.9 29.6 8.3a65.447 65.447 0 0 1-29.2-54.6c0-12.2 3.2-23.4 8.9-33.1 32.3 39.8 80.8 65.8 135.2 68.6-9.3-44.5 24-80.6 64-80.6 18.9 0 35.9 7.9 47.9 20.7 14.8-2.8 29-8.3 41.6-15.8-4.9 15.2-15.2 28-28.8 36.1 13.2-1.4 26-5.1 37.8-10.2-8.9 13.1-20.1 24.7-32.9 34z" />
                             </svg>
                         </a>

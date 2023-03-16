@@ -32,6 +32,28 @@ const carousel = document.querySelector(".carousel-container");
 const carouselDots = document.querySelectorAll(".carousel-dot");
 const carouselSlides = document.querySelectorAll(".carousel");
 
+// Home page books sections (Beste sellers - New arrivals)
+const homeSectionBookImg = document.querySelectorAll(
+    ".home-section-books-item img"
+);
+
+const bookImgOverlay = document.querySelectorAll(".add-to-cart-overlay");
+const bookImgOverlayBtn = document.querySelectorAll(".add-to-cart-overlay-btn");
+
+const homeSectionProductImg = document.querySelectorAll(
+    ".home-section-books-item img"
+);
+
+const homeSectionProductTitle = document.querySelectorAll(
+    ".home-section-books-item-title"
+);
+const homeSectionProductAuthor = document.querySelectorAll(
+    ".home-section-books-item-author"
+);
+const homeSectionProductPrice = document.querySelectorAll(
+    ".home-section-books-item-price"
+);
+
 // Forms input
 const formInputs = document.querySelectorAll(".form-input input");
 const formInputLabels = document.querySelectorAll(".form-input-label");
@@ -206,6 +228,41 @@ formInputs.forEach((input, index) => {
     });
 });
 
+// Home boooks sections displauy add to cart overlay handler
+if (homeSectionBookImg) {
+    homeSectionBookImg.forEach((bookImg, index) => {
+        bookImg.addEventListener("mouseover", function (e) {
+            const display = bookImgOverlay[index].style.getPropertyValue("display");
+            if (display == "none" || display == "") {
+                bookImgOverlay[index].style.setProperty("display", "flex");
+            }
+        });
+        bookImgOverlayBtn[index].addEventListener("click", function (e) {
+            // const addToCartTxt = document.querySelectorAll(
+            //   ".add-to-cart-overlay-btn span"
+            // );
+            // addToCartTxt[index].style.setProperty("animation-name", "textOversize");
+            const product = {
+                img: homeSectionProductImg[index].getAttribute("src"),
+                title: homeSectionProductTitle[index].textContent
+                    .replace(/\s+/g, " ")
+                    .trim(),
+                author: homeSectionProductAuthor[index].textContent
+                    .replace(/\s+/g, " ")
+                    .trim(),
+                price: parseFloat(
+                    homeSectionProductPrice[index].textContent.replace(/[$,€]+/g, "")
+                ),
+            };
+
+            addProductToCart(product);
+        });
+        bookImgOverlay[index].addEventListener("mouseleave", function (e) {
+            bookImgOverlay[index].style.setProperty("display", "none");
+        });
+    });
+}
+
 // Shop checkkbox filters display handler
 if (shopFiltersLabelsIcons) {
     shopFiltersLabelsIcons.forEach((input, index) => {
@@ -220,7 +277,10 @@ if (shopFiltersLabelsIcons) {
                 );
             } else {
                 shopFiltersBoxContainers[index].style.setProperty("display", "none");
-                shopFiltersLabelsIcons[index].style.setProperty("transform", "rotate(0)");
+                shopFiltersLabelsIcons[index].style.setProperty(
+                    "transform",
+                    "rotate(0)"
+                );
             }
         });
     });
@@ -246,7 +306,9 @@ if (productCardCartIcons) {
             const product = {
                 img: productCardImg[index].getAttribute("src"),
                 title: productCardTitle[index].textContent.replace(/\s+/g, " ").trim(),
-                author: productCardAuthor[index].textContent.replace(/\s+/g, " ").trim(),
+                author: productCardAuthor[index].textContent
+                    .replace(/\s+/g, " ")
+                    .trim(),
                 price: parseFloat(
                     productCardPrice[index].textContent.replace(/[$,€]+/g, "")
                 ),
@@ -329,10 +391,9 @@ function displayCartElements() {
         const cart = JSON.parse(localStorage.userCart);
         // Display  cart's total products span element
         createCartIconTotalProductsElement(cartTotal);
-        cartIconTotal.textContent =
-            "€" + parseFloat(cartTotal).toFixed(2);
+        cartIconTotal.textContent = "€" + parseFloat(cartTotal).toFixed(2);
         // Update cart's icon dropdown list with products
-        updateCartDropDownList(cart, cartTotal)
+        updateCartDropDownList(cart, cartTotal);
     } else {
         cartIconTotal.textContent = "€0.00";
 
@@ -354,13 +415,14 @@ function updateCartDropDownList(cart, total) {
     if (cartIconTotalProducts) {
         cartIconTotalProducts.textContent = cart.length;
     } else {
-        cartIconTotalProducts = document.createElement("span");
-        cartIconTotalProducts.classList.add("cart-icon-items");
-        cartIconTotalProducts.textContent = cart.length;
-        cartDropdownList.parentNode.insertBefore(
-            cartIconTotalProducts,
-            cartDropdownList
-        );
+        // console.log("poko");
+        // cartIconTotalProducts = document.createElement("span");
+        // cartIconTotalProducts.classList.add("cart-icon-items");
+        // cartIconTotalProducts.textContent = cart.length;
+        // cartDropdownList.parentNode.insertBefore(
+        //   cartIconTotalProducts,
+        //   cartDropdownList
+        // );
     }
 
     while (cartDropDownList.firstChild) {
@@ -400,24 +462,33 @@ function createCartIconListProduct(product) {
 
 // Creates to the DOM the span element with the sum of products in the header's cart icon
 function createCartIconTotalProductsElement(cart) {
-    const cartTotalProducts = document.createElement("span");
-    cartTotalProducts.classList.add("cart-icon-items");
-    cartTotalProducts.textContent = cart.length;
-
-    cartDropdownList.parentNode.insertBefore(cartTotalProducts, cartDropdownList);
+    let cartIconTotalProducts = document.querySelector(".cart-icon-items");
+    // check if already exists
+    if (cartIconTotalProducts) {
+        cartIconTotalProducts.textContent = cart.length;
+        return;
+    }
+    // Create it
+    cartIconTotalProducts = document.createElement("span");
+    cartIconTotalProducts.classList.add("cart-icon-items");
+    cartIconTotalProducts.textContent = cart.length;
+    cartDropdownList.parentNode.insertBefore(
+        cartIconTotalProducts,
+        cartDropdownList
+    );
 }
 
 function addCartTotalProducts() { }
 
 {
     /* <li class="cart-dropdown-list-item">
-    <img
-      src="img/books/310KDa7YvxL._SY344_BO1,204,203,200_.jpg"
-      alt="book title"
-    />
-    <span class="cart-dropdown-list-item-title">
-      The Happiness Recipe: A Powerful Guide to Living What Matters
-    </span>
-    <span class="cart-dropdown-list-item-price">1 X 15,00 €</span>
-  </li>; */
+      <img
+        src="img/books/310KDa7YvxL._SY344_BO1,204,203,200_.jpg"
+        alt="book title"
+      />
+      <span class="cart-dropdown-list-item-title">
+        The Happiness Recipe: A Powerful Guide to Living What Matters
+      </span>
+      <span class="cart-dropdown-list-item-price">1 X 15,00 €</span>
+    </li>; */
 }
