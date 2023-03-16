@@ -29,6 +29,30 @@ namespace AppCore.Services.Implementation
             return bestSelling;
         }
 
+        public async Task<List<Book>> GetBooksByAuthor(BookAuthor author)
+        {
+            var booksByAuthor = await _bookRepository.GetBooksByAuthor(author);
+            return booksByAuthor;
+        }
+
+        public async Task<List<Book>> GetBooksByCategory(BookCategory category)
+        {
+            var categoryBooks = await _bookRepository.GetBooksByCategory(category);
+            return categoryBooks;
+        }
+
+        public async Task<List<Book>> GetBooksByPriceRange(int? minRange, int? maxRange)
+        {
+            var rangeBooks = await _bookRepository.GetBooksByPriceRange(minRange, maxRange);
+            return rangeBooks;
+        }
+
+        public async Task<List<Book>> GetBooksByTitle(string titleQuery)
+        {
+           var booksByTitle = await _bookRepository.GetBooksByTitle(titleQuery);
+           return booksByTitle;
+        }
+
         public async Task<List<Book>> GetNewArrivals()
         {
             var newArrivals = await _bookRepository.GetNewArrivals();
