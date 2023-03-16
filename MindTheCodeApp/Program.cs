@@ -6,6 +6,7 @@ using AppCore.IRepositories;
 using AppCore.Services.Implementation;
 using AppCore.Services.IServices;
 using AppCore.Utils;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("LocalDb");
     options.UseSqlServer(connectionString);
+});
+
+// Authentication service with Cookies.
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+.AddCookie(options =>
+{
+    options.Cookie.Name = "CookieAuth";
+    options.LoginPath = "/Auth/Login";
+    options.LogoutPath = "/Auth/Logout";
+    options.AccessDeniedPath = "/";
 });
 
 // Database population service that runs when the database is empty.
