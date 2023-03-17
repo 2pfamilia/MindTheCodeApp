@@ -24,9 +24,10 @@ Large: 1.8
 --- 02 COLORS
 
 - Background: #f8f9fa;
-- Footer backfround color: #495057;
+- Footer backfround color: #868e96;
 
 - Main font: #212529
+- Main tind font: #495057
 - Secondary font color: #f8f9fa;
 
 
@@ -98,6 +99,8 @@ main {
 
 .btn,
 .link-btn {
+    font-family: inherit;
+    text-align: center;
     line-height: 1;
     font-size: 1.6rem;
     color: #212529;
@@ -128,10 +131,14 @@ main {
     .link-btn:active {
         color: #fff;
         background-color: #212529;
+        transform: scale(1.05);
+        transition: background 0.2s, transform 0.2s ease-out, fill 0.2s;
     }
 
 .btn-revert,
 .link-btn-revert {
+    font-family: inherit;
+    text-align: center;
     line-height: 1;
     font-size: 1.6rem;
     color: #fff;
@@ -157,6 +164,8 @@ main {
     .btn-revert:active,
     .link-btn-revert:active {
         text-shadow: 0 0 0.1rem #212529;
+        transform: scale(1.05);
+        transition: background 0.2s, transform 0.2s ease-out, fill 0.2s;
     }
 
 .hr-divider-90 {
