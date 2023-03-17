@@ -146,6 +146,7 @@ main {
     border-radius: 0.4rem;
     padding: 1.2rem;
     box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 }
 
 .link-btn-revert {
@@ -197,7 +198,7 @@ main {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 0.4rem;
 }
 
     .form-input input {
@@ -241,7 +242,137 @@ main {
     left: 0;
 }
 
+.form-error-msg::after {
+    content: "Error message";
+    visibility: hidden;
+}
+
 .form-error-msg {
     font-size: 1.2rem;
     color: #c92a2a;
+    font-style: italic;
 }
+
+.custom-select {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.custom-select-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-width: 0 0 0.1rem 0;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.2);
+    border-radius: 0.4rem;
+    position: relative;
+    cursor: pointer;
+}
+
+    .custom-select-container input {
+        background-color: #f8f9fa;
+        outline: none;
+        border: none;
+        font-size: 1.8rem;
+        font-family: inherit;
+        color: #6f6f6f;
+        text-align: left;
+        display: none;
+    }
+
+.custom-select-text {
+    font-size: 1.6rem;
+    font-family: inherit;
+    color: #212529;
+    text-align: left;
+}
+
+.custom-select-container svg {
+    fill: #212529;
+}
+
+.custom-select-container-dropdown-list {
+    top: 3rem;
+    left: 0;
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    padding: 2.4rem;
+    gap: 2rem;
+    list-style-type: none;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+    background-color: #f8f9fa;
+    border-radius: 0 0.4rem 0.4rem 0.4rem;
+    z-index: 2;
+    width: 60%;
+}
+
+    .custom-select-container-dropdown-list li {
+        color: #212529;
+        font-size: 1.6rem;
+        padding-bottom: 0.4rem;
+        border-bottom: 0.1rem solid transparent;
+    }
+
+        .custom-select-container-dropdown-list li:hover {
+            color: #212529;
+            font-size: 1.6rem;
+            cursor: pointer;
+            border-color: rgba(0, 0, 0, 0.3);
+            text-shadow: 0 0 0.1rem #212529;
+        }
+
+        .custom-select-container-dropdown-list li:active {
+            text-shadow: 0 0 0.3rem #212529;
+        }
+
+.number-input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 0.1rem solid rgba(0, 0, 0, 0.3);
+    border-radius: 0.4rem;
+    padding: 0.8rem;
+}
+
+    .number-input-container:focus-within {
+        outline: 0.2rem solid #ffd8a8;
+    }
+
+    .number-input-container input {
+        width: 6.4rem;
+        background-color: #f8f9fa;
+        outline: none;
+        border: none;
+        font-size: 1.8rem;
+        font-family: inherit;
+        color: #6f6f6f;
+        text-align: center;
+    }
+
+    .number-input-container button {
+        font-weight: 500;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+        .number-input-container button:first-child {
+            visibility: hidden;
+        }
+
+    .number-input-container button {
+        fill: #212529;
+    }
+
+        .number-input-container button:hover {
+            transform: scale(1.05);
+            transition: background 0.2s, transform 0.2s ease-out, fill 0.2s;
+        }
+
+        .number-input-container button:active {
+            transform: scale(1.2);
+            transition: background 0.2s, transform 0.2s ease-out, fill 0.2s;
+        }

@@ -24,9 +24,6 @@ const navbarShopBtn = document.querySelector(".navlink-shop-container");
 const navbarShopBtnIcon = document.querySelector(".navlink-shop-container svg");
 const shopDropdownMenu = document.querySelector(".navbar-dropdown-menu");
 
-// Navbar linksa
-const navLinks = document.querySelectorAll(".navlink-container");
-
 // Home page courousel elements
 const carousel = document.querySelector(".carousel-container");
 const carouselDots = document.querySelectorAll(".carousel-dot");
@@ -37,27 +34,8 @@ const homeSectionBookImg = document.querySelectorAll(
   ".home-section-books-item img"
 );
 
-const bookImgOverlay = document.querySelectorAll(".add-to-cart-overlay");
-const bookImgOverlayBtn = document.querySelectorAll(".add-to-cart-overlay-btn");
-
-const homeSectionProductImg = document.querySelectorAll(
-  ".home-section-books-item img"
-);
-
-const homeSectionProductTitle = document.querySelectorAll(
-  ".home-section-books-item-title"
-);
-const homeSectionProductAuthor = document.querySelectorAll(
-  ".home-section-books-item-author"
-);
-const homeSectionProductPrice = document.querySelectorAll(
-  ".home-section-books-item-price"
-);
-
 // Forms input
-const formInputs = document.querySelectorAll(".form-input input");
-const formInputLabels = document.querySelectorAll(".form-input-label");
-const formInputErrorMsgs = document.querySelectorAll(".form-error-msg");
+const formInputs = document.querySelectorAll(".form-input");
 
 // Shop filters
 const shopFiltersLabelsIcons = document.querySelectorAll(
@@ -123,6 +101,12 @@ const productPageProductPrice = document.querySelector(
   ".product-page-product-price"
 );
 
+// Checkout page elements
+
+// Custom select element
+
+const customSelects = document.querySelectorAll(".custom-select-container");
+
 ///////////////////////////////////////
 
 // Keeps track of current slide
@@ -160,7 +144,7 @@ window.addEventListener("click", function (e) {
 });
 
 // Header cart icon dropdown list fuctionality
-cartIcon.addEventListener("click", function (e) {
+cartIcon.addEventListener("click", () => {
   const display = cartDropdownList.style.getPropertyValue("display");
 
   if (display == "none" || display == "") {
@@ -171,7 +155,7 @@ cartIcon.addEventListener("click", function (e) {
 });
 
 // Header cart icon dropdown list fuctionality
-accountIcon.addEventListener("click", function (e) {
+accountIcon.addEventListener("click", () => {
   const display = accountDropdownMenu.style.getPropertyValue("display");
   if (display == "none" || display == "") {
     accountDropdownMenu.style.setProperty("display", "flex");
@@ -181,13 +165,13 @@ accountIcon.addEventListener("click", function (e) {
 });
 
 //Singin button handler
-singinBtn.addEventListener("click", function (e) {
+singinBtn.addEventListener("click", () => {
   accountDropdownMenu.style.setProperty("display", "none");
   overlayEffect.style.setProperty("display", "block");
   signinForm.style.setProperty("display", "flex");
 });
 
-navbarShopBtn.addEventListener("click", function (e) {
+navbarShopBtn.addEventListener("click", () => {
   const display = shopDropdownMenu.style.getPropertyValue("display");
   if (display == "none" || display == "") {
     shopDropdownMenu.style.setProperty("display", "grid");
@@ -200,7 +184,7 @@ navbarShopBtn.addEventListener("click", function (e) {
 
 // Carousel change screen handler
 carouselDots.forEach((dot, index) => {
-  dot.addEventListener("click", function (e) {
+  dot.addEventListener("click", () => {
     for (let i = 0; i < carouselSlides.length; i++) {
       carouselSlides[i].style.display = "none";
     }
@@ -243,51 +227,110 @@ function showSlides() {
 }
 
 // Form inputs handler
-formInputs.forEach((input, index) => {
-  input.addEventListener("click", function (e) {
-    formInputLabels[index].classList.add("form-input-label-up");
-    formInputLabels[index].classList.remove("form-input-label");
+formInputs.forEach((inputContainer) => {
+  const input = inputContainer.querySelector("input");
+  const label = inputContainer.querySelector("label");
+  const errorMsg = inputContainer.querySelector("span");
+
+  input.addEventListener("click", function () {
+    label.classList.add("form-input-label-up");
+    label.classList.remove("form-input-label");
   });
-  input.addEventListener("change", (event) => {
+
+  input.addEventListener("keydown", function () {
+    label.classList.add("form-input-label-up");
+    label.classList.remove("form-input-label");
+  });
+
+  input.addEventListener("focusout", () => {
+    if (input.value == "") {
+      label.classList.add("form-input-label");
+      label.classList.remove("form-input-label-up");
+      errorMsg.textContent = "";
+    }
+  });
+
+  input.addEventListener("change", () => {
     if (input.name == "email") {
       if (!ValidateEmail(input.value)) {
-        formInputErrorMsgs[index].textContent = "Invalid email address";
+        errorMsg.textContent = "Invalid email address";
+      }
+    } else if (input.name == "phone") {
+      if (!ValidatePhone(input.value)) {
+        errorMsg.textContent = "Invalid phone number";
+      }
+    } else if (input.name == "zip-code") {
+      if (!ValidateZipCode(input.value)) {
+        errorMsg.textContent = "Invalid Zip code";
       }
     }
   });
 });
 
-// Home boooks sections displauy add to cart overlay handler
-if (homeSectionBookImg) {
-  homeSectionBookImg.forEach((bookImg, index) => {
-    bookImg.addEventListener("mouseover", function (e) {
-      const display = bookImgOverlay[index].style.getPropertyValue("display");
+// Custom select element handler
+if (customSelects) {
+  customSelects.forEach((select) => {
+    select.addEventListener("click", (e) => {
+      const btn = select.querySelector("svg");
+      const list = select.querySelector("ul");
+      const input = select.querySelector("input");
+      const inputTxt = select.querySelector(".custom-select-text");
+      const label = select.querySelector("label");
+
+      const display = list.style.getPropertyValue("display");
       if (display == "none" || display == "") {
-        bookImgOverlay[index].style.setProperty("display", "flex");
+        list.style.setProperty("display", "flex");
+        btn.style.setProperty("transform", "rotate(90deg)");
+      } else {
+        if (e.target.tagName == "LI") {
+          input.value = e.target.textContent.replace(/\s+/g, " ").trim();
+          inputTxt.textContent = input.value;
+        }
+        list.style.setProperty("display", "none");
+        btn.style.setProperty("transform", "rotate(0)");
+      }
+
+      if (input.value.length > 0 && inputTxt.textContent.length > 0) {
+        label.classList.add("form-input-label-up");
+        label.classList.remove("form-input-label");
       }
     });
-    bookImgOverlayBtn[index].addEventListener("click", function (e) {
+  });
+}
+
+// Home boooks sections displauy add to cart overlay handler
+if (homeSectionBookImg) {
+  homeSectionBookImg.forEach((bookImg) => {
+    const parent = bookImg.parentElement;
+    const overlay = parent.querySelector(".add-to-cart-overlay");
+    const overlayBtn = parent.querySelector(".add-to-cart-overlay-btn");
+
+    bookImg.addEventListener("mouseover", () => {
+      const display = overlay.style.getPropertyValue("display");
+      if (display == "none" || display == "") {
+        overlay.style.setProperty("display", "flex");
+      }
+    });
+
+    overlayBtn.addEventListener("click", () => {
+      const title = parent.querySelector(".home-section-books-item-title");
+      const author = parent.querySelector(".home-section-books-item-author");
+      const price = parent.querySelector(".home-section-books-item-price");
       // const addToCartTxt = document.querySelectorAll(
       //   ".add-to-cart-overlay-btn span"
       // );
       // addToCartTxt[index].style.setProperty("animation-name", "textOversize");
       const product = {
-        img: homeSectionProductImg[index].getAttribute("src"),
-        title: homeSectionProductTitle[index].textContent
-          .replace(/\s+/g, " ")
-          .trim(),
-        author: homeSectionProductAuthor[index].textContent
-          .replace(/\s+/g, " ")
-          .trim(),
-        price: parseFloat(
-          homeSectionProductPrice[index].textContent.replace(/[$,€]+/g, "")
-        ),
+        img: bookImg.getAttribute("src"),
+        title: title.textContent.replace(/\s+/g, " ").trim(),
+        author: author.textContent.replace(/\s+/g, " ").trim(),
+        price: parseFloat(price.textContent.replace(/[$,€]+/g, "")),
       };
 
       addProductToCart(product);
     });
-    bookImgOverlay[index].addEventListener("mouseleave", function (e) {
-      bookImgOverlay[index].style.setProperty("display", "none");
+    overlay.addEventListener("mouseleave", function () {
+      overlay.style.setProperty("display", "none");
     });
   });
 }
@@ -295,7 +338,7 @@ if (homeSectionBookImg) {
 // Shop checkkbox filters display handler
 if (shopFiltersLabelsIcons) {
   shopFiltersLabelsIcons.forEach((input, index) => {
-    input.addEventListener("click", function (e) {
+    input.addEventListener("click", () => {
       const display =
         shopFiltersBoxContainers[index].style.getPropertyValue("display");
       if (display == "none" || display == "") {
@@ -317,13 +360,13 @@ if (shopFiltersLabelsIcons) {
 
 // Price slider filter value text
 if (shopPriceFilter) {
-  shopPriceFilter.addEventListener("change", (event) => {
+  shopPriceFilter.addEventListener("change", () => {
     shopPriceFilterSpan.textContent = shopPriceFilter.value + "€";
   });
-  shopPriceFilter.addEventListener("mousemove", (event) => {
+  shopPriceFilter.addEventListener("mousemove", () => {
     shopPriceFilterSpan.textContent = shopPriceFilter.value + "€";
   });
-  shopPriceFilter.addEventListener("touchmove", (event) => {
+  shopPriceFilter.addEventListener("touchmove", () => {
     shopPriceFilterSpan.textContent = shopPriceFilter.value + "€";
   });
 }
@@ -331,7 +374,7 @@ if (shopPriceFilter) {
 // Add to cart handler
 if (productCardCartIcons) {
   productCardCartIcons.forEach((cartIcon, index) => {
-    cartIcon.addEventListener("click", function (e) {
+    cartIcon.addEventListener("click", () => {
       const product = {
         img: productCardImg[index].getAttribute("src"),
         title: productCardTitle[index].textContent.replace(/\s+/g, " ").trim(),
@@ -483,28 +526,30 @@ function createCartIconTotalProductsElement(cart) {
 }
 
 // input plus and minus buttons handler
-productPageNumberInputMinusBtn.addEventListener("click", () =>
-  numberInputMinusBtn(productPageNumberInput, productPageNumberInputMinusBtn)
-);
+if (productPageNumberInputPlusBtn) {
+  productPageNumberInputMinusBtn.addEventListener("click", () =>
+    numberInputMinusBtn(productPageNumberInput, productPageNumberInputMinusBtn)
+  );
 
-productPageNumberInputPlusBtn.addEventListener("click", () =>
-  numberInputPlusBtn(productPageNumberInput, productPageNumberInputMinusBtn)
-);
+  productPageNumberInputPlusBtn.addEventListener("click", () =>
+    numberInputPlusBtn(productPageNumberInput, productPageNumberInputMinusBtn)
+  );
 
-// Number input text handler
-productPageNumberInput.addEventListener("keyup", () =>
-  numberInputOnKeyUpHandler(
-    productPageNumberInput,
-    productPageNumberInputMinusBtn
-  )
-);
+  // Number input text handler
+  productPageNumberInput.addEventListener("keyup", () =>
+    numberInputOnKeyUpHandler(
+      productPageNumberInput,
+      productPageNumberInputMinusBtn
+    )
+  );
 
-productPageNumberInput.addEventListener("change", () =>
-  numberInputOnChangeUpHandler(
-    productPageNumberInput,
-    productPageNumberInputMinusBtn
-  )
-);
+  productPageNumberInput.addEventListener("change", () =>
+    numberInputOnChangeUpHandler(
+      productPageNumberInput,
+      productPageNumberInputMinusBtn
+    )
+  );
+}
 
 // Number input handlers
 function numberInputPlusBtn(input, minusBtn) {
@@ -522,19 +567,20 @@ function numberInputMinusBtn(input, minusBtn) {
     minusBtn.style.setProperty("visibility", "hidden");
   }
 }
-
-productPageAddToCartBtn.addEventListener("click", function (e) {
-  const product = {
-    img: productPageProductImg.getAttribute("src"),
-    title: productPageProductTitle.textContent.replace(/\s+/g, " ").trim(),
-    author: productPageProductAuthor.textContent.replace(/\s+/g, " ").trim(),
-    price: parseFloat(
-      productPageProductPrice.textContent.replace(/[$,€]+/g, "")
-    ),
-  };
-  const quantity = parseInt(productPageNumberInput.value);
-  addProductToCart(product, quantity);
-});
+if (productPageAddToCartBtn) {
+  productPageAddToCartBtn.addEventListener("click", () => {
+    const product = {
+      img: productPageProductImg.getAttribute("src"),
+      title: productPageProductTitle.textContent.replace(/\s+/g, " ").trim(),
+      author: productPageProductAuthor.textContent.replace(/\s+/g, " ").trim(),
+      price: parseFloat(
+        productPageProductPrice.textContent.replace(/[$,€]+/g, "")
+      ),
+    };
+    const quantity = parseInt(productPageNumberInput.value);
+    addProductToCart(product, quantity);
+  });
+}
 
 // Handles non-numeric inputs
 function numberInputOnKeyUpHandler(input, minusBtn) {
@@ -567,10 +613,29 @@ function numberInputOnChangeUpHandler(input, minusBtn) {
   }
 }
 
-// Validation functions
+// Emal validator
 function ValidateEmail(email) {
   const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   if (email.match(emailRegex)) {
+    return true;
+  }
+  return false;
+}
+
+// Phone number validator
+function ValidatePhone(phone) {
+  const phoneRegex = /^\s*-?[0-9]{1,10}\s*$/;
+  if (phone.match(phoneRegex)) {
+    return true;
+  }
+  console.log("skata");
+  return false;
+}
+
+// Zip code validator
+function ValidateZipCode(zipCode) {
+  const zipCodeRegex = /^\s*-?[0-9]{1,5}\s*$/;
+  if (zipCode.match(zipCodeRegex)) {
     return true;
   }
   return false;
@@ -584,17 +649,4 @@ function CheckPassword(password) {
   } else {
     return false;
   }
-}
-
-{
-  /* <li class="cart-dropdown-list-item">
-    <img
-      src="img/books/310KDa7YvxL._SY344_BO1,204,203,200_.jpg"
-      alt="book title"
-    />
-    <span class="cart-dropdown-list-item-title">
-      The Happiness Recipe: A Powerful Guide to Living What Matters
-    </span>
-    <span class="cart-dropdown-list-item-price">1 X 15,00 €</span>
-  </li>; */
 }
