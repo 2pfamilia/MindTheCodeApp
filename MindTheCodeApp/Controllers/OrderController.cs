@@ -7,25 +7,31 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AppCore.Models.OrderModels;
 using Infrastructure.Data;
+using MindTheCodeApp.ViewModels;
 
 namespace MindTheCodeApp.Controllers
 {
-    public class OrdersController : Controller
+    public class OrderController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public OrdersController(ApplicationDbContext context)
+        [BindProperty]
+        public int BookVMId { get; set; }
+
+        public OrderController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Orders
+        // GET: Order
         public async Task<IActionResult> Index()
         {
-              return View(await _context.OrderEntity.ToListAsync());
+              return _context.OrderEntity != null ? 
+                          View(await _context.OrderEntity.ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.OrderEntity'  is null.");
         }
 
-        // GET: Orders/Details/5
+        // GET: Order/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.OrderEntity == null)
@@ -43,29 +49,64 @@ namespace MindTheCodeApp.Controllers
             return View(order);
         }
 
-        // GET: Orders/Create
+        // GET: Order/Create
         public IActionResult Create()
         {
+            ViewData["Books"] = new SelectList(_context.BookEntity, "BookId", "Title");
             return View();
         }
 
-        // POST: Orders/Create
+        // POST: Order/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderId,Fulfilled,Active,Canceled,Cost,DateCreated")] Order order)
+        public async Task<IActionResult> Create(OrderVM order)
         {
-            if (ModelState.IsValid)
+            order.BookId = BookVMId;
+
+            var book = _context.BookEntity.FirstOrDefault(b => b.BookId == order.BookId);
+
+            var address = _context.AddressInformationEntity.Add(new AddressInformation
             {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+                StreetAddress = order.StreetAddress,
+                City = order.City,
+                PostalCode = order.PostalCode,
+                Country = order.Country
+            });
+
+            var customer = _context.UserEntity.Add(new AppCore.Models.AuthModels.User
+            {
+                FirstName = order.FirstName,
+                LastName = order.LastName,
+                Email = order.Email
+            });
+
+            var newOrder = _context.OrderEntity.Add(new Order
+            {
+                User = customer.Entity,
+                Fulfilled = order.Fulfilled,
+                Active = order.Active,
+                Canceled = order.Canceled,
+                AddressInformation = address.Entity,
+                Cost = order.Cost,
+                DateCreated = order.DateCreated
+            });
+
+            var newOrderDetails = _context.OrderDetailsEntity.Add(new OrderDetails
+            {
+                Order = newOrder.Entity,
+                Book = book,
+                Unitcost = order.Unitcost,
+                TotalCost = order.TotalCost,
+                Count = order.Count
+            });
+
+            await _context.SaveChangesAsync();
             return View(order);
         }
 
-        // GET: Orders/Edit/5
+        // GET: Order/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.OrderEntity == null)
@@ -81,7 +122,7 @@ namespace MindTheCodeApp.Controllers
             return View(order);
         }
 
-        // POST: Orders/Edit/5
+        // POST: Order/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -93,8 +134,8 @@ namespace MindTheCodeApp.Controllers
                 return NotFound();
             }
 
-            //if (ModelState.IsValid)
-            //{
+            if (ModelState.IsValid)
+            {
                 try
                 {
                     _context.Update(order);
@@ -112,12 +153,12 @@ namespace MindTheCodeApp.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            //}
+            }
             return View(order);
-    }
+        }
 
-    // GET: Orders/Delete/5
-    public async Task<IActionResult> Delete(int? id)
+        // GET: Order/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.OrderEntity == null)
             {
@@ -134,7 +175,7 @@ namespace MindTheCodeApp.Controllers
             return View(order);
         }
 
-        // POST: Orders/Delete/5
+        // POST: Order/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -155,7 +196,7 @@ namespace MindTheCodeApp.Controllers
 
         private bool OrderExists(int id)
         {
-          return _context.OrderEntity.Any(e => e.OrderId == id);
+          return (_context.OrderEntity?.Any(e => e.OrderId == id)).GetValueOrDefault();
         }
     }
 }

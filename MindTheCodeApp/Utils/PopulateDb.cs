@@ -230,11 +230,11 @@ namespace AppCore.Utils
         {
             var data = new List<OrderDetails>
             {
-                new() { Order = _dbcontext.OrderEntity.Single(o => o.OrderId == 1), Book = _dbcontext.BookEntity.Single(b => b.BookId == 1),  Unitcost = _dbcontext.BookEntity.Single(b => b.BookId == 1).Price, TotalCost = _dbcontext.BookEntity.Single(b => b.BookId == 1).Price, Count = 1},
-                new() { Order = _dbcontext.OrderEntity.Single(o => o.OrderId == 1), Book = _dbcontext.BookEntity.Single(b => b.BookId == 4),  Unitcost = _dbcontext.BookEntity.Single(b => b.BookId == 4).Price, TotalCost = _dbcontext.BookEntity.Single(b => b.BookId == 4).Price * 4, Count = 4},
-                new() { Order = _dbcontext.OrderEntity.Single(o => o.OrderId == 2), Book = _dbcontext.BookEntity.Single(b => b.BookId == 13),  Unitcost = _dbcontext.BookEntity.Single(b => b.BookId == 13).Price, TotalCost = _dbcontext.BookEntity.Single(b => b.BookId == 13).Price, Count = 1},
-                new() { Order = _dbcontext.OrderEntity.Single(o => o.OrderId == 3), Book = _dbcontext.BookEntity.Single(b => b.BookId == 11),  Unitcost = _dbcontext.BookEntity.Single(b => b.BookId == 11).Price, TotalCost = _dbcontext.BookEntity.Single(b => b.BookId == 11).Price, Count = 1},
-                new() { Order = _dbcontext.OrderEntity.Single(o => o.OrderId == 3), Book = _dbcontext.BookEntity.Single(b => b.BookId == 4),  Unitcost = _dbcontext.BookEntity.Single(b => b.BookId == 4).Price, TotalCost = _dbcontext.BookEntity.Single(b => b.BookId == 4).Price, Count = 1},
+                new() { Order = _dbcontext.OrderEntity.Single(o => o.OrderId == 1), Book = _dbcontext.BookEntity.Single(b => b.BookId == 1),  Unitcost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 1).Price, TotalCost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 1).Price, Count = 1},
+                new() { Order = _dbcontext.OrderEntity.Single(o => o.OrderId == 1), Book = _dbcontext.BookEntity.Single(b => b.BookId == 4),  Unitcost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 4).Price, TotalCost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 4).Price * 4, Count = 4},
+                new() { Order = _dbcontext.OrderEntity.Single(o => o.OrderId == 2), Book = _dbcontext.BookEntity.Single(b => b.BookId == 13),  Unitcost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 13).Price, TotalCost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 13).Price, Count = 1},
+                new() { Order = _dbcontext.OrderEntity.Single(o => o.OrderId == 3), Book = _dbcontext.BookEntity.Single(b => b.BookId == 11),  Unitcost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 11).Price, TotalCost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 11).Price, Count = 1},
+                new() { Order = _dbcontext.OrderEntity.Single(o => o.OrderId == 3), Book = _dbcontext.BookEntity.Single(b => b.BookId == 4),  Unitcost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 4).Price, TotalCost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 4).Price, Count = 1},
             };
 
             await _dbcontext.AddRangeAsync(data);
