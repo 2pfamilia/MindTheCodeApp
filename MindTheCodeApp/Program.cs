@@ -7,6 +7,7 @@ using AppCore.Services.Implementation;
 using AppCore.Services.IServices;
 using AppCore.Utils;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using MindTheCodeApp.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,9 @@ builder.Services.AddHostedService<PopulateDb>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Utility services
+builder.Services.AddScoped<CsvUtils>();
 
 //Add Repository services
 builder.Services.AddScoped<IUserRepository, UserRepository>();
