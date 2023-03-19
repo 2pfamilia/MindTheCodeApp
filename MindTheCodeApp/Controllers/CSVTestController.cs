@@ -53,6 +53,12 @@ namespace MindTheCodeApp.Controllers
                     out List<BookAuthor> bookAuthors,
                     out List<BookCategory> bookCategories);
 
+                /*
+                    Logic for existing authors and categories needs
+                    to be implemented so we don't create duplicate 
+                    entries with each import
+                 */
+
                 _context.AddRange(bookAuthors);
                 _context.AddRange(bookCategories);
                 _context.AddRange(books);
