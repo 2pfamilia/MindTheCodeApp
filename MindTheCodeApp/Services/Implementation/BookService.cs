@@ -1,5 +1,6 @@
 ﻿using AppCore.IRepositories;
 using AppCore.Models.BookModels;
+using AppCore.Models.DTOs;
 using AppCore.Services.IServices;
 
 namespace AppCore.Services.Implementation
@@ -37,6 +38,18 @@ namespace AppCore.Services.Implementation
         {
             var allAuthors = await _bookRepository.GetAllAuthors();
             return allAuthors;
+        }
+
+        public HomeDTO GetHomeDTO()
+        {
+            var dto = new HomeDTO
+            {
+                BestSellers = _bookRepository.GetBestSellers().Result,
+                NewArrivals = _bookRepository.GetNewArrivals().Result,
+                Authors = _bookRepository.GetAllAuthors().Result
+            };
+           
+            return dto;
         }
     }
 }

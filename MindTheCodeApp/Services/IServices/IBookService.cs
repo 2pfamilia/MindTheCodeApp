@@ -1,4 +1,5 @@
 ﻿using AppCore.Models.BookModels;
+using AppCore.Models.DTOs;
 
 namespace AppCore.Services.IServices
 {
@@ -10,6 +11,8 @@ namespace AppCore.Services.IServices
         Task<List<Book>> GetNewArrivals();
         //george
         Task<List<BookAuthor>> GetAllAuthors();
+
+        HomeDTO GetHomeDTO();
 
 
 
