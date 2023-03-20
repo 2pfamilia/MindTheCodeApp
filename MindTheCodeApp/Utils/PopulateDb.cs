@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using AppCore.Models.AuthModels;
 using AppCore.Models.BookModels;
 using AppCore.Models.OrderModels;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace AppCore.Utils
 {
@@ -10,11 +11,13 @@ namespace AppCore.Utils
     {
         private readonly ILogger<PopulateDb> _logger;
         private readonly ApplicationDbContext _dbcontext;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public PopulateDb(ILogger<PopulateDb> logger, IServiceProvider serviceScopeFactory)
+        public PopulateDb(ILogger<PopulateDb> logger, IServiceProvider serviceScopeFactory, IWebHostEnvironment webHostEnvironment)
         {
             _logger = logger;
             _dbcontext = serviceScopeFactory.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            _webHostEnvironment = webHostEnvironment;
         }
 
         protected async override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -30,10 +33,6 @@ namespace AppCore.Utils
 
         private async Task StartPopulation(CancellationToken stoppingToken)
         {
-            /*
-                TODO: Add population methods for models: 
-                - BookPhoto
-             */
             if (await _dbcontext.UserRoleEntity.AnyAsync())
                 _logger.LogWarning("UserRole already populated.");
             else
@@ -77,6 +76,15 @@ namespace AppCore.Utils
                 _logger.LogWarning("BookCategory population started.");
                 await PopulateBookCategory(stoppingToken);
                 _logger.LogWarning("BookCategory population finished.");
+            }
+
+            if (await _dbcontext.BookPhotoEntity.AnyAsync())
+                _logger.LogWarning("BookPhoto already populated.");
+            else
+            {
+                _logger.LogWarning("BookPhoto population started.");
+                await PopulateBookPhoto(stoppingToken);
+                _logger.LogWarning("BookPhoto population finished.");
             }
 
             if (await _dbcontext.BookEntity.AnyAsync())
@@ -189,24 +197,37 @@ namespace AppCore.Utils
             await _dbcontext.AddRangeAsync(data);
             await _dbcontext.SaveChangesAsync();
         }
+        private async Task PopulateBookPhoto(CancellationToken stoppingToken)
+        {
+            var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "img/books", "placeholder.png");
+            byte[] fileBytes = File.ReadAllBytes(imagePath);
+
+            var data = new List<BookPhoto>
+            {
+                new() { Title = "Placeholder", Description = "Placeholder", File = fileBytes },
+            };
+
+            await _dbcontext.AddRangeAsync(data);
+            await _dbcontext.SaveChangesAsync();
+        }
 
         private async Task PopulateBook(CancellationToken stoppingToken)
         {
             var data = new List<Book>
             {
-                new() { Title = "The Name of the Wind", Description = "An epic fantasy novel about a legendary wizard who recounts his life story, from humble beginnings to epic battles against dark forces.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Fantasy"), Count = 18, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Max Cooper"), Price = 14.99m },
-                new() { Title = "The Da Vinci Code", Description = "A thrilling mystery novel that follows a symbologist and a cryptologist as they race to uncover a secret that could shake the foundations of Christianity.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Mystery"), Count = 10, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Daniel Hill"), Price = 14.99m },
-                new() { Title = "A Song of Ice and Fire", Description = "A gripping fantasy series that takes place in a vast, medieval-inspired world filled with political intrigue, war, and magic.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Fantasy"), Count = 8, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Grace Kim"), Price = 19.99m },
-                new() { Title = "Gone Girl", Description = "A psychological thriller that follows a husband and wife as their marriage unravels and a mystery unfolds.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Mystery"), Count = 5, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Lily Chen"), Price = 12.99m },
-                new() { Title = "The Time Traveler's Wife", Description = "A moving love story about a man with a rare genetic disorder that causes him to time travel unpredictably, and the woman who loves him through it all.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Romance"), Count = 15, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Sarah Patel"), Price = 10.99m },
-                new() { Title = "Dune", Description = "A classic science fiction novel set in a distant future where noble families fight for control of a desert planet called Arrakis, which holds the key to the galaxy's most valuable resource.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Sci-Fi"), Count = 12, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Jason Lee"), Price = 11.99m },
-                new() { Title = "The Girl with the Dragon Tattoo", Description = "A dark and suspenseful crime novel that follows an investigative journalist and a young computer hacker as they work together to solve a decades-old mystery.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Crime"), Count = 7, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Jack Davis"), Price = 13.99m },
-                new() { Title = "The Fellowship of the Ring", Description = "The first book in J.R.R. Tolkien's beloved fantasy series, which follows a hobbit named Frodo as he sets out on a perilous journey to destroy a powerful ring that could bring about the end of the world.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Fantasy"), Count = 11, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Alex Rodriguez"), Price = 16.99m },
-                new() { Title = "The Hound of the Baskervilles", Description = "A classic mystery novel featuring the famous detective Sherlock Holmes, who is called upon to solve the case of a cursed family and a terrifying hound that stalks their estate.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Mystery"), Count = 9, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Daniel Hill"), Price = 9.99m },
-                new() { Title = "Pride and Prejudice", Description = "A timeless romance novel that follows the trials and tribulations of the Bennet family, particularly the headstrong Elizabeth and the proud Mr. Darcy.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Romance"), Count = 14, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Daniel Hill"), Price = 8.99m },
-                new() { Title = "Ender's Game", Description = "A gripping science fiction novel that follows a young boy named Ender as he is trained to become a military commander in a war against an alien race.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Sci-Fi"), Count = 6, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Daniel Hill"), Price = 11.99m },
-                new() { Title = "The Silent Patient", Description = "A psychological thriller that follows a therapist's efforts to uncover the truth behind a patient's mysterious silence, which began after she was accused of murdering her husband.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Mystery"), Count = 8, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Harper Jameson"), Price = 12.99m },
-                new() { Title = "The Hunger Games", Description = "A dystopian science fiction novel set in a future where teenagers are forced to compete in a brutal televised battle to the death.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Sci-Fi"), Count = 10, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Emma Green"), Price = 10.99m },
+                new() { Title = "The Name of the Wind", Description = "An epic fantasy novel about a legendary wizard who recounts his life story, from humble beginnings to epic battles against dark forces.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Fantasy"), Count = 18, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Max Cooper"), Price = 14.99m, Photo = _dbcontext.BookPhotoEntity.First() },
+                new() { Title = "The Da Vinci Code", Description = "A thrilling mystery novel that follows a symbologist and a cryptologist as they race to uncover a secret that could shake the foundations of Christianity.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Mystery"), Count = 10, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Daniel Hill"), Price = 14.99m, Photo = _dbcontext.BookPhotoEntity.First() },
+                new() { Title = "A Song of Ice and Fire", Description = "A gripping fantasy series that takes place in a vast, medieval-inspired world filled with political intrigue, war, and magic.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Fantasy"), Count = 8, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Grace Kim"), Price = 19.99m, Photo = _dbcontext.BookPhotoEntity.First() },
+                new() { Title = "Gone Girl", Description = "A psychological thriller that follows a husband and wife as their marriage unravels and a mystery unfolds.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Mystery"), Count = 5, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Lily Chen"), Price = 12.99m, Photo = _dbcontext.BookPhotoEntity.First() },
+                new() { Title = "The Time Traveler's Wife", Description = "A moving love story about a man with a rare genetic disorder that causes him to time travel unpredictably, and the woman who loves him through it all.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Romance"), Count = 15, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Sarah Patel"), Price = 10.99m, Photo = _dbcontext.BookPhotoEntity.First() },
+                new() { Title = "Dune", Description = "A classic science fiction novel set in a distant future where noble families fight for control of a desert planet called Arrakis, which holds the key to the galaxy's most valuable resource.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Sci-Fi"), Count = 12, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Jason Lee"), Price = 11.99m, Photo = _dbcontext.BookPhotoEntity.First() },
+                new() { Title = "The Girl with the Dragon Tattoo", Description = "A dark and suspenseful crime novel that follows an investigative journalist and a young computer hacker as they work together to solve a decades-old mystery.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Crime"), Count = 7, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Jack Davis"), Price = 13.99m, Photo = _dbcontext.BookPhotoEntity.First() },
+                new() { Title = "The Fellowship of the Ring", Description = "The first book in J.R.R. Tolkien's beloved fantasy series, which follows a hobbit named Frodo as he sets out on a perilous journey to destroy a powerful ring that could bring about the end of the world.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Fantasy"), Count = 11, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Alex Rodriguez"), Price = 16.99m, Photo = _dbcontext.BookPhotoEntity.First() },
+                new() { Title = "The Hound of the Baskervilles", Description = "A classic mystery novel featuring the famous detective Sherlock Holmes, who is called upon to solve the case of a cursed family and a terrifying hound that stalks their estate.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Mystery"), Count = 9, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Daniel Hill"), Price = 9.99m, Photo = _dbcontext.BookPhotoEntity.First() },
+                new() { Title = "Pride and Prejudice", Description = "A timeless romance novel that follows the trials and tribulations of the Bennet family, particularly the headstrong Elizabeth and the proud Mr. Darcy.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Romance"), Count = 14, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Daniel Hill"), Price = 8.99m, Photo = _dbcontext.BookPhotoEntity.First() },
+                new() { Title = "Ender's Game", Description = "A gripping science fiction novel that follows a young boy named Ender as he is trained to become a military commander in a war against an alien race.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Sci-Fi"), Count = 6, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Daniel Hill"), Price = 11.99m, Photo = _dbcontext.BookPhotoEntity.First() },
+                new() { Title = "The Silent Patient", Description = "A psychological thriller that follows a therapist's efforts to uncover the truth behind a patient's mysterious silence, which began after she was accused of murdering her husband.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Mystery"), Count = 8, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Harper Jameson"), Price = 12.99m, Photo = _dbcontext.BookPhotoEntity.First() },
+                new() { Title = "The Hunger Games", Description = "A dystopian science fiction novel set in a future where teenagers are forced to compete in a brutal televised battle to the death.", Category = _dbcontext.BookCategoryEntity.Single(b => b.Title == "Sci-Fi"), Count = 10, Author = _dbcontext.BookAuthorEntity.Single(ba => ba.Name == "Emma Green"), Price = 10.99m, Photo = _dbcontext.BookPhotoEntity.First() },
             };
 
             await _dbcontext.AddRangeAsync(data);
@@ -240,6 +261,5 @@ namespace AppCore.Utils
             await _dbcontext.AddRangeAsync(data);
             await _dbcontext.SaveChangesAsync();
         }
-
     }
 }
