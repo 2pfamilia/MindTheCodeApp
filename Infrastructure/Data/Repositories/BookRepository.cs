@@ -32,13 +32,13 @@ namespace Infrastructure.Data.Repositories
 
         public async Task<List<Book>> GetBooksByAuthor(BookAuthor bookAuthor)
         {
-            var booksByAuthors = await _context.BookEntity.Where(mybook => mybook.Author == bookAuthor).ToListAsync();
+            var booksByAuthors = await _context.BookEntity.Include(mybook=>mybook.Author).Where(mybook => mybook.Author == bookAuthor).ToListAsync();
             return booksByAuthors;
         }
 
         public async Task<List<Book>> GetBooksByCategory(BookCategory category)
         {
-            var categoryBooks = await _context.BookEntity.Where(mybook => mybook.Category == category).ToListAsync();
+            var categoryBooks = await _context.BookEntity.Include(mybook=>mybook.Category).Where(mybook => mybook.Category == category).ToListAsync();
             return categoryBooks;
         }
 
