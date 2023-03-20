@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.Formats.Asn1;
 using System.Globalization;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using MindTheCodeApp.Utils;
 using AppCore.Models.BookModels;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace MindTheCodeApp.Controllers
 {
@@ -52,12 +52,6 @@ namespace MindTheCodeApp.Controllers
                     out List<Book> books,
                     out List<BookAuthor> bookAuthors,
                     out List<BookCategory> bookCategories);
-
-                /*
-                    Logic for existing authors and categories needs
-                    to be implemented so we don't create duplicate 
-                    entries with each import
-                 */
 
                 _context.AddRange(bookAuthors);
                 _context.AddRange(bookCategories);
