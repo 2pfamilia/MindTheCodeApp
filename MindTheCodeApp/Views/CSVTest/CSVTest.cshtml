@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<form asp-controller="CSVTest" asp-action="UploadCsv" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="file">Select a CSV file to upload:</label>
+        <input type="file" name="file" id="file" class="form-control-file">
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+</form>
