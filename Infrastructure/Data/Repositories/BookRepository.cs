@@ -23,7 +23,23 @@ namespace Infrastructure.Data.Repositories
             var bestSellers = await _context.BookEntity.Take(5).ToListAsync();
             return bestSellers;
         }
+        
+        /*
+        public async Task<List<Book>> GetNewArrivals()
+        {
+            //george
+            var newArrivals = await _context.BookEntity.Take(5).ToListAsync();
+            return newArrivals;
+        }
+        */
 
+        public async Task<List<BookAuthor>> GetAllAuthors()
+        {
+            //george
+            var allAuthors = await _context.BookAuthorEntity.Take(5).ToListAsync();
+            return allAuthors;
+        }
+        
         public async Task<List<BookAuthor>> GetBestSellingAuthors()
         {
             var bestSelling = await _context.BookAuthorEntity.Take(5).ToListAsync();

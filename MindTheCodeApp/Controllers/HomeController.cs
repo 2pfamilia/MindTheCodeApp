@@ -1,5 +1,7 @@
 ﻿using AppCore.IRepositories;
 using AppCore.Models;
+using AppCore.Models.DTOs;
+using AppCore.Services.IServices;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,15 +15,20 @@ namespace AppCore.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IBookRepository _bookRepo;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IBookRepository bookRepo)
+        private readonly IBookService _bookService;
+
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IBookRepository bookRepo, IBookService bookService)
         {
             _logger = logger;
             _context = context;
             _bookRepo = bookRepo;
+
+            _bookService = bookService;
         }
 
         public async Task<IActionResult> Index()
         {
+            /*
             // Test that ApplicationDbContext works
             var appDbContextBooks = await _context.BookEntity.ToListAsync();
             _logger.LogInformation($"DbContext returned {appDbContextBooks.Count} book entries.");
@@ -29,8 +36,13 @@ namespace AppCore.Controllers
             // Test that IBookRepository works
             var bookRepoBooks = await _bookRepo.GetAllBooks();
             _logger.LogInformation($"Repository returned {bookRepoBooks.Count} book entries.");
+            */
 
-            return View();
+            var dto = new HomeDTO();
+
+            dto = _bookService.GetHomeDTO();
+
+            return View("Views/Home/Index.cshtml", dto);
         }
     }
 }
