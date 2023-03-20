@@ -1,5 +1,4 @@
-﻿@model AppCore.Models.OrderModels.Order
-
+﻿@model MindTheCodeApp.ViewModels.OrderVM
 @{
     ViewData["Title"] = "Create";
 }
@@ -12,20 +11,6 @@
     <div class="col-md-4">
         <form asp-action="Create">
             @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
-            <h4>Customer Info</h4>
-            <div class="form-group">
-                <label>First Name</label>
-                <input name="FirstName" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label>Last Name</label>
-                <input name="LastName" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input name="Email" class="form-control" />
-            </div>
-            <br />
             <h4>Address Info</h4>
             <div class="form-group">
                 <label>Street Address</label>

@@ -1,4 +1,4 @@
-﻿namespace MindTheCodeApp.ViewModels
+﻿namespace MindTheCodeApp.ViewModels.BookVMs
 {
     public class IndexBookVM
     {
@@ -9,6 +9,5 @@
         public int Count { get; set; }
         public string Author { get; set; } = string.Empty;
         public decimal Price { get; set; }
-        public DateTime DateCreated { get; set; }
     }
 }

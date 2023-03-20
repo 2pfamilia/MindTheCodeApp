@@ -75,16 +75,9 @@ namespace MindTheCodeApp.Controllers
                 Country = order.Country
             });
 
-            var customer = _context.UserEntity.Add(new AppCore.Models.AuthModels.User
-            {
-                FirstName = order.FirstName,
-                LastName = order.LastName,
-                Email = order.Email
-            });
-
             var newOrder = _context.OrderEntity.Add(new Order
             {
-                User = customer.Entity,
+                //User = customer.Entity,
                 Fulfilled = order.Fulfilled,
                 Active = order.Active,
                 Canceled = order.Canceled,

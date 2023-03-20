@@ -1,13 +1,10 @@
 ﻿using AppCore.Models.AuthModels;
-using AppCore.Models.BookModels;
+
 
 namespace MindTheCodeApp.ViewModels
 {
     public class OrderVM
     {
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
         public bool Fulfilled { get; set; }
         public bool Active { get; set; }
         public bool Canceled { get; set; }

@@ -7,15 +7,16 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AppCore.Models.BookModels;
 using Infrastructure.Data;
-using MindTheCodeApp.ViewModels;
+using MindTheCodeApp.ViewModels.BookVMs;
 
 namespace MindTheCodeApp.Controllers
 {
     public class BooksController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public IndexBookVM BookVM { get; set; } = new();
-
+        private List<IndexBookVM> IndexBooksVM { get; set; } = new List<IndexBookVM>();
+        private EditBookVM EditBookVM { get; set; } = new EditBookVM();
+        private IndexBookVM DetailBookVM { get; set; } = new IndexBookVM();
         public BooksController(ApplicationDbContext context)
         {
             _context = context;
@@ -24,27 +25,30 @@ namespace MindTheCodeApp.Controllers
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            var books = await _context.BookEntity.ToListAsync(); //Include authors, categories
-            foreach (var book in books)
-            {
-                //var bookCategory = _context.BookEntity.FirstOrDefault(c => c.BookId == book.BookId).Category.Title;
-                //var bookAuthor = _context.BookEntity.FirstOrDefault(c => c.BookId == book.BookId).Author.Name;
-                BookVM.BookId = book.BookId;
-                BookVM.Title = book.Title;
-                BookVM.Description = book.Description;
-                //if (bookCategory != null)
-                //{
-                //    bookVM.Category = bookCategory;
-                //}
-                BookVM.Count = (int)book.Count;
-                //if (bookAuthor != null)
-                //{
-                //    bookVM.Author = bookAuthor;
-                //}
-                BookVM.Price = (decimal)book.Price;
-                BookVM.DateCreated = book.DateCreated;
-            }
-            return View();
+                var books = await _context.BookEntity.Include(b => b.Author).Include(b => b.Category).ToListAsync(); //Include authors, 
+
+                foreach (var book in books)
+                {
+                    var bookVM = new IndexBookVM();
+                    var bookCategory = _context.BookEntity.FirstOrDefault(c => c.BookId == book.BookId).Category.Title;
+                    var bookAuthor = _context.BookEntity.FirstOrDefault(c => c.BookId == book.BookId).Author.Name;
+                    bookVM.BookId = book.BookId;
+                    bookVM.Title = book.Title;
+                    bookVM.Description = book.Description;
+                    if (bookCategory != null)
+                    {
+                        bookVM.Category = bookCategory;
+                    }
+                    bookVM.Count = (int)book.Count;
+                    if (bookAuthor != null)
+                    {
+                        bookVM.Author = bookAuthor;
+                    }
+                    bookVM.Price = (decimal)book.Price;
+                    IndexBooksVM.Add(bookVM);
+                }
+           
+            return View("/Views/Admin/Books/Index.cshtml", IndexBooksVM);
         }
 
         // GET: Books/Details/5
@@ -55,14 +59,27 @@ namespace MindTheCodeApp.Controllers
                 return NotFound();
             }
 
-            var book = await _context.BookEntity
+            var book = await _context.BookEntity.Include(b => b.Author).Include(b => b.Category)
                 .FirstOrDefaultAsync(m => m.BookId == id);
+            var bookCategory = _context.BookEntity.FirstOrDefault(c => c.BookId == book.BookId).Category.Title;
+            var bookAuthor = _context.BookEntity.FirstOrDefault(c => c.BookId == book.BookId).Author.Name;
+
             if (book == null)
             {
                 return NotFound();
             }
+            else
+            {
+                DetailBookVM.BookId = book.BookId;
+                DetailBookVM.Title = book.Title;
+                DetailBookVM.Description = book.Description;
+                DetailBookVM.Category = bookCategory;
+                DetailBookVM.Count = (int)book.Count;
+                DetailBookVM.Author = bookAuthor;
+                DetailBookVM.Price = (decimal)book.Price;
+            }
 
-            return View(book);
+            return View("/Views/Admin/Books/Details.cshtml", DetailBookVM);
         }
 
         // GET: Books/Create
@@ -72,7 +89,7 @@ namespace MindTheCodeApp.Controllers
             ViewData["BookPhoto"] = new SelectList(_context.BookPhotoEntity, "PhotoId", "File");
             ViewData["BookAuthors"] = new SelectList(_context.BookAuthorEntity, "AuthorId", "Name");
 
-            return View();
+            return View("/Views/Admin/Books/Create.cshtml");
         }
 
         // POST: Books/Create
@@ -91,32 +108,38 @@ namespace MindTheCodeApp.Controllers
                 Title = book.Title,
                 Description = book.Description,
                 Category = category,
-                Photo = photo,
                 Count = book.Count,
                 Author = author,
                 Price = book.Price,
-                DateCreated = book.DateCreated
+                DateCreated = DateTime.Now
             });
 
             await _context.SaveChangesAsync();
 
-            return View(newBook);
+            return RedirectToAction("Index");
         }
 
         // GET: Books/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int id)
         {
-            if (id == null || _context.BookEntity == null)
+            var book = _context.BookEntity.Include(b => b.Author).Include(b => b.Category).FirstOrDefault(b => b.BookId == id);
+            if (book != null)
             {
-                return NotFound();
+                EditBookVM.EditBookId = book.BookId;
+                EditBookVM.Title = book.Title;
+                EditBookVM.Description = book.Description;
+                EditBookVM.Count = (int)book.Count;
+                EditBookVM.Price = (decimal)book.Price;
+                EditBookVM.CategoryId = book.Category.CategoryId;
+                EditBookVM.AuthorId = book.Author.AuthorId;
+                //BookVM.PhotoId = book.Photo.PhotoId;
             }
 
-            var book = await _context.BookEntity.FindAsync(id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-            return View(book);
+            ViewData["BookCategories"] = new SelectList(_context.BookCategoryEntity, "CategoryId", "Title");
+            //ViewData["BookPhoto"] = new SelectList(_context.BookPhotoEntity, "PhotoId", "File");
+            ViewData["BookAuthors"] = new SelectList(_context.BookAuthorEntity, "AuthorId", "Name");
+
+            return View("/Views/Admin/Books/Edit.cshtml", EditBookVM);
         }
 
         // POST: Books/Edit/5
@@ -124,34 +147,31 @@ namespace MindTheCodeApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BookId,Title,Description,Count,Price,DateCreated")] Book book)
+        public async Task<IActionResult> Edit(int id, EditBookVM editBookVM)
         {
-            if (id != book.BookId)
+            var book = _context.BookEntity.Include(b => b.Author).Include(b => b.Category).FirstOrDefault(b => b.BookId == id);
+            if (book != null)
+            {
+                if (id != book.BookId)
+                {
+                    return NotFound();
+                }
+                
+                book.Title = editBookVM.Title;
+                book.Description = editBookVM.Description;
+                book.Author.AuthorId = editBookVM.AuthorId;
+                book.Category.CategoryId = editBookVM.CategoryId;
+                book.Count = editBookVM.Count;
+                book.Price = editBookVM.Price;
+
+                await _context.SaveChangesAsync();
+            }
+            else
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(book);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BookExists(book.BookId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(book);
+          
+            return View("/Views/Admin/Books/Index.cshtml");
         }
 
         // GET: Books/Delete/5
@@ -169,7 +189,7 @@ namespace MindTheCodeApp.Controllers
                 return NotFound();
             }
 
-            return View(book);
+            return View("/Views/Admin/Books/Delete.cshtml", book);
         }
 
         // POST: Books/Delete/5

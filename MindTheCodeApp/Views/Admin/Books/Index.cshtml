@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MindTheCodeApp.ViewModels.IndexBookVM>
+﻿@model IEnumerable<MindTheCodeApp.ViewModels.BookVMs.IndexBookVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,7 +7,12 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New Book</a>
+    <br/>
+    
+    <br/>
+    
+    @*THa kano point ston controller me asp-controller <a asp-controller="Books" asp-action="Index">Books</a> ena tetoio*@
 </p>
 <table class="table">
     <thead>
@@ -22,16 +27,13 @@
                 @Html.DisplayNameFor(model => model.Category)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Count) @*Change label to Availability*@
+                <label>Availability</label>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Author)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateCreated) @*Remove*@
             </th>
             <th></th>
         </tr>
@@ -45,20 +47,17 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
-@*            <td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Category)
-            </td>*@
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Count)
             </td>
-@*            <td>
-                @Html.DisplayFor(modelItem => item.Author)
-            </td>*@
             <td>
-                @Html.DisplayFor(modelItem => item.Price)
+                @Html.DisplayFor(modelItem => item.Author)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DateCreated) @*Remove*@
+                @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.BookId">Edit</a> |
