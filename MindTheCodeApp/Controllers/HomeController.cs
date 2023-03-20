@@ -1,6 +1,7 @@
-﻿using AppCore.IRepositories;
+using AppCore.IRepositories;
 using AppCore.Models;
 using AppCore.Models.DTOs;
+using AppCore.Services.IServices;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,17 @@ namespace AppCore.Controllers
         {
             _logger = logger;
         }
+        
+        private readonly IBookService _bookService;
+
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IBookRepository bookRepo, IBookService bookService)
+        {
+            _logger = logger;
+            _context = context;
+            _bookRepo = bookRepo;
+
+            _bookService = bookService;
+        }
 
         [HttpGet("")]
         public async Task<IActionResult> Index()
@@ -32,6 +44,10 @@ namespace AppCore.Controllers
             */
 
             var dto = new HomeDTO();
+
+            var dto = new HomeDTO();
+
+            dto = _bookService.GetHomeDTO();
 
             return View("Views/Home/Index.cshtml", dto);
         }

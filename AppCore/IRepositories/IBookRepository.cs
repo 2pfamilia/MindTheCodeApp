@@ -7,6 +7,8 @@ namespace AppCore.IRepositories
         Task<List<Book>> GetAllBooks();
         Task<List<Book>> GetBestSellers();
         Task<List<Book>> GetNewArrivals();
+        Task<List<BookAuthor>> GetAllAuthors();
+        
         //get the most recently added books
         Task<List<Book>> GetBooksByCategory(BookCategory category);
         //get books by category
