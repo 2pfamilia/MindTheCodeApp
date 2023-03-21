@@ -37,6 +37,17 @@ const homeSectionBookImg = document.querySelectorAll(
 // Forms input
 const formInputs = document.querySelectorAll(".form-input");
 
+// Form btn
+const formBtns = document.querySelectorAll("button.form-btn");
+
+// Custom select element
+const customSelects = document.querySelectorAll(".custom-select-container");
+
+// Custom number input
+const numberInputContainers = document.querySelectorAll(
+  ".number-input-container"
+);
+
 // Shop filters
 const shopFiltersLabelsIcons = document.querySelectorAll(
   ".shop-filters-filter-label-container svg"
@@ -54,34 +65,15 @@ const shopPriceFilterSpan = document.querySelector(
 );
 
 // Product card elements
-const productCardImg = document.querySelectorAll(
-  ".shop-content-product-card img"
-);
+const productCardImg = document.querySelectorAll(".product-card img");
 
-const productCardTitle = document.querySelectorAll(
-  ".shop-content-product-card-title"
-);
-const productCardAuthor = document.querySelectorAll(
-  ".shop-content-product-card-author"
-);
-const productCardPrice = document.querySelectorAll(
-  ".shop-content-product-card-price"
-);
+const productCardTitle = document.querySelectorAll(".product-card-title");
+const productCardAuthor = document.querySelectorAll(".product-card-author");
+const productCardPrice = document.querySelectorAll(".product-card-price");
 // Car icon
 const productCardCartIcons = document.querySelectorAll(
-  ".shop-content-product-card-bag-icon"
+  ".product-card-bag-icon"
 );
-
-// Product page elements
-const productPageNumberInputPlusBtn = document.querySelector(
-  ".number-input-plus.product-page"
-);
-
-const productPageNumberInputMinusBtn = document.querySelector(
-  ".number-input-minus.product-page"
-);
-
-const productPageNumberInput = document.querySelector("input.product-page");
 
 const productPageAddToCartBtn = document.querySelector(
   ".product-page-add-to-cart"
@@ -103,9 +95,26 @@ const productPageProductPrice = document.querySelector(
 
 // Checkout page elements
 
-// Custom select element
+// Acount page navbar
+const myAccountNavLinks = document.querySelectorAll(".my-account-nav-link");
+let accountCurrentPageIndex = 0;
 
-const customSelects = document.querySelectorAll(".custom-select-container");
+// My cart page
+const myCartPageContainer = document.querySelector(".my-cart-page-container");
+
+let userCart = [];
+let userCartTotal = 0;
+
+// If user cart data is empty get it from local storage
+if (localStorage.getItem("userCartTotal") && localStorage.getItem("userCart")) {
+  userCartTotal = JSON.parse(localStorage.userCartTotal);
+  userCart = [...JSON.parse(localStorage.userCart)];
+}
+
+function updateCartLocalStorage() {
+  localStorage.setItem("userCart", JSON.stringify(userCart));
+  localStorage.setItem("userCartTotal", JSON.stringify(userCartTotal));
+}
 
 ///////////////////////////////////////
 
@@ -141,6 +150,15 @@ window.addEventListener("click", function (e) {
     overlayEffect.style.setProperty("display", "none");
     signinForm.style.setProperty("display", "none");
   }
+
+  customSelects.forEach((select) => {
+    if (!select.contains(e.target)) {
+      const btn = select.querySelector("svg");
+      const list = select.querySelector("ul");
+      list.style.setProperty("display", "none");
+      btn.style.setProperty("transform", "rotate(0)");
+    }
+  });
 });
 
 // Header cart icon dropdown list fuctionality
@@ -181,6 +199,59 @@ navbarShopBtn.addEventListener("click", () => {
     navbarShopBtnIcon.style.setProperty("transform", "rotate(0)");
   }
 });
+
+if (myCartPageContainer) {
+  if (userCart.length > 0 && userCartTotal > 0) {
+    const myCartListItems = userCart.map((i) => CreateMyCartPageListItem(i));
+
+    const emptyCartMsgContainer = myCartPageContainer.querySelector(
+      ".my-cart-page-empty-cart"
+    );
+
+    const myCartPageTotalSection = myCartPageContainer.querySelector(
+      ".my-cart-page-checkout-container"
+    );
+
+    const myCartPageListHeader = myCartPageContainer.querySelector(
+      ".my-cart-page-item-header"
+    );
+    emptyCartMsgContainer.style.setProperty("display", "none");
+    myCartPageTotalSection.style.setProperty("display", "flex");
+    myCartPageListHeader.style.setProperty("display", "flex");
+
+    myCartListItems.forEach((i) =>
+      myCartPageContainer.insertBefore(i, myCartPageTotalSection)
+    );
+
+    const numberInputs = myCartPageContainer.querySelectorAll(
+      ".number-input-container input"
+    );
+
+    const productSubtotals = myCartPageContainer.querySelectorAll(
+      ".my-cart-page-item-subtotal"
+    );
+
+    // Span element that displays carf total
+    const cartTotalElement = myCartPageContainer.querySelector(
+      ".my-cart-page-total"
+    );
+    // Update cart total Span element
+    cartTotalElement.textContent = "€" + parseFloat(userCartTotal).toFixed(2);
+
+    numberInputs.forEach((input, index) => {
+      const product = createDeepObjectCopy(userCart[index]);
+      input.addEventListener("change", () => {
+        const inputValue = input.value;
+        addProductToCart(product, parseInt(input.value));
+        productSubtotals[index].textContent =
+          "€" + parseFloat(inputValue * product.price).toFixed(2);
+
+        cartTotalElement.textContent =
+          "€" + parseFloat(userCartTotal).toFixed(2);
+      });
+    });
+  }
+}
 
 // Carousel change screen handler
 carouselDots.forEach((dot, index) => {
@@ -231,6 +302,10 @@ formInputs.forEach((inputContainer) => {
   const input = inputContainer.querySelector("input");
   const label = inputContainer.querySelector("label");
   const errorMsg = inputContainer.querySelector("span");
+  if (input.value.length > 0 && label.classList.contains("form-input-label")) {
+    label.classList.add("form-input-label-up");
+    label.classList.remove("form-input-label");
+  }
 
   input.addEventListener("click", function () {
     label.classList.add("form-input-label-up");
@@ -240,6 +315,7 @@ formInputs.forEach((inputContainer) => {
   input.addEventListener("keydown", function () {
     label.classList.add("form-input-label-up");
     label.classList.remove("form-input-label");
+    errorMsg.textContent = "";
   });
 
   input.addEventListener("focusout", () => {
@@ -252,31 +328,99 @@ formInputs.forEach((inputContainer) => {
 
   input.addEventListener("change", () => {
     if (input.name == "email") {
-      if (!ValidateEmail(input.value)) {
-        errorMsg.textContent = "Invalid email address";
+      if (!validateEmail(input.value)) {
+        errorMsg.textContent = "Invalid email address.";
       }
     } else if (input.name == "phone") {
       if (!ValidatePhone(input.value)) {
-        errorMsg.textContent = "Invalid phone number";
+        errorMsg.textContent = "Invalid phone number.";
       }
     } else if (input.name == "zip-code") {
       if (!ValidateZipCode(input.value)) {
-        errorMsg.textContent = "Invalid Zip code";
+        errorMsg.textContent = "Invalid Zip code.";
+      }
+    } else if (input.name == "new-password") {
+      const parent = document.querySelector(".password-confirmation");
+      if (parent) {
+        const passwordConfirmInput = parent.querySelector(
+          'input[name="password-confirmation"]'
+        );
+        const passwordConfirmErrorMsg =
+          passwordConfirmInput.parentElement.querySelector(".form-error-msg");
+
+        if (passwordConfirmInput.value.length > 0) {
+          if (!passwordCofirmation(input.value, passwordConfirmInput.value)) {
+            passwordConfirmErrorMsg.textContent =
+              "Password confirmation does not match.";
+          } else {
+            passwordConfirmErrorMsg.textContent = "";
+          }
+        }
+      }
+
+      if (!checkPassword(input.value)) {
+        errorMsg.textContent =
+          "At least 1 numeric digit, 1 uppercase and 1 lowercaser letter (6 to 20 characters).";
+      }
+    } else if (input.name == "password-confirmation") {
+      const parent = document.querySelector(".password-confirmation");
+      const passwordInput = parent.querySelector('input[name="new-password"]');
+      if (!passwordCofirmation(input.value, passwordInput.value)) {
+        errorMsg.textContent = "Password confirmation does not match.";
       }
     }
+  });
+});
+
+// Forms submit button handler
+formBtns.forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const form = btn.closest("form");
+    const inputs = form.querySelectorAll(".form-input");
+    const customSelects = form.querySelectorAll(".custom-select-container");
+
+    inputs.forEach((inputContainer) => {
+      const input = inputContainer.querySelector("input");
+      const errorMsg = inputContainer.querySelector("span");
+      if (input.hasAttribute("required") && input.value.length == 0) {
+        errorMsg.textContent = "This field is required.";
+      }
+    });
+
+    //
+    customSelects.forEach((selectContainer) => {
+      if (selectContainer.classList.contains("form-select")) {
+        const selectInput = selectContainer.querySelector("input");
+        if (selectInput.value.length == 0) {
+          const parent = selectContainer.parentNode;
+          const errorMsg = parent.querySelector(".form-error-msg");
+          errorMsg.textContent = "This field is required.";
+        }
+      }
+    });
   });
 });
 
 // Custom select element handler
 if (customSelects) {
   customSelects.forEach((select) => {
-    select.addEventListener("click", (e) => {
-      const btn = select.querySelector("svg");
-      const list = select.querySelector("ul");
-      const input = select.querySelector("input");
-      const inputTxt = select.querySelector(".custom-select-text");
-      const label = select.querySelector("label");
+    const btn = select.querySelector("svg");
+    const list = select.querySelector("ul");
+    const input = select.querySelector("input");
+    const inputTxt = select.querySelector(".custom-select-text");
+    const label = select.querySelector("label");
 
+    if (
+      input.value.length > 0 &&
+      label.classList.contains("form-input-label")
+    ) {
+      label.classList.add("form-input-label-up");
+      label.classList.remove("form-input-label");
+      inputTxt.textContent = input.value;
+    }
+
+    select.addEventListener("click", (e) => {
       const display = list.style.getPropertyValue("display");
       if (display == "none" || display == "") {
         list.style.setProperty("display", "flex");
@@ -327,7 +471,7 @@ if (homeSectionBookImg) {
         price: parseFloat(price.textContent.replace(/[$,€]+/g, "")),
       };
 
-      addProductToCart(product);
+      addProductToCart(product, 1, true);
     });
     overlay.addEventListener("mouseleave", function () {
       overlay.style.setProperty("display", "none");
@@ -386,99 +530,114 @@ if (productCardCartIcons) {
         ),
       };
 
-      addProductToCart(product);
+      addProductToCart(product, 1, true);
     });
   });
 }
 
 // Adds product to cart
-function addProductToCart(product, quantity = 1) {
-  let newUserCart = [];
-
-  if (localStorage.getItem("userCart")) {
-    const currUserCart = JSON.parse(localStorage.userCart);
-    newUserCart = checkAndUpadeCartIfExists(currUserCart, product, quantity);
+function addProductToCart(product, quantity = 1, onlyAdd = false) {
+  if (userCart.length > 0 && userCartTotal > 0) {
+    checkAndUpadeCartIfExists(product, quantity, onlyAdd);
   } else {
     product.quantity = quantity;
-    product.subTotal = product.price;
-    newUserCart.push(product);
+    product.subTotal = product.price * product.quantity;
+    userCart.push(product);
   }
-  const newTotal = updateCartTotal(newUserCart);
-
   // Create user cart objects to local storage
-  localStorage.setItem("userCart", JSON.stringify(newUserCart));
-  localStorage.setItem("userCartTotal", JSON.stringify(newTotal));
-
-  updateCartDropDownList(newUserCart, newTotal);
+  updateCartTotal();
+  updateCartLocalStorage();
+  updateCartDropDownList();
   displayCartElements();
 }
 
+// Remove Product from cart
+function removeProductFormCart(product) {
+  if (userCart.length > 0 && userCartTotal > 0) {
+    userCart = userCart.filter((item) => item.title != product.title);
+    updateCartTotal();
+    updateCartLocalStorage();
+    updateCartDropDownList();
+    displayCartElements();
+  }
+}
+
 // Checks if the product already exists in cart and updates the quantity, otherwise add it
-function checkAndUpadeCartIfExists(cart, product, quantity = 1) {
-  const found = cart.some((el) => {
+function checkAndUpadeCartIfExists(product, quantity = 1, onlyAdd) {
+  const found = userCart.some((el) => {
     if (el.title == product.title) {
-      el.quantity += quantity;
-      el.subTotal = el.quantity * el.price;
+      if (!onlyAdd) {
+        el.quantity = quantity;
+        el.subTotal = el.quantity * el.price;
+      }
       return true;
     }
     return false;
   });
-  if (!found)
-    cart.push({
+  if (!found) {
+    userCart.push({
       ...product,
-      ...{ quantity: quantity, subTotal: product.price },
+      ...{ quantity: quantity, subTotal: product.price * quantity },
     });
-  return cart;
+  }
 }
 
-function updateCartTotal(cart) {
-  let total = 0;
-  cart.forEach((product) => (total += product.subTotal));
-  return total;
+function updateCartTotal() {
+  let newCartTotal = 0;
+  userCart.forEach((product) => (newCartTotal += product.subTotal));
+  userCartTotal = newCartTotal;
 }
 
 // Displays the whole cart's icon elements
 function displayCartElements() {
-  if (
-    localStorage.getItem("userCartTotal") &&
-    localStorage.getItem("userCart")
-  ) {
-    const cartTotal = JSON.parse(localStorage.userCartTotal);
-    const cart = JSON.parse(localStorage.userCart);
+  // View and checkout btns
+  const btnsContainer = document.querySelector(
+    ".cart-dropdown-list-btn-container"
+  );
+  btnsContainer.style.setProperty("display", "flex");
+  if (userCart.length > 0 && userCartTotal > 0) {
     // Display  cart's total products span element
-    createCartIconTotalProductsElement(cartTotal);
-    cartIconTotal.textContent = "€" + parseFloat(cartTotal).toFixed(2);
+    createCartIconTotalProductsElement();
+    cartIconTotal.textContent = "€" + parseFloat(userCartTotal).toFixed(2);
     // Update cart's icon dropdown list with products
-    updateCartDropDownList(cart, cartTotal);
+
+    updateCartDropDownList();
   } else {
     cartIconTotal.textContent = "€0.00";
 
     const emptyCartTxt = document.createElement("li");
     const cartDropDownList = document.querySelector(".cart-dropdown-list ul");
+
     // Create msm to inform user tha his cart is empty
     emptyCartTxt.classList.add("cart-dropdown-list-empty");
     emptyCartTxt.textContent = "Your cart is empty";
+    btnsContainer.style.setProperty("display", "none");
+
     cartDropDownList.appendChild(emptyCartTxt);
   }
 }
 
-function updateCartDropDownList(cart, total) {
+function updateCartDropDownList() {
   const cartDropDownList = document.querySelector(".cart-dropdown-list ul");
 
   const cartTotal = document.querySelector(".cart-dropdown-list-total");
 
   let cartIconTotalProducts = document.querySelector(".cart-icon-items");
   if (cartIconTotalProducts) {
-    cartIconTotalProducts.textContent = cart.length;
+    if (userCart.length > 0) {
+      cartIconTotalProducts.textContent = userCart.length;
+    } else {
+      cartIconTotalProducts.remove();
+    }
   }
 
   while (cartDropDownList.firstChild) {
     cartDropDownList.removeChild(cartDropDownList.firstChild);
   }
 
-  const cartListItems = cart.map((i) => createCartIconListProduct(i));
+  const cartListItems = userCart.map((i) => createCartIconListProduct(i));
   cartListItems.forEach((i) => cartDropDownList.appendChild(i));
-  cartTotal.textContent = "€" + parseFloat(total).toFixed(2);
+  cartTotal.textContent = "€" + parseFloat(userCartTotal).toFixed(2);
 }
 
 function createCartIconListProduct(product) {
@@ -498,7 +657,8 @@ function createCartIconListProduct(product) {
   // Product subtotal
   const productSubtotal = document.createElement("span");
   productSubtotal.classList.add("cart-dropdown-list-item-price");
-  productSubtotal.textContent = product.quantity + " X " + "€" + product.price;
+  productSubtotal.textContent =
+    product.quantity + " X " + "€" + parseFloat(product.price).toFixed(2);
 
   // Create list item
   productContainer.appendChild(productImg);
@@ -508,17 +668,17 @@ function createCartIconListProduct(product) {
 }
 
 // Creates to the DOM the span element with the sum of products in the header's cart icon
-function createCartIconTotalProductsElement(cart) {
+function createCartIconTotalProductsElement() {
   let cartIconTotalProducts = document.querySelector(".cart-icon-items");
   // check if already exists
   if (cartIconTotalProducts) {
-    cartIconTotalProducts.textContent = cart.length;
+    cartIconTotalProducts.textContent = userCart.length;
     return;
   }
   // Create it
   cartIconTotalProducts = document.createElement("span");
   cartIconTotalProducts.classList.add("cart-icon-items");
-  cartIconTotalProducts.textContent = cart.length;
+  cartIconTotalProducts.textContent = userCart.length;
   cartDropdownList.parentNode.insertBefore(
     cartIconTotalProducts,
     cartDropdownList
@@ -526,29 +686,44 @@ function createCartIconTotalProductsElement(cart) {
 }
 
 // input plus and minus buttons handler
-if (productPageNumberInputPlusBtn) {
-  productPageNumberInputMinusBtn.addEventListener("click", () =>
-    numberInputMinusBtn(productPageNumberInput, productPageNumberInputMinusBtn)
-  );
+numberInputContainers.forEach((numberInput) => {
+  const plusBtn = numberInput.querySelector(".number-input-plus");
+  const minusBtn = numberInput.querySelector(".number-input-minus");
+  const input = numberInput.querySelector("input");
 
-  productPageNumberInputPlusBtn.addEventListener("click", () =>
-    numberInputPlusBtn(productPageNumberInput, productPageNumberInputMinusBtn)
-  );
+  CustomInputAddListeners(minusBtn, plusBtn, input);
+});
+
+function CustomInputAddListeners(minusBtn, plusBtn, input) {
+  // Create the event.
+  const changeEvent = new CustomEvent("change");
+
+  minusBtn.addEventListener("click", () => {
+    numberInputMinusBtn(input, minusBtn);
+    input.dispatchEvent(changeEvent);
+  });
+
+  plusBtn.addEventListener("click", () => {
+    {
+      numberInputPlusBtn(input, minusBtn);
+      input.dispatchEvent(changeEvent);
+    }
+  });
 
   // Number input text handler
-  productPageNumberInput.addEventListener("keyup", () =>
-    numberInputOnKeyUpHandler(
-      productPageNumberInput,
-      productPageNumberInputMinusBtn
-    )
-  );
+  input.addEventListener("keyup", () => {
+    numberInputOnKeyUpHandler(input, minusBtn);
+    // input.dispatchEvent(changeEvent);
+  });
 
-  productPageNumberInput.addEventListener("change", () =>
-    numberInputOnChangeUpHandler(
-      productPageNumberInput,
-      productPageNumberInputMinusBtn
-    )
-  );
+  input.addEventListener("focusout", () => {
+    numberInputOnFocusOutHandler(input, minusBtn);
+    // input.dispatchEvent(changeEvent);
+  });
+
+  input.addEventListener("change", () => {
+    numberInputOnChangeUpHandler(input, minusBtn);
+  });
 }
 
 // Number input handlers
@@ -567,17 +742,35 @@ function numberInputMinusBtn(input, minusBtn) {
     minusBtn.style.setProperty("visibility", "hidden");
   }
 }
+
 if (productPageAddToCartBtn) {
+  // Get product's info
+  const product = {
+    img: productPageProductImg.getAttribute("src"),
+    title: productPageProductTitle.textContent.replace(/\s+/g, " ").trim(),
+    author: productPageProductAuthor.textContent.replace(/\s+/g, " ").trim(),
+    price: parseFloat(
+      productPageProductPrice.textContent.replace(/[$,€]+/g, "")
+    ),
+  };
+
+  const custonNumberInput = document.querySelector(
+    ".number-input-container input"
+  );
+
+  // If products exists in cart set to the input the cart's quantity
+  if (userCart.length > 0 && userCartTotal > 0) {
+    userCart.forEach((i) => {
+      if (i.title == product.title && i.quantity > 1) {
+        const minusBtn = document.querySelector(".number-input-minus");
+        minusBtn.style.setProperty("visibility", "visible");
+        custonNumberInput.value = i.quantity;
+      }
+    });
+  }
+
   productPageAddToCartBtn.addEventListener("click", () => {
-    const product = {
-      img: productPageProductImg.getAttribute("src"),
-      title: productPageProductTitle.textContent.replace(/\s+/g, " ").trim(),
-      author: productPageProductAuthor.textContent.replace(/\s+/g, " ").trim(),
-      price: parseFloat(
-        productPageProductPrice.textContent.replace(/[$,€]+/g, "")
-      ),
-    };
-    const quantity = parseInt(productPageNumberInput.value);
+    const quantity = parseInt(custonNumberInput.value);
     addProductToCart(product, quantity);
   });
 }
@@ -592,12 +785,14 @@ function numberInputOnKeyUpHandler(input, minusBtn) {
 
 // Number input on change handler
 function numberInputOnChangeUpHandler(input, minusBtn) {
-  const currValue = parseInt(input.value);
-
-  if (input.value.length == 0) {
+  if (input.value.length == 0 || isNaN(input.value)) {
     input.value = 1;
     minusBtn.style.setProperty("visibility", "hidden");
+    return;
   }
+
+  const currValue = parseInt(input.value);
+
   switch (currValue) {
     case 0:
       input.value = 1;
@@ -613,8 +808,193 @@ function numberInputOnChangeUpHandler(input, minusBtn) {
   }
 }
 
+// Number input on focus out  handler
+function numberInputOnFocusOutHandler(input, minusBtn) {
+  if (input.value.length == 0 || isNaN(input.value)) {
+    input.value = 1;
+    minusBtn.style.setProperty("visibility", "hidden");
+  }
+}
+
+myAccountNavLinks.forEach((navLink, index) => {
+  navLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    const navLinkIcon = navLink.querySelector("svg");
+    // Set up pages array
+    const personalInfoPage = document.querySelector(".personal-info-form");
+    const changePasswordPage = document.querySelector(".change-password-form");
+    const ordersPage = document.querySelector(".account-page-orders");
+    const accountPagesArr = [personalInfoPage, ordersPage, changePasswordPage];
+
+    if (accountCurrentPageIndex != index) {
+      accountPagesArr.forEach((page, i) => {
+        if (index != i) {
+          page.style.setProperty("display", "none");
+          const hiddenNavLinkIcon = myAccountNavLinks[i].querySelector("svg");
+          hiddenNavLinkIcon.style.setProperty("visibility", "hidden");
+        } else {
+          accountCurrentPageIndex = index;
+          navLinkIcon.style.setProperty("visibility", "visible");
+          page.style.setProperty("display", "flex");
+        }
+      });
+    }
+  });
+});
+
+// Creates cart list items in My-Cart page
+function CreateMyCartPageListItem(product) {
+  const cartItemContainer = document.createElement("section");
+  cartItemContainer.classList.add("my-cart-page-item");
+
+  // Image and Title container
+  const imgTitleContainer = document.createElement("div");
+  imgTitleContainer.classList.add(
+    "my-cart-page-item-img-title-container",
+    "width-40"
+  );
+
+  // Product image
+  const productImg = document.createElement("img");
+  productImg.src = product.img;
+  productImg.alt = product.title;
+
+  // Product title
+  const productTitle = document.createElement("a");
+  productTitle.src = "/";
+  productTitle.classList.add("my-cart-page-item-title");
+  productTitle.textContent = product.title;
+
+  imgTitleContainer.appendChild(productImg);
+  imgTitleContainer.appendChild(productTitle);
+
+  // Product price
+  const productPrice = document.createElement("span");
+  productPrice.classList.add("my-cart-page-item-price", "width-10");
+  productPrice.textContent = "€" + parseFloat(product.price).toFixed(2);
+
+  // Product subtotal
+  const productSubtotal = document.createElement("span");
+  productSubtotal.classList.add("my-cart-page-item-subtotal", "width-10");
+  productSubtotal.textContent =
+    "€" + parseFloat(product.quantity * product.price).toFixed(2);
+
+  // Create list item
+  cartItemContainer.appendChild(CreateMyCartPageRevoveIcon(product));
+  cartItemContainer.appendChild(imgTitleContainer);
+  cartItemContainer.appendChild(productPrice);
+  cartItemContainer.appendChild(createMyCartPageNumberInput(product.quantity));
+  cartItemContainer.appendChild(productSubtotal);
+
+  return cartItemContainer;
+}
+
+function CreateMyCartPageRevoveIcon(product) {
+  const removeIconContainer = document.createElement("div");
+  removeIconContainer.classList.add("my-cart-page-item-remove-icon", "width-5");
+
+  const iconSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  iconSVG.setAttribute("height", "24");
+  iconSVG.setAttribute("width", "24");
+  const iconPath = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "path"
+  );
+  iconPath.setAttribute(
+    "d",
+    "M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z"
+  );
+  iconSVG.appendChild(iconPath);
+  removeIconContainer.appendChild(iconSVG);
+
+  iconSVG.addEventListener("click", () => {
+    removeProductFormCart(product);
+    const cartItemContainer = removeIconContainer.closest(".my-cart-page-item");
+    cartItemContainer.remove();
+    if (userCart.length == 0) {
+      showEmptyCartMsg();
+    }
+  });
+
+  return removeIconContainer;
+}
+
+function showEmptyCartMsg() {
+  const emptyCartMsgContainer = myCartPageContainer.querySelector(
+    ".my-cart-page-empty-cart"
+  );
+
+  const myCartPageTotalSection = myCartPageContainer.querySelector(
+    ".my-cart-page-checkout-container"
+  );
+
+  const myCartPageListHeader = myCartPageContainer.querySelector(
+    ".my-cart-page-item-header"
+  );
+  emptyCartMsgContainer.style.setProperty("display", "flex");
+  myCartPageTotalSection.style.setProperty("display", "none");
+  myCartPageListHeader.style.setProperty("display", "none");
+}
+
+function createMyCartPageNumberInput(value) {
+  const inputNumberContainer = document.createElement("div");
+  inputNumberContainer.classList.add("number-input-container");
+
+  const input = document.createElement("input");
+  input.setAttribute("type", "text");
+  input.classList.add("none");
+  input.value = value;
+
+  const minusBtn = document.createElement("button");
+  minusBtn.classList.add("number-input-minus");
+
+  const plusBtn = document.createElement("button");
+  plusBtn.classList.add("number-input-plus");
+
+  const minusSVG = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "svg"
+  );
+  minusSVG.setAttribute("height", "24");
+  minusSVG.setAttribute("width", "24");
+  const minusPath = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "path"
+  );
+  minusPath.setAttribute("d", "M5 13v-2h14v2Z");
+  minusSVG.appendChild(minusPath);
+
+  const plusSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  plusSVG.setAttribute("height", "24");
+  plusSVG.setAttribute("width", "24");
+  const plusPath = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "path"
+  );
+  plusPath.setAttribute("d", "M11 19v-6H5v-2h6V5h2v6h6v2h-6v6Z");
+  plusSVG.appendChild(plusPath);
+
+  if (value > 1) {
+    minusBtn.style.setProperty("visibility", "visible");
+  }
+  minusBtn.appendChild(minusSVG);
+  plusBtn.appendChild(plusSVG);
+
+  inputNumberContainer.appendChild(minusBtn);
+  inputNumberContainer.appendChild(input);
+  inputNumberContainer.appendChild(plusBtn);
+  CustomInputAddListeners(minusBtn, plusBtn, input);
+
+  return inputNumberContainer;
+}
+
+// Creates a deep copy of an object
+function createDeepObjectCopy(item) {
+  const clone = JSON.parse(JSON.stringify(item));
+  return clone;
+}
 // Emal validator
-function ValidateEmail(email) {
+function validateEmail(email) {
   const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   if (email.match(emailRegex)) {
     return true;
@@ -628,7 +1008,6 @@ function ValidatePhone(phone) {
   if (phone.match(phoneRegex)) {
     return true;
   }
-  console.log("skata");
   return false;
 }
 
@@ -642,9 +1021,17 @@ function ValidateZipCode(zipCode) {
 }
 
 // Check a password between 6 to 20 characters which contain at least one numeric digit, one uppercase and one lowercase letter
-function CheckPassword(password) {
+function checkPassword(password) {
   var pswRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
   if (password.match(pswRegex)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function passwordCofirmation(password, passwordCofirmation) {
+  if (password == passwordCofirmation) {
     return true;
   } else {
     return false;
