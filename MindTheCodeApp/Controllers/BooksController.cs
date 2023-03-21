@@ -170,8 +170,8 @@ namespace MindTheCodeApp.Controllers
             {
                 return NotFound();
             }
-          
-            return View("/Views/Admin/Books/Index.cshtml");
+
+            return RedirectToAction("Index");
         }
 
         // GET: Books/Delete/5

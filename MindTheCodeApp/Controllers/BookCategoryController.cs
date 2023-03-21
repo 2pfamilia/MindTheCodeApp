@@ -149,7 +149,7 @@ namespace MindTheCodeApp.Controllers
                 return NotFound();
             }
 
-            return View("/Views/Admin/BookCategory/Index.cshtml");
+            return RedirectToAction("Index");
         }
     }
 }
