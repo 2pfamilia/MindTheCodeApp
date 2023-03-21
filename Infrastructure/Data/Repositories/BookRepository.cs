@@ -20,7 +20,7 @@ namespace Infrastructure.Data.Repositories
 
         public async Task<List<Book>> GetBestSellers()
         {
-            var bestSellers = await _context.BookEntity.Take(5).ToListAsync();
+            var bestSellers = await _context.BookEntity.Take(4).ToListAsync();
             return bestSellers;
         }
         
@@ -28,7 +28,7 @@ namespace Infrastructure.Data.Repositories
         public async Task<List<Book>> GetNewArrivals()
         {
             //george
-            var newArrivals = await _context.BookEntity.Take(5).ToListAsync();
+            var newArrivals = await _context.BookEntity.Take(4).ToListAsync();
             return newArrivals;
         }
         */
@@ -92,8 +92,8 @@ namespace Infrastructure.Data.Repositories
 
         public async Task<List<Book>> GetNewArrivals()
         {
-            //get the first 5 books that are newer in the library
-            var newArrivals = await _context.BookEntity.OrderByDescending(mybook => mybook.DateCreated).Take(5).ToListAsync();
+            //get the first 4 books that are newer in the library
+            var newArrivals = await _context.BookEntity.OrderByDescending(mybook => mybook.DateCreated).Take(4).ToListAsync();
             return newArrivals;
         }
     }
