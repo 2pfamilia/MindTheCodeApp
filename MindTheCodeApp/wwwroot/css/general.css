@@ -88,13 +88,26 @@ body {
     color: #555;
     background-color: #f8f9fa;
     position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     /* Only works if there is nothing absolutely positioned in relation to body */
     /* overflow-x: hidden; */
 }
 
 main {
     max-width: 136.6rem;
-    margin: 0 auto;
+    width: 100%;
+    margin: 0 auto auto auto;
+    height: 100%;
+}
+
+.main-flex-wrapper {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .btn,
@@ -105,7 +118,7 @@ main {
     font-size: 1.6rem;
     color: #212529;
     background-color: #f8f9fa;
-    padding: 1.2rem;
+    padding: 1.2rem 2.4rem;
     border: 0.1rem solid #212529;
     border-radius: 0.4rem;
     box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.2);
@@ -120,20 +133,20 @@ main {
     font-family: inherit;
 }
 
-    .btn:hover,
-    .link-btn:hover {
-        color: #fff;
-        text-shadow: 0 0 0.1rem #fff;
-        background-color: #212529;
-    }
+.btn:hover,
+.link-btn:hover {
+    color: #fff;
+    text-shadow: 0 0 0.1rem #fff;
+    background-color: #212529;
+}
 
-    .btn:active,
-    .link-btn:active {
-        color: #fff;
-        background-color: #212529;
-        transform: scale(1.05);
-        transition: background 0.2s, transform 0.2s ease-out, fill 0.2s;
-    }
+.btn:active,
+.link-btn:active {
+    color: #fff;
+    background-color: #212529;
+    transform: scale(1.05);
+    transition: background 0.2s, transform 0.2s ease-out, fill 0.2s;
+}
 
 .btn-revert,
 .link-btn-revert {
@@ -144,8 +157,9 @@ main {
     color: #fff;
     background-color: #212529;
     border-radius: 0.4rem;
-    padding: 1.2rem;
+    padding: 1.2rem 2.4rem;
     box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.2);
+    border: 0.1rem solid #212529;
     cursor: pointer;
 }
 
@@ -153,21 +167,21 @@ main {
     text-decoration: none;
 }
 
-    .btn-revert:active,
-    .link-btn-revert:active,
-    .btn-revert:hover,
-    .link-btn-revert:hover {
-        border: 0.1rem solid #212529;
-        color: #212529;
-        background-color: #fff;
-    }
+.btn-revert:active,
+.link-btn-revert:active,
+.btn-revert:hover,
+.link-btn-revert:hover {
+    border: 0.1rem solid #212529;
+    color: #212529;
+    background-color: #fff;
+}
 
-    .btn-revert:active,
-    .link-btn-revert:active {
-        text-shadow: 0 0 0.1rem #212529;
-        transform: scale(1.05);
-        transition: background 0.2s, transform 0.2s ease-out, fill 0.2s;
-    }
+.btn-revert:active,
+.link-btn-revert:active {
+    text-shadow: 0 0 0.1rem #212529;
+    transform: scale(1.05);
+    transition: background 0.2s, transform 0.2s ease-out, fill 0.2s;
+}
 
 .hr-divider-90 {
     width: 90%;
@@ -201,16 +215,16 @@ main {
     gap: 0.4rem;
 }
 
-    .form-input input {
-        font-family: inherit;
-        font-size: 1.6rem;
-        background-color: transparent;
-        border-width: 0 0 0.1rem 0;
-        border-style: solid;
-        border-color: rgba(0, 0, 0, 0.2);
-        color: #212529;
-        outline: none;
-    }
+.form-input input {
+    font-family: inherit;
+    font-size: 1.6rem;
+    background-color: transparent;
+    border-width: 0 0 0.1rem 0;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.2);
+    color: #212529;
+    outline: none;
+}
 
 @keyframes moveInputLabelUp {
     from {
@@ -243,12 +257,14 @@ main {
 }
 
 .form-error-msg::after {
+    flex-grow: 0;
     content: "Error message";
     visibility: hidden;
 }
 
 .form-error-msg {
-    font-size: 1.2rem;
+    max-width: 22rem;
+    font-size: 1.4rem;
     color: #c92a2a;
     font-style: italic;
 }
@@ -271,16 +287,16 @@ main {
     cursor: pointer;
 }
 
-    .custom-select-container input {
-        background-color: #f8f9fa;
-        outline: none;
-        border: none;
-        font-size: 1.8rem;
-        font-family: inherit;
-        color: #6f6f6f;
-        text-align: left;
-        display: none;
-    }
+.custom-select-container input {
+    background-color: #f8f9fa;
+    outline: none;
+    border: none;
+    font-size: 1.8rem;
+    font-family: inherit;
+    color: #6f6f6f;
+    text-align: left;
+    display: none;
+}
 
 .custom-select-text {
     font-size: 1.6rem;
@@ -309,26 +325,27 @@ main {
     width: 60%;
 }
 
-    .custom-select-container-dropdown-list li {
-        color: #212529;
-        font-size: 1.6rem;
-        padding-bottom: 0.4rem;
-        border-bottom: 0.1rem solid transparent;
-    }
+.custom-select-container-dropdown-list li {
+    color: #212529;
+    font-size: 1.6rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 0.1rem solid transparent;
+}
 
-        .custom-select-container-dropdown-list li:hover {
-            color: #212529;
-            font-size: 1.6rem;
-            cursor: pointer;
-            border-color: rgba(0, 0, 0, 0.3);
-            text-shadow: 0 0 0.1rem #212529;
-        }
+.custom-select-container-dropdown-list li:hover {
+    color: #212529;
+    font-size: 1.6rem;
+    cursor: pointer;
+    border-color: rgba(0, 0, 0, 0.3);
+    text-shadow: 0 0 0.1rem #212529;
+}
 
-        .custom-select-container-dropdown-list li:active {
-            text-shadow: 0 0 0.3rem #212529;
-        }
+.custom-select-container-dropdown-list li:active {
+    text-shadow: 0 0 0.3rem #212529;
+}
 
 .number-input-container {
+    width: 13rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -337,42 +354,76 @@ main {
     padding: 0.8rem;
 }
 
-    .number-input-container:focus-within {
-        outline: 0.2rem solid #ffd8a8;
-    }
+.number-input-container:focus-widthin {
+    outline: 0.2rem solid #ffd8a8;
+}
 
-    .number-input-container input {
-        width: 6.4rem;
-        background-color: #f8f9fa;
-        outline: none;
-        border: none;
-        font-size: 1.8rem;
-        font-family: inherit;
-        color: #6f6f6f;
-        text-align: center;
-    }
+.number-input-container input {
+    width: 6.4rem;
+    background-color: #f8f9fa;
+    outline: none;
+    border: none;
+    font-size: 1.8rem;
+    font-family: inherit;
+    color: #6f6f6f;
+    text-align: center;
+}
 
-    .number-input-container button {
-        font-weight: 500;
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-    }
+.number-input-container button {
+    font-weight: 500;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
 
-        .number-input-container button:first-child {
-            visibility: hidden;
-        }
+.number-input-container button:first-child {
+    visibility: hidden;
+}
 
-    .number-input-container button {
-        fill: #212529;
-    }
+.number-input-container button {
+    fill: #212529;
+}
 
-        .number-input-container button:hover {
-            transform: scale(1.05);
-            transition: background 0.2s, transform 0.2s ease-out, fill 0.2s;
-        }
+.number-input-container button:hover {
+    transform: scale(1.05);
+    transition: background 0.2s, transform 0.2s ease-out, fill 0.2s;
+}
 
-        .number-input-container button:active {
-            transform: scale(1.2);
-            transition: background 0.2s, transform 0.2s ease-out, fill 0.2s;
-        }
+.number-input-container button:active {
+    transform: scale(1.2);
+    transition: background 0.2s, transform 0.2s ease-out, fill 0.2s;
+}
+
+.page-title {
+    font-size: 2.4rem;
+    font-weight: 500;
+}
+
+strong {
+    font-weight: 600;
+}
+
+/* Width per 100 of the container */
+.width-100 {
+    width: 100%;
+}
+
+.width-40 {
+    width: 40%;
+}
+
+.width-30 {
+    width: 30%;
+}
+
+.width-20 {
+    width: 20%;
+}
+
+.width-10 {
+    width: 10%;
+}
+
+.width-5 {
+    width: 5%;
+}
