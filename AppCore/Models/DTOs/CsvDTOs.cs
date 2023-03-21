@@ -20,12 +20,14 @@ namespace AppCore.Models.DTOs
 
     public class AuthorCsvDTO
     {
+        public int? AuthorId { get; set; } = null;
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
     }
 
     public class CategoryCsvDTO
     {
+        public int? CategoryId { get; set; } = null;
         public string Code { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
@@ -49,6 +51,7 @@ namespace AppCore.Models.DTOs
     {
         public AuthorCsvDTOMap()
         {
+            Map(a => a.AuthorId).Name("AuthorId");
             Map(a => a.Name).Name("AuthorName");
             Map(a => a.Description).Name("AuthorDescription");
         }
@@ -58,6 +61,7 @@ namespace AppCore.Models.DTOs
     {
         public CategoryCsvDTOMap()
         {
+            Map(a => a.CategoryId).Name("CategoryId");
             Map(c => c.Code).Name("CategoryCode");
             Map(c => c.Title).Name("CategoryTitle");
             Map(c => c.Description).Name("CategoryDescription");

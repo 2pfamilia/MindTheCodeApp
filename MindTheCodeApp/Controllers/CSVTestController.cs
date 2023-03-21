@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.Formats.Asn1;
 using System.Globalization;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using MindTheCodeApp.Utils;
 using AppCore.Models.BookModels;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace MindTheCodeApp.Controllers
 {
