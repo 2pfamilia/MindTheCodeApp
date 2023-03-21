@@ -1,60 +1,48 @@
 ﻿<div class="checkout-page-container">
     <h1 class="page-title">Checkout</h1>
     <div class="checkout-page-content">
-        <form class="checkout-page-form-container">
-            <div class="checkout-form-fullname">
+        <section class="checkout-page-user-info-container">
+            <div class="checkout-user-fullname">
                 <div class="form-input">
                     <label class="form-input-label" for="first-name">First name</label>
-                    <input type="text" name="first-name" />
-                    <span class="form-error-msg"></span>
+                    <input type="text" name="first-name" value="Spiros" disabled />
                 </div>
                 <div class="form-input">
                     <label class="form-input-label" for="last-name">Last name</label>
-                    <input type="text" name="last-name" />
-                    <span class="form-error-msg"></span>
+                    <input type="text" name="last-name" value="Dimou" disabled />
                 </div>
             </div>
-            <div class="custom-select checkout-form-country">
-                <div class="custom-select-container">
-                    <label class="form-input-label" for="country">Country</label>
-                    <input type="text" name="country" placeholder="Country" />
-                    <span class="custom-select-text"></span>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
-                        <path d="M9.4 18 8 16.6l4.6-4.6L8 7.4 9.4 6l6 6Z" />
-                    </svg>
-                    <ul class="custom-select-container-dropdown-list">
-                        <li>Greece</li>
-                        <li>Cyprus</li>
-                    </ul>
-                </div>
-                <span class="form-error-msg"></span>
+            <div class="form-input">
+                <label class="form-input-label" for="last-name">Greece</label>
+                <input type="text" name="last-name" value="Dimou" disabled />
             </div>
-            <div class="form-input checkout-form-city">
+            <div class="form-input checkout-user-city">
                 <label class="form-input-label" for="City">Town / City</label>
-                <input type="text" name="city" />
-                <span class="form-error-msg"></span>
+                <input type="text" name="city" value="Thessaloniki" disabled />
             </div>
-            <div class="form-input checkout-form-zip-code">
+            <div class="form-input checkout-user-zip-code">
                 <label class="form-input-label" for="zip-code">Zip code</label>
-                <input type="text" name="zip-code" />
-                <span class="form-error-msg"></span>
+                <input type="text" name="zip-code" value="123456" disabled />
             </div>
-            <div class="form-input checkout-form-street-address">
+            <div class="form-input checkout-user-street-address">
                 <label class="form-input-label" for="street-address">Street address</label>
-                <input type="text" name="street-address" />
-                <span class="form-error-msg"></span>
+                <input type="text"
+                       name="street-address"
+                       value="Kolokotroni 12"
+                       disabled />
             </div>
-            <div class="form-input checkout-form-phone">
+            <div class="form-input checkout-user-phone">
                 <label class="form-input-label" for="phone">Phone</label>
-                <input type="text" name="phone" />
-                <span class="form-error-msg"></span>
+                <input type="text" name="phone" value="6992345678" disabled />
             </div>
-            <div class="form-input checkout-form-email">
+            <div class="form-input checkout-user-email">
                 <label class="form-input-label" for="email">Email</label>
-                <input type="text" name="email" />
-                <span class="form-error-msg"></span>
+                <input type="text"
+                       name="email"
+                       value="spirosdimou@gamil.com"
+                       disabled />
             </div>
-        </form>
+        </section>
         <section class="checkout-page-details-container">
             <div class="checkout-page-details">
                 <h4>Product</h4>
@@ -80,7 +68,9 @@
                     <span>Total:</span>
                     <span>€95.70</span>
                 </div>
-                <button class="btn-revert">PLACE ORDER</button>
+                <button class="btn-revert form-btn" type="submit">
+                    PLACE ORDER
+                </button>
             </div>
         </section>
     </div>
