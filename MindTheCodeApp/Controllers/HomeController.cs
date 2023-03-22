@@ -36,7 +36,7 @@ namespace AppCore.Controllers
 
             var dto = _bookService.GetHomeDTO();
 
-            return View("Views/Home/Index.cshtml", dto);
+            return View("/Views/Home/Index.cshtml", dto);
         }
     }
 }
