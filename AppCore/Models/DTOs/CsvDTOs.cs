@@ -67,5 +67,4 @@ namespace AppCore.Models.DTOs
             Map(c => c.Description).Name("CategoryDescription");
         }
     }
-
 }

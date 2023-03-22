@@ -9,9 +9,9 @@ namespace AppCore.Models.OrderModels
     public class AddressInformation
     {
         [
-            Key, 
-            Column("address_information_id"), 
-            NotNull, 
+            Key,
+            Column("address_information_id"),
+            NotNull,
             DatabaseGenerated(DatabaseGeneratedOption.Identity)
         ]
         public int AddressInformationId { get; set; }
@@ -32,17 +32,17 @@ namespace AppCore.Models.OrderModels
         public string? City { get; set; }
 
         [
-            Required, 
-            Column("postal_code"), 
-            NotNull, 
+            Required,
+            Column("postal_code"),
+            NotNull,
             StringLength(15)
         ]
         public string? PostalCode { get; set; }
 
         [
-            Required, 
+            Required,
             Column("country"),
-            NotNull, 
+            NotNull,
             StringLength(100)
         ]
         public string? Country { get; set; }

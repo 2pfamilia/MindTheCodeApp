@@ -44,6 +44,5 @@ namespace AppCore.Models.BookModels
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
         public ICollection<Book>? Books { get; set; }
-
     }
 }

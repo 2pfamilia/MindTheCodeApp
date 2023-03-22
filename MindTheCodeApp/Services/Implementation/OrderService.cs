@@ -12,6 +12,7 @@ namespace AppCore.Services.Implementation
         {
             _orderRepository = orderRepository;
         }
+
         public async Task<List<Order>> GetAllOrder()
         {
             var orders = await _orderRepository.GetAllOrders();

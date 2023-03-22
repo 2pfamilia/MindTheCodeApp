@@ -14,19 +14,19 @@ namespace MindTheCodeApp.Utils
         }
 
         public void ProcessCsv
-            (
-                List<BookCsvDTO> dto,
-                out List<Book> books,
-                out List<BookAuthor> bookAuthors,
-                out List<BookCategory> bookCategories
-            )
+        (
+            List<BookCsvDTO> dto,
+            out List<Book> books,
+            out List<BookAuthor> bookAuthors,
+            out List<BookCategory> bookCategories
+        )
         {
             books = new();
             bookAuthors = new();
             bookCategories = new();
 
             var photo = _context.BookPhotoEntity.First();
-            
+
             // var authorsIdLookup = new HashSet<int?>();
             // var categoryIdLookup = new HashSet<int?>();
             //
@@ -73,14 +73,14 @@ namespace MindTheCodeApp.Utils
         }
 
         private Book ConvertBookCsvDTO
-            (
-                BookCsvDTO dto,
-                BookPhoto photo,
-                BookAuthor bookAuthor,
-                BookCategory bookCategory,
-                int? authorId,
-                int? categoryId
-            )
+        (
+            BookCsvDTO dto,
+            BookPhoto photo,
+            BookAuthor bookAuthor,
+            BookCategory bookCategory,
+            int? authorId,
+            int? categoryId
+        )
         {
             return new()
             {
@@ -89,14 +89,14 @@ namespace MindTheCodeApp.Utils
                 Photo = photo,
                 Count = dto.Count,
                 Price = dto.Price,
-                Category = categoryId is not null ?
-                    _context.BookCategoryEntity
+                Category = categoryId is not null
+                    ? _context.BookCategoryEntity
                         .Single(bce => bce.CategoryId.Equals(categoryId))
-                        : bookCategory,
-                Author = authorId is not null ?
-                    _context.BookAuthorEntity
+                    : bookCategory,
+                Author = authorId is not null
+                    ? _context.BookAuthorEntity
                         .Single(bae => bae.AuthorId.Equals(authorId))
-                        : bookAuthor,
+                    : bookAuthor,
             };
         }
 
@@ -118,6 +118,5 @@ namespace MindTheCodeApp.Utils
                 Description = dto.Description,
             };
         }
-
     }
 }
