@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
-namespace AppCore.Controllers
+namespace MindTheCodeApp.Controllers
 {
     [Route("")]
     [AllowAnonymous]
