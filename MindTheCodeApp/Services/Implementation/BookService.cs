@@ -1,7 +1,7 @@
 using AppCore.IRepositories;
 using AppCore.Models.BookModels;
 using AppCore.Models.DTOs;
-using AppCore.Services.IServices;
+using MindTheCodeApp.Services.IServices;
 
 namespace AppCore.Services.Implementation
 {

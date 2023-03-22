@@ -1,7 +1,7 @@
 using AppCore.IRepositories;
 using AppCore.Models;
 using AppCore.Models.DTOs;
-using AppCore.Services.IServices;
+using MindTheCodeApp.Services.IServices;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

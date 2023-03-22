@@ -1,7 +1,7 @@
 ﻿using AppCore.Models.BookModels;
 using AppCore.Models.DTOs;
 
-namespace AppCore.Services.IServices
+namespace MindTheCodeApp.Services.IServices
 {
     public interface IBookService
     {

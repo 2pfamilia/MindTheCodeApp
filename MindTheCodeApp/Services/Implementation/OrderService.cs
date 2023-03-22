@@ -1,6 +1,6 @@
 ﻿using AppCore.IRepositories;
 using AppCore.Models.OrderModels;
-using AppCore.Services.IServices;
+using MindTheCodeApp.Services.IServices;
 
 namespace AppCore.Services.Implementation
 {
