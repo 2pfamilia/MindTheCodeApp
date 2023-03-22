@@ -26,21 +26,22 @@ namespace MindTheCodeApp.Utils
             bookCategories = new();
 
             var photo = _context.BookPhotoEntity.First();
-
-            var authorsIdLookup = new HashSet<int?>();
-            var categoryIdLookup = new HashSet<int?>();
-
-            foreach (var item in dto)
-            {
-                if (item.Author.AuthorId is not null)
-                {
-                    authorsIdLookup.Add(item.Author.AuthorId);
-                }
-                if (item.Category.CategoryId is not null)
-                {
-                    categoryIdLookup.Add(item.Category.CategoryId);
-                }
-            }
+            
+            // var authorsIdLookup = new HashSet<int?>();
+            // var categoryIdLookup = new HashSet<int?>();
+            //
+            // foreach (var item in dto)
+            // {
+            //     if (item.Author.AuthorId is not null)
+            //     {
+            //         authorsIdLookup.Add(item.Author.AuthorId);
+            //     }
+            //
+            //     if (item.Category.CategoryId is not null)
+            //     {
+            //         categoryIdLookup.Add(item.Category.CategoryId);
+            //     }
+            // }
 
             //var existingAuthors = _context.BookAuthorEntity.Where(bae => authorsIdLookup.Contains(bae.AuthorId))
             //    .ToDictionary(bae => bae.AuthorId);
