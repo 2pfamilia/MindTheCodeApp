@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Checkout";
+}
+
+
+<div class="checkout-page-container">
+    <h1 class="page-title">Checkout</h1>
+    <div class="checkout-page-content">
+        <section class="checkout-page-user-info-container">
+            <div class="checkout-user-fullname">
+                <div class="form-input">
+                    <label class="form-input-label" for="first-name">First name</label>
+                    <input type="text" name="first-name" value="Spiros" disabled />
+                </div>
+                <div class="form-input">
+                    <label class="form-input-label" for="last-name">Last name</label>
+                    <input type="text" name="last-name" value="Dimou" disabled />
+                </div>
+            </div>
+            <div class="form-input">
+                <label class="form-input-label" for="last-name">Greece</label>
+                <input type="text" name="last-name" value="Dimou" disabled />
+            </div>
+            <div class="form-input checkout-user-city">
+                <label class="form-input-label" for="City">Town / City</label>
+                <input type="text" name="city" value="Thessaloniki" disabled />
+            </div>
+            <div class="form-input checkout-user-zip-code">
+                <label class="form-input-label" for="zip-code">Zip code</label>
+                <input type="text" name="zip-code" value="123456" disabled />
+            </div>
+            <div class="form-input checkout-user-street-address">
+                <label class="form-input-label" for="street-address">Street address</label>
+                <input type="text"
+                       name="street-address"
+                       value="Kolokotroni 12"
+                       disabled />
+            </div>
+            <div class="form-input checkout-user-phone">
+                <label class="form-input-label" for="phone">Phone</label>
+                <input type="text" name="phone" value="6992345678" disabled />
+            </div>
+            <div class="form-input checkout-user-email">
+                <label class="form-input-label" for="email">Email</label>
+                <input type="text"
+                       name="email"
+                       value="spirosdimou@gamil.com"
+                       disabled />
+            </div>
+        </section>
+        <section class="checkout-page-details-container">
+            <div class="checkout-page-details">
+                <h4>Product</h4>
+                <h4>Subtotal</h4>
+                <div class="hr-divider-100 checkout-page"></div>
+                <span class="checkout-page-details-title">
+                    1600.io SAT Math Orange Book Volume I: Every SAT Math
+                </span>
+                <span class="checkout-page-details-quantity">X2</span>
+                <span class="checkout-page-details-title">€12.00</span>
+                <span class="checkout-page-details-title">
+                    1600.io SAT Math Orange Book Volume I: Every SAT Math
+                </span>
+                <span class="checkout-page-details-quantity">X1</span>
+                <span class="checkout-page-details-title">€12.00</span>
+                <span class="checkout-page-details-title">Spare </span>
+                <span class="checkout-page-details-quantity">X4</span>
+                <span class="checkout-page-details-title">€56.00</span>
+            </div>
+            <div class="hr-divider-100"></div>
+            <div class="checkout-page-details-total">
+                <div>
+                    <span>Total:</span>
+                    <span>€95.70</span>
+                </div>
+                <button class="btn-revert form-btn" type="submit">
+                    PLACE ORDER
+                </button>
+            </div>
+        </section>
+    </div>
+</div>

@@ -1,0 +1,255 @@
+﻿@{
+    ViewData["Title"] = "My Account";
+}
+
+<div class="my-account-page-container">
+    <h1 class="page-title">My Account</h1>
+    <div class="my-account-nav-bar-container">
+        <nav class="my-account-nav-bar">
+            <div class="my-account-nav-link">
+                <a href="personal-info">Personal Info</a>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+                    <path d="m12 15.375-6-6 1.4-1.4 4.6 4.6 4.6-4.6 1.4 1.4Z" />
+                </svg>
+            </div>
+            <div class="my-account-nav-link">
+                <a href="orders">Orders</a>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+                    <path d="m12 15.375-6-6 1.4-1.4 4.6 4.6 4.6-4.6 1.4 1.4Z" />
+                </svg>
+            </div>
+            <div class="my-account-nav-link">
+                <a href="change-password">Change Password</a>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+                    <path d="m12 15.375-6-6 1.4-1.4 4.6 4.6 4.6-4.6 1.4 1.4Z" />
+                </svg>
+            </div>
+            <div class="my-account-nav-link">
+                <a href="">Sign out</a>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+                    <path d="m12 15.375-6-6 1.4-1.4 4.6 4.6 4.6-4.6 1.4 1.4Z" />
+                </svg>
+            </div>
+        </nav>
+        <div class="my-account-nav-bar-divider"></div>
+    </div>
+    <form class="personal-info-form">
+        <div class="form-input">
+            <label class="form-input-label" for="email">Email *</label>
+            <input type="text" name="email" value="email@gmail.com" required />
+            <span class="form-error-msg"></span>
+        </div>
+        <div class="form-row-inputs">
+            <div class="form-input">
+                <label class="form-input-label" for="first-name">First name *</label>
+                <input type="text" name="first-name" value="Spiros" required />
+                <span class="form-error-msg"></span>
+            </div>
+            <div class="form-input">
+                <label class="form-input-label" for="last-name">Last name *</label>
+                <input type="text" name="last-name" required value="Dimou" />
+                <span class="form-error-msg"></span>
+            </div>
+        </div>
+        <div class="custom-select">
+            <div class="custom-select-container form-select required">
+                <label class="form-input-label" for="country">Country *</label>
+                <input type="text"
+                       name="country"
+                       value="Greece"
+                       placeholder="Country" />
+                <span class="custom-select-text"></span>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+                    <path d="M9.4 18 8 16.6l4.6-4.6L8 7.4 9.4 6l6 6Z" />
+                </svg>
+                <ul class="custom-select-container-dropdown-list">
+                    <li>Greece</li>
+                    <li>Cyprus</li>
+                </ul>
+            </div>
+            <span class="form-error-msg"></span>
+        </div>
+        <div class="form-row-inputs">
+            <div class="form-input">
+                <label class="form-input-label" for="City">Town / City *</label>
+                <input type="text" name="city" value="Thessaloniki" required />
+                <span class="form-error-msg"></span>
+            </div>
+            <div class="form-input">
+                <label class="form-input-label" for="zip-code">Zip code *</label>
+                <input type="text" name="zip-code" value="12345" required />
+                <span class="form-error-msg"></span>
+            </div>
+        </div>
+        <div class="form-input">
+            <label class="form-input-label" for="street-address">Street address *</label>
+            <input type="text"
+                   name="street-address"
+                   value="Pontou 2"
+                   required />
+            <span class="form-error-msg"></span>
+        </div>
+        <div class="form-input">
+            <label class="form-input-label" for="phone">Phone *</label>
+            <input type="text" name="phone" value="691234567" required />
+            <span class="form-error-msg"></span>
+        </div>
+        <button type="submit" class="btn form-btn">CHANGE INFO</button>
+    </form>
+    <div class="account-page-orders">
+        <section class="order-container">
+            <div class="order-products-container">
+                <div class="order-product">
+                    <img src="img/books/516YkEzLC+L._SY344_BO1,204,203,200_.jpg"
+                         alt="book title" />
+                    <a class="order-product-title">
+                        The Family Across the Street: A totally unputdownable
+                        psychological thriller with a shocking twist
+                    </a>
+                    <span class="order-product-quantity">Quantity: <strong>1</strong></span>
+                    <span class="order-product-subtotal">Subtotal: <strong>€12.00</strong></span>
+                </div>
+                <div class="order-product">
+                    <img src="img/books/51mN3bY0JjL._SY344_BO1,204,203,200_.jpg"
+                         alt="book title" />
+                    <a class="order-product-title">Someone Else's Shoes: A Novel</a>
+                    <span class="order-product-quantity">Quantity: <strong>5</strong></span>
+                    <span class="order-product-subtotal">Subtotal: <strong>€52.00</strong></span>
+                </div>
+                <div class="order-product">
+                    <img src="img/books/310KDa7YvxL._SY344_BO1,204,203,200_.jpg"
+                         alt="book title" />
+                    <a class="order-product-title">The Keeper of Happy Endings</a>
+                    <span class="order-product-quantity">Quantity: <strong>2</strong></span>
+                    <span class="order-product-subtotal">Subtotal: <strong>€16.00</strong></span>
+                </div>
+            </div>
+            <div class="order-page order-info-container">
+                <span>Order Date: <strong>12/08/2023</strong></span>
+                <span>Order ID: <strong>152215</strong> </span>
+                <span>Total: <strong>€102.00</strong></span>
+            </div>
+        </section>
+        <section class="order-container">
+            <div class="order-products-container">
+                <div class="order-product">
+                    <img src="img/books/516YkEzLC+L._SY344_BO1,204,203,200_.jpg"
+                         alt="book title" />
+                    <a class="order-product-title">
+                        The Family Across the Street: A totally unputdownable
+                        psychological thriller with a shocking twist
+                    </a>
+                    <span class="order-product-quantity">Quantity: <strong>1</strong></span>
+                    <span class="order-product-subtotal">Subtotal: <strong>€12.00</strong></span>
+                </div>
+                <div class="order-product">
+                    <img src="img/books/51mN3bY0JjL._SY344_BO1,204,203,200_.jpg"
+                         alt="book title" />
+                    <a class="order-product-title">Someone Else's Shoes: A Novel</a>
+                    <span class="order-product-quantity">Quantity: <strong>5</strong></span>
+                    <span class="order-product-subtotal">Subtotal: <strong>€52.00</strong></span>
+                </div>
+                <div class="order-product">
+                    <img src="img/books/310KDa7YvxL._SY344_BO1,204,203,200_.jpg"
+                         alt="book title" />
+                    <a class="order-product-title">The Keeper of Happy Endings</a>
+                    <span class="order-product-quantity">Quantity: <strong>2</strong></span>
+                    <span class="order-product-subtotal">Subtotal: <strong>€16.00</strong></span>
+                </div>
+            </div>
+            <div class="order-page order-info-container">
+                <span>Order Date: <strong>12/08/2023</strong></span>
+                <span>Order ID: <strong>152215</strong> </span>
+                <span>Total: <strong>€102.00</strong></span>
+            </div>
+        </section>
+        <section class="order-container">
+            <div class="order-products-container">
+                <div class="order-product">
+                    <img src="img/books/516YkEzLC+L._SY344_BO1,204,203,200_.jpg"
+                         alt="book title" />
+                    <a class="order-product-title">
+                        The Family Across the Street: A totally unputdownable
+                        psychological thriller with a shocking twist
+                    </a>
+                    <span class="order-product-quantity">Quantity: <strong>1</strong></span>
+                    <span class="order-product-subtotal">Subtotal: <strong>€12.00</strong></span>
+                </div>
+                <div class="order-product">
+                    <img src="img/books/51mN3bY0JjL._SY344_BO1,204,203,200_.jpg"
+                         alt="book title" />
+                    <a class="order-product-title">Someone Else's Shoes: A Novel</a>
+                    <span class="order-product-quantity">Quantity: <strong>5</strong></span>
+                    <span class="order-product-subtotal">Subtotal: <strong>€52.00</strong></span>
+                </div>
+                <div class="order-product">
+                    <img src="img/books/310KDa7YvxL._SY344_BO1,204,203,200_.jpg"
+                         alt="book title" />
+                    <a class="order-product-title">The Keeper of Happy Endings</a>
+                    <span class="order-product-quantity">Quantity: <strong>2</strong></span>
+                    <span class="order-product-subtotal">Subtotal: <strong>€16.00</strong></span>
+                </div>
+            </div>
+            <div class="order-page order-info-container">
+                <span>Order Date: <strong>12/08/2023</strong></span>
+                <span>Order ID: <strong>152215</strong> </span>
+                <span>Total: <strong>€102.00</strong></span>
+            </div>
+        </section>
+        <section class="order-container">
+            <div class="order-products-container">
+                <div class="order-product">
+                    <img src="img/books/516YkEzLC+L._SY344_BO1,204,203,200_.jpg"
+                         alt="book title" />
+                    <a class="order-product-title">
+                        The Family Across the Street: A totally unputdownable
+                        psychological thriller with a shocking twist
+                    </a>
+                    <span class="order-product-quantity">Quantity: <strong>1</strong></span>
+                    <span class="order-product-subtotal">Subtotal: <strong>€12.00</strong></span>
+                </div>
+                <div class="order-product">
+                    <img src="img/books/51mN3bY0JjL._SY344_BO1,204,203,200_.jpg"
+                         alt="book title" />
+                    <a class="order-product-title">Someone Else's Shoes: A Novel</a>
+                    <span class="order-product-quantity">Quantity: <strong>5</strong></span>
+                    <span class="order-product-subtotal">Subtotal: <strong>€52.00</strong></span>
+                </div>
+                <div class="order-product">
+                    <img src="img/books/310KDa7YvxL._SY344_BO1,204,203,200_.jpg"
+                         alt="book title" />
+                    <a class="order-product-title">The Keeper of Happy Endings</a>
+                    <span class="order-product-quantity">Quantity: <strong>2</strong></span>
+                    <span class="order-product-subtotal">Subtotal: <strong>€16.00</strong></span>
+                </div>
+            </div>
+            <div class="order-page order-info-container">
+                <span>Order Date: <strong>12/08/2023</strong></span>
+                <span>Order ID: <strong>152215</strong> </span>
+                <span>Total: <strong>€102.00</strong></span>
+            </div>
+        </section>
+    </div>
+    <form action="" class="change-password-form">
+        <div class="form-input">
+            <label class="form-input-label" for="password">Old password *</label>
+            <input type="password" name="password" required />
+            <span class="form-error-msg"></span>
+        </div>
+        <div class="password-confirmation">
+            <div class="form-input">
+                <label class="form-input-label" for="new-password">
+                    New password *
+                </label>
+                <input type="password" name="new-password" required />
+                <span class="form-error-msg"></span>
+            </div>
+            <div class="form-input">
+                <label class="form-input-label" for="password-confirmation">Confirm password *</label>
+                <input type="password" name="password-confirmation" required />
+                <span class="form-error-msg"></span>
+            </div>
+        </div>
+        <button type="submit" class="btn form-btn">CHANGE PASSWORD</button>
+    </form>
+</div>

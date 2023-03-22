@@ -1,36 +1,42 @@
-﻿using AppCore.IRepositories;
+using AppCore.IRepositories;
 using AppCore.Models;
+using AppCore.Models.DTOs;
+using AppCore.Services.IServices;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace AppCore.Controllers
 {
+    [Route("")]
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _context;
-        private readonly IBookRepository _bookRepo;
+        private readonly IBookService _bookService;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IBookRepository bookRepo)
+        public HomeController(ILogger<HomeController> logger, IBookService bookService)
         {
             _logger = logger;
-            _context = context;
-            _bookRepo = bookRepo;
+            _bookService = bookService;
         }
 
+        [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            // Test that ApplicationDbContext works
-            var appDbContextBooks = await _context.BookEntity.ToListAsync();
-            _logger.LogInformation($"DbContext returned {appDbContextBooks.Count} book entries.");
+            //  Return HomeDTO with all the needed data
+            /*
+                HomeDTO needs to have three lists with best sellers,
+                new arrivals, and authors
 
-            // Test that IBookRepository works
-            var bookRepoBooks = await _bookRepo.GetAllBooks();
-            _logger.LogInformation($"Repository returned {bookRepoBooks.Count} book entries.");
+                The business logic will need to be in a service.
+            */
 
-            return View();
+            var dto = _bookService.GetHomeDTO();
+
+            return View("Views/Home/Index.cshtml", dto);
         }
     }
 }

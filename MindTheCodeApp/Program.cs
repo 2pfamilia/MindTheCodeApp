@@ -6,6 +6,8 @@ using AppCore.IRepositories;
 using AppCore.Services.Implementation;
 using AppCore.Services.IServices;
 using AppCore.Utils;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using MindTheCodeApp.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("LocalDb");
     options.UseSqlServer(connectionString);
+    options.EnableSensitiveDataLogging();
+});
+
+// Authentication service with Cookies.
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+.AddCookie(options =>
+{
+    options.Cookie.Name = "CookieAuth";
+    options.LoginPath = "/Auth/Login";
+    options.LogoutPath = "/Auth/Logout";
+    options.AccessDeniedPath = "/";
 });
 
 // Database population service that runs when the database is empty.
@@ -21,6 +34,9 @@ builder.Services.AddHostedService<PopulateDb>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Utility services
+builder.Services.AddScoped<CsvUtils>();
 
 //Add Repository services
 builder.Services.AddScoped<IUserRepository, UserRepository>();

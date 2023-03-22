@@ -1,4 +1,5 @@
 ﻿using AppCore.Models.BookModels;
+using AppCore.Models.DTOs;
 
 namespace AppCore.Services.IServices
 {
@@ -7,8 +8,7 @@ namespace AppCore.Services.IServices
         Task<List<Book>> GetAllBooks();
         Task<List<Book>> GetBooks(int number);
         Task<List<Book>> GetBestSellers();
-<<<<<<< Updated upstream
-=======
+
         
         //george
         // Task<List<Book>> GetNewArrivals();
@@ -16,9 +16,9 @@ namespace AppCore.Services.IServices
         Task<List<BookAuthor>> GetAllAuthors();
 
         HomeDTO GetHomeDTO();
+
         SearchDTO GetSearchDTO(string searchTerm);
 
->>>>>>> Stashed changes
         Task<List<Book>> GetNewArrivals();
         Task<List<Book>> GetBooksByCategory(BookCategory category);
         Task<List<Book>> GetBooksByAuthor(BookAuthor author);
