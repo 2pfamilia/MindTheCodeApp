@@ -23,7 +23,27 @@ namespace Infrastructure.Data.Repositories
             var bestSellers = await _context.BookEntity.Take(5).ToListAsync();
             return bestSellers;
         }
+<<<<<<< Updated upstream
 
+=======
+
+        /*
+        public async Task<List<Book>> GetNewArrivals()
+        {
+            //george
+            var newArrivals = await _context.BookEntity.Take(5).ToListAsync();
+            return newArrivals;
+        }
+        */
+
+        public async Task<List<BookAuthor>> GetAllAuthors()
+        {
+            //george
+            var allAuthors = await _context.BookAuthorEntity.Take(5).ToListAsync();
+            return allAuthors;
+        }
+
+>>>>>>> Stashed changes
         public async Task<List<BookAuthor>> GetBestSellingAuthors()
         {
             var bestSelling = await _context.BookAuthorEntity.Take(5).ToListAsync();
@@ -32,13 +52,21 @@ namespace Infrastructure.Data.Repositories
 
         public async Task<List<Book>> GetBooksByAuthor(BookAuthor bookAuthor)
         {
+<<<<<<< Updated upstream
             var booksByAuthors = await _context.BookEntity.Include(mybook=>mybook.Author).Where(mybook => mybook.Author == bookAuthor).ToListAsync();
+=======
+            var booksByAuthors = await _context.BookEntity.Include(mybook => mybook.Author).Where(mybook => mybook.Author == bookAuthor).ToListAsync();
+>>>>>>> Stashed changes
             return booksByAuthors;
         }
 
         public async Task<List<Book>> GetBooksByCategory(BookCategory category)
         {
+<<<<<<< Updated upstream
             var categoryBooks = await _context.BookEntity.Include(mybook=>mybook.Category).Where(mybook => mybook.Category == category).ToListAsync();
+=======
+            var categoryBooks = await _context.BookEntity.Include(mybook => mybook.Category).Where(mybook => mybook.Category == category).ToListAsync();
+>>>>>>> Stashed changes
             return categoryBooks;
         }
 
@@ -79,6 +107,31 @@ namespace Infrastructure.Data.Repositories
             //get the first 5 books that are newer in the library
             var newArrivals = await _context.BookEntity.OrderByDescending(mybook => mybook.DateCreated).Take(5).ToListAsync();
             return newArrivals;
+        }
+
+        public async Task<List<Book>> GetBooks(int number)
+        {
+            int absNumber = (int)MathF.Abs(number); //safety measure
+            var books = await _context.BookEntity.Take(absNumber).ToListAsync();
+            return books;
+        }
+
+        public async Task<List<BookCategory>> GetCategoryByName(string name)
+        {
+            var categories = await _context.BookCategoryEntity.Where(myCategory => myCategory.Title == name).ToListAsync();
+            return categories;
+        }
+
+        public async Task<List<BookAuthor>> GetAuthorsByName(string name)
+        {
+            var authors = await _context.BookAuthorEntity.Where(myAuthor => myAuthor.Name == name).ToListAsync();
+            return authors;
+        }
+
+        public async Task<List<BookCategory>> GetAllCategories()
+        {
+            var categories = await _context.BookCategoryEntity.ToListAsync();
+            return categories;
         }
     }
 }
