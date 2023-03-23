@@ -27,7 +27,7 @@ namespace AppCore.Models.BookModels
             Required,
             Column("title"),
             NotNull,
-            StringLength(100,MinimumLength = 1)
+            StringLength(100, MinimumLength = 1)
         ]
         public string? Title { get; set; }
 

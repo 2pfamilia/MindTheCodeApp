@@ -62,6 +62,5 @@ namespace MindTheCodeApp.Controllers
                 return View("/Views/CSVTest/CSVTest.cshtml");
             }
         }
-
     }
 }

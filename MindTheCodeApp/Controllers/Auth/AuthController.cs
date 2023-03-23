@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace MindTheCodeApp.Controllers.Auth
 {
     [Route("/Auth/")]
-    public class AuthController : ControllerBase
+    [AllowAnonymous]
+    public class AuthController : Controller
     {
         private readonly ApplicationDbContext _context;
 
@@ -20,7 +22,6 @@ namespace MindTheCodeApp.Controllers.Auth
         }
 
         [HttpPost("Login")]
-        [AllowAnonymous]
         public async Task<IActionResult> Login([FromForm] User user)
         {
             if (user is null || user.Username is null || user.Password is null)
@@ -51,10 +52,10 @@ namespace MindTheCodeApp.Controllers.Auth
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity));
 
             return RedirectToAction("Index", "Home");
-
         }
 
         [HttpGet("Logout")]
@@ -66,5 +67,10 @@ namespace MindTheCodeApp.Controllers.Auth
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet("Register")]
+        public async Task<IActionResult> Register()
+        {
+            return View("/Views/MyAccount/MyAccount.cshtml");
+        }
     }
 }
