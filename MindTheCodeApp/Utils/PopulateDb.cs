@@ -211,6 +211,7 @@ namespace AppCore.Utils
                 {
                     FirstName = "Admin", LastName = "Admin", Email = "administrator@admin.org",
                     Birthdate = DateTime.Now, Username = "admin", Password = "admin",
+                    Phone = "2102713100",
                     Role = _dbcontext.UserRoleEntity.Single(role => role.Code.Equals("admin")),
                     AddressInformation = _dbcontext.AddressInformationEntity.Single(o => o.AddressInformationId == 1),
                 },
@@ -218,6 +219,7 @@ namespace AppCore.Utils
                 {
                     FirstName = "Summer", LastName = "Gates", Email = "summer@gates.org", Birthdate = DateTime.Now,
                     Username = "Summergates", Password = "123456",
+                    Phone = "2102713100",
                     Role = _dbcontext.UserRoleEntity.Single(role => role.Code.Equals("reuser")),
                     AddressInformation = _dbcontext.AddressInformationEntity.Single(o => o.AddressInformationId == 1),
                 },
@@ -225,6 +227,7 @@ namespace AppCore.Utils
                 {
                     FirstName = "Kael", LastName = "Kelly", Email = "kael@kelly.org", Birthdate = DateTime.Now,
                     Username = "Kaelkelly", Password = "123456",
+                    Phone = "2102713100",
                     Role = _dbcontext.UserRoleEntity.Single(role => role.Code.Equals("reuser")),
                     AddressInformation = _dbcontext.AddressInformationEntity.Single(o => o.AddressInformationId == 1),
                 },
@@ -232,6 +235,7 @@ namespace AppCore.Utils
                 {
                     FirstName = "Wilson", LastName = "Trevino", Email = "wilson@trevino.org", Birthdate = DateTime.Now,
                     Username = "Wilsontrevino", Password = "123456",
+                    Phone = "2102713100",
                     Role = _dbcontext.UserRoleEntity.Single(role => role.Code.Equals("reuser")),
                     AddressInformation = _dbcontext.AddressInformationEntity.Single(o => o.AddressInformationId == 1),
                 },

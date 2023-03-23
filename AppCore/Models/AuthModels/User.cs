@@ -73,6 +73,14 @@ namespace AppCore.Models.AuthModels
         public AddressInformation? AddressInformation { get; set; }
 
         [
+            Required,
+            Column("phone"),
+            NotNull,
+            StringLength(24, MinimumLength = 6),
+        ]
+        public string Phone { get; set; }
+        
+        [
             Column("role_id"),
             ForeignKey("role_id"),
             AllowNull
