@@ -68,7 +68,7 @@ namespace AppCore.Models.BookModels
             Required,
             Column("price"),
             NotNull,
-            Precision(5,2)
+            Precision(5, 2)
         ]
         public decimal? Price { get; set; }
 
@@ -79,6 +79,5 @@ namespace AppCore.Models.BookModels
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
         public ICollection<OrderDetails>? OrderDetails { get; set; }
-
     }
 }

@@ -14,12 +14,12 @@ namespace MindTheCodeApp.Utils
         }
 
         public void ProcessCsv
-            (
-                List<BookCsvDTO> dto,
-                out List<Book> books,
-                out List<BookAuthor> bookAuthors,
-                out List<BookCategory> bookCategories
-            )
+        (
+            List<BookCsvDTO> dto,
+            out List<Book> books,
+            out List<BookAuthor> bookAuthors,
+            out List<BookCategory> bookCategories
+        )
         {
             books = new();
             bookAuthors = new();
@@ -27,20 +27,21 @@ namespace MindTheCodeApp.Utils
 
             var photo = _context.BookPhotoEntity.First();
 
-            var authorsIdLookup = new HashSet<int?>();
-            var categoryIdLookup = new HashSet<int?>();
-
-            foreach (var item in dto)
-            {
-                if (item.Author.AuthorId is not null)
-                {
-                    authorsIdLookup.Add(item.Author.AuthorId);
-                }
-                if (item.Category.CategoryId is not null)
-                {
-                    categoryIdLookup.Add(item.Category.CategoryId);
-                }
-            }
+            // var authorsIdLookup = new HashSet<int?>();
+            // var categoryIdLookup = new HashSet<int?>();
+            //
+            // foreach (var item in dto)
+            // {
+            //     if (item.Author.AuthorId is not null)
+            //     {
+            //         authorsIdLookup.Add(item.Author.AuthorId);
+            //     }
+            //
+            //     if (item.Category.CategoryId is not null)
+            //     {
+            //         categoryIdLookup.Add(item.Category.CategoryId);
+            //     }
+            // }
 
             //var existingAuthors = _context.BookAuthorEntity.Where(bae => authorsIdLookup.Contains(bae.AuthorId))
             //    .ToDictionary(bae => bae.AuthorId);
@@ -72,14 +73,14 @@ namespace MindTheCodeApp.Utils
         }
 
         private Book ConvertBookCsvDTO
-            (
-                BookCsvDTO dto,
-                BookPhoto photo,
-                BookAuthor bookAuthor,
-                BookCategory bookCategory,
-                int? authorId,
-                int? categoryId
-            )
+        (
+            BookCsvDTO dto,
+            BookPhoto photo,
+            BookAuthor bookAuthor,
+            BookCategory bookCategory,
+            int? authorId,
+            int? categoryId
+        )
         {
             return new()
             {
@@ -88,14 +89,14 @@ namespace MindTheCodeApp.Utils
                 Photo = photo,
                 Count = dto.Count,
                 Price = dto.Price,
-                Category = categoryId is not null ?
-                    _context.BookCategoryEntity
+                Category = categoryId is not null
+                    ? _context.BookCategoryEntity
                         .Single(bce => bce.CategoryId.Equals(categoryId))
-                        : bookCategory,
-                Author = authorId is not null ?
-                    _context.BookAuthorEntity
+                    : bookCategory,
+                Author = authorId is not null
+                    ? _context.BookAuthorEntity
                         .Single(bae => bae.AuthorId.Equals(authorId))
-                        : bookAuthor,
+                    : bookAuthor,
             };
         }
 
@@ -117,6 +118,5 @@ namespace MindTheCodeApp.Utils
                 Description = dto.Description,
             };
         }
-
     }
 }

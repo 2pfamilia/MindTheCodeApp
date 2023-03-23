@@ -1,7 +1,9 @@
 ﻿using AppCore.Models.BookModels;
 using AppCore.Models.DTOs;
+using MindTheCodeApp.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace MindTheCodeApp.Controllers
 {
@@ -10,10 +12,12 @@ namespace MindTheCodeApp.Controllers
     public class ShopController : Controller
     {
         private readonly ILogger<ShopController> _logger;
+        private readonly IBookService _bookService;
 
-        public ShopController(ILogger<ShopController> logger)
+        public ShopController(ILogger<ShopController> logger, IBookService bookService)
         {
             _logger = logger;
+            _bookService = bookService;
         }
 
         [HttpGet("")]
@@ -23,8 +27,7 @@ namespace MindTheCodeApp.Controllers
             /*
                 The business logic will need to be in a service.
              */
-
-            var books = new List<Book>();
+            var books = await _bookService.GetBooks(10);
 
             return View("/Views/Shop/Shop.cshtml", books);
         }
@@ -41,9 +44,15 @@ namespace MindTheCodeApp.Controllers
                 The business logic will need to be in a service.
              */
 
-            var books = new List<Book>();
-
-            return View("/Views/Shop/Shop.cshtml", books);
+            if (searchDTO == null)
+            {
+                var books = await _bookService.GetAllBooks();
+                return View("/Views/Shop/Shop.cshtml", books);
+            }
+            else
+            {
+                return View("/Views/Shop/Shop.cshtml", searchDTO);
+            }
         }
     }
 }

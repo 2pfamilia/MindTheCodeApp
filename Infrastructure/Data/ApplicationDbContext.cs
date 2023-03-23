@@ -7,7 +7,9 @@ namespace Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -117,6 +119,5 @@ namespace Infrastructure.Data
         public DbSet<BookAuthor> BookAuthorEntity { get; set; }
         public DbSet<BookPhoto> BookPhotoEntity { get; set; }
         public DbSet<Book> BookEntity { get; set; }
-
     }
 }

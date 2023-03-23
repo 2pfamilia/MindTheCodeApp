@@ -64,6 +64,5 @@ namespace AppCore.Models.OrderModels
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
         public ICollection<OrderDetails>? OrderDetails { get; set; }
-
     }
 }
