@@ -25,7 +25,7 @@ namespace MindTheCodeApp.Controllers
         // GET: Books
         public async Task<IActionResult> Index()
         {
-                var books = await _context.BookEntity.Include(b => b.Author).Include(b => b.Category).ToListAsync(); //Include authors, 
+                var books = await _context.BookEntity.Include(b => b.Author).Include(b => b.Category).ToListAsync(); 
 
                 foreach (var book in books)
                 {

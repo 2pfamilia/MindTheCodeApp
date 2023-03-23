@@ -7,17 +7,16 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AppCore.Models.OrderModels;
 using Infrastructure.Data;
-using MindTheCodeApp.ViewModels;
+using MindTheCodeApp.ViewModels.OrderVMs;
 
 namespace MindTheCodeApp.Controllers
 {
     public class OrderController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        [BindProperty]
-        public int BookVMId { get; set; }
-
+        private readonly List<IndexOrderVM> IndexOrderVMs = new List<IndexOrderVM>();
+        private readonly IndexOrderVM DetailsOrderVM = new IndexOrderVM();
+        private readonly EditOrderVM EditOrderVM = new EditOrderVM();
         public OrderController(ApplicationDbContext context)
         {
             _context = context;
@@ -26,9 +25,31 @@ namespace MindTheCodeApp.Controllers
         // GET: Order
         public async Task<IActionResult> Index()
         {
-              return _context.OrderEntity != null ? 
-                          View(await _context.OrderEntity.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.OrderEntity'  is null.");
+            var orders = await _context.OrderEntity.Include(c => c.User).Include(a => a.AddressInformation).ToListAsync();
+
+            foreach (var order in orders)
+            {
+                var orderVM = new IndexOrderVM();
+                var email = _context.OrderEntity.FirstOrDefault(u => u.OrderId == order.OrderId).User.Email;
+                var address = _context.OrderEntity.FirstOrDefault(a => a.OrderId == order.OrderId).AddressInformation.StreetAddress;
+                orderVM.IndexOrderId = order.OrderId;
+                if (email != null)
+                {
+                    orderVM.CustomerEmail = email;
+                }
+                if (address != null)
+                {
+                    orderVM.Address = address;
+                }
+                orderVM.Fulfilled = order.Fulfilled;
+                orderVM.Active = order.Active;
+                orderVM.Cancelled = order.Canceled;
+                orderVM.Cost = order.Cost;
+                orderVM.OrderCreated = order.DateCreated;
+                IndexOrderVMs.Add(orderVM);
+            }
+
+            return View("/Views/Admin/Order/Index.cshtml", IndexOrderVMs);
         }
 
         // GET: Order/Details/5
@@ -39,21 +60,37 @@ namespace MindTheCodeApp.Controllers
                 return NotFound();
             }
 
-            var order = await _context.OrderEntity
-                .FirstOrDefaultAsync(m => m.OrderId == id);
+            var order = await _context.OrderEntity.Include(u => u.User).Include(a => a.AddressInformation)
+                .FirstOrDefaultAsync(o => o.OrderId == id);
+            var user = _context.OrderEntity.FirstOrDefault(u => u.OrderId == order.OrderId).User.Email;
+            var address = _context.OrderEntity.FirstOrDefault(a => a.OrderId == order.OrderId).AddressInformation.StreetAddress;
+
+
             if (order == null)
             {
                 return NotFound();
             }
+            else
+            {
+                DetailsOrderVM.IndexOrderId = order.OrderId;
+                DetailsOrderVM.Address = address;
+                DetailsOrderVM.CustomerEmail = user;
+                DetailsOrderVM.Fulfilled = order.Fulfilled;
+                DetailsOrderVM.Active = order.Active;
+                DetailsOrderVM.Cancelled = order.Canceled;
+                DetailsOrderVM.Cost = order.Cost;
+                DetailsOrderVM.OrderCreated = order.DateCreated;
+            }
 
-            return View(order);
+            return View("/Views/Admin/Order/Details.cshtml", DetailsOrderVM);
         }
 
         // GET: Order/Create
         public IActionResult Create()
         {
-            ViewData["Books"] = new SelectList(_context.BookEntity, "BookId", "Title");
-            return View();
+            ViewData["Users"] = new SelectList(_context.UserEntity, "UserId", "Email");
+            ViewData["Addresses"] = new SelectList(_context.AddressInformationEntity, "AddressInformationId", "StreetAddress");
+            return View("/Views/Admin/Order/Create.cshtml");
         }
 
         // POST: Order/Create
@@ -61,58 +98,47 @@ namespace MindTheCodeApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(OrderVM order)
+        public async Task<IActionResult> Create(CreateOrderVM order)
         {
-            order.BookId = BookVMId;
+                var user = _context.UserEntity.FirstOrDefault(u => u.UserId == order.UserId);
+                var address = _context.AddressInformationEntity.FirstOrDefault(a => a.AddressInformationId == order.AddressInformationId);
 
-            var book = _context.BookEntity.FirstOrDefault(b => b.BookId == order.BookId);
+                var newOrder = _context.OrderEntity.Add(new Order
+                {
+                    User = user,
+                    Fulfilled = order.Fulfilled,
+                    Active = order.Active,
+                    Canceled = order.Canceled,
+                    AddressInformation = address,
+                    Cost = order.Cost,
+                    DateCreated = DateTime.Now
+                });
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
 
-            var address = _context.AddressInformationEntity.Add(new AddressInformation
-            {
-                StreetAddress = order.StreetAddress,
-                City = order.City,
-                PostalCode = order.PostalCode,
-                Country = order.Country
-            });
-
-            var newOrder = _context.OrderEntity.Add(new Order
-            {
-                //User = customer.Entity,
-                Fulfilled = order.Fulfilled,
-                Active = order.Active,
-                Canceled = order.Canceled,
-                AddressInformation = address.Entity,
-                Cost = order.Cost,
-                DateCreated = order.DateCreated
-            });
-
-            var newOrderDetails = _context.OrderDetailsEntity.Add(new OrderDetails
-            {
-                Order = newOrder.Entity,
-                Book = book,
-                Unitcost = order.Unitcost,
-                TotalCost = order.TotalCost,
-                Count = order.Count
-            });
-
-            await _context.SaveChangesAsync();
-            return View(order);
         }
 
         // GET: Order/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.OrderEntity == null)
+            var order = _context.OrderEntity.Include(u => u.User).Include(a => a.AddressInformation)
+                .FirstOrDefault(o => o.OrderId == id);
+            if (order != null)
             {
-                return NotFound();
+                EditOrderVM.EditOrderId = order.OrderId;
+                EditOrderVM.Fulfilled = order.Fulfilled;
+                EditOrderVM.Active = order.Active;
+                EditOrderVM.Canceled = order.Canceled;
+                EditOrderVM.UserId = order.User.UserId;
+                EditOrderVM.AddressInformationId = order.AddressInformation.AddressInformationId;
+                EditOrderVM.Cost = order.Cost;
+                EditOrderVM.OrderCreated = order.DateCreated;
             }
 
-            var order = await _context.OrderEntity.FindAsync(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            return View(order);
+            ViewData["Users"] = new SelectList(_context.UserEntity, "UserId", "Email");
+            ViewData["Addresses"] = new SelectList(_context.AddressInformationEntity, "AddressInformationId", "StreetAddress");
+
+            return View("/Views/Admin/Order/Edit.cshtml", EditOrderVM);
         }
 
         // POST: Order/Edit/5
@@ -120,34 +146,33 @@ namespace MindTheCodeApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderId,Fulfilled,Active,Canceled,Cost,DateCreated")] Order order)
+        public async Task<IActionResult> Edit(int id, EditOrderVM editOrderVM)
         {
-            if (id != order.OrderId)
+            var order = _context.OrderEntity.Include(u => u.User).Include(a => a.AddressInformation)
+                .FirstOrDefault(o => o.OrderId == id);
+            if (order != null)
+            {
+                if (id != order.OrderId)
+                {
+                    return NotFound();
+                }
+
+                order.Fulfilled = editOrderVM.Fulfilled;
+                order.Active = editOrderVM.Active;
+                order.Canceled = editOrderVM.Canceled;
+                order.User.UserId = editOrderVM.UserId;
+                order.AddressInformation.AddressInformationId = editOrderVM.AddressInformationId;
+                order.Cost = editOrderVM.Cost;
+                order.DateCreated = editOrderVM.OrderCreated;
+                
+                await _context.SaveChangesAsync();
+            }
+            else
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrderExists(order.OrderId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(order);
+            return RedirectToAction("Index");
         }
 
         // GET: Order/Delete/5
@@ -165,7 +190,7 @@ namespace MindTheCodeApp.Controllers
                 return NotFound();
             }
 
-            return View(order);
+            return View("/Views/Admin/Order/Delete.cshtml", order);
         }
 
         // POST: Order/Delete/5

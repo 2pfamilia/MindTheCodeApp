@@ -1,7 +1,7 @@
 ﻿using AppCore.Models.AuthModels;
 
 
-namespace MindTheCodeApp.ViewModels
+namespace MindTheCodeApp.ViewModels.OrderVMs
 {
     public class OrderVM
     {
