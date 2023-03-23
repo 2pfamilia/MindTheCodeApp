@@ -16,6 +16,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("LocalDb");
     options.UseSqlServer(connectionString);
+    options.EnableSensitiveDataLogging();
 });
 
 // Authentication service with Cookies.

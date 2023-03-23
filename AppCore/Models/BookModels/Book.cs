@@ -17,6 +17,12 @@ namespace AppCore.Models.BookModels
         ]
         public int BookId { get; set; }
 
+        // maybe csv 
+        //[
+        //    Column("isbn")
+        //]
+        //public Guid ISBN { get; set; } = Guid.NewGuid();
+
         [
             Required,
             Column("title"),
