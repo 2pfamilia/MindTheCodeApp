@@ -1,14 +1,14 @@
 using AppCore.IRepositories;
 using AppCore.Models;
 using AppCore.Models.DTOs;
-using AppCore.Services.IServices;
+using MindTheCodeApp.Services.IServices;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
-namespace AppCore.Controllers
+namespace MindTheCodeApp.Controllers
 {
     [Route("")]
     [AllowAnonymous]
@@ -36,7 +36,7 @@ namespace AppCore.Controllers
 
             var dto = _bookService.GetHomeDTO();
 
-            return View("Views/Home/Index.cshtml", dto);
+            return View("/Views/Home/Index.cshtml", dto);
         }
     }
 }

@@ -53,6 +53,5 @@ namespace AppCore.Models.OrderModels
             NotNull
         ]
         public int? Count { get; set; }
-
     }
 }
