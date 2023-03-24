@@ -10,5 +10,6 @@ namespace AppCore.IRepositories
         Task<Order> CreateOrder(User user, Dictionary<Book,int> books);
         Task<OrderDetails> CreateOrderDetails(Order oreder, Book book, int count);
         Task<List<OrderDetails>> GetOrderDetailsByOrder(Order order);
+        Task<List<Order>> GetOrdersByUser(int userId);
     }
 }

@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230323205600_AddPhoneFieldForUser")]
+    partial class AddPhoneFieldForUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,6 +71,12 @@ namespace AppCore.Migrations
                         .HasMaxLength(24)
                         .HasColumnType("nvarchar(24)")
                         .HasColumnName("phone");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)")
+                        .HasColumnName("username");
 
                     b.Property<int?>("address_information_id")
                         .HasColumnType("int");
@@ -257,9 +266,9 @@ namespace AppCore.Migrations
                         .HasColumnType("nvarchar(500)")
                         .HasColumnName("description");
 
-                    b.Property<string>("FilePath")
+                    b.Property<byte[]>("File")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("varbinary(max)")
                         .HasColumnName("file");
 
                     b.Property<string>("Title")

@@ -57,11 +57,28 @@ namespace Infrastructure.Data.Repositories
             var orders = await _context.OrderEntity.ToListAsync();
             return orders;
         }
-
+        
         public async Task<List<OrderDetails>> GetOrderDetailsByOrder(Order order)
         {
             var orderDetails = await _context.OrderDetailsEntity.Where(myOrderDetails=>myOrderDetails.Order== order).ToListAsync();
             return orderDetails;
+        }
+        
+        public async Task<List<Order>> GetOrdersByUser(int userId)
+        {
+            var orderInfo = await _context.OrderEntity
+                .Include(o => o.User)
+                .Where(o => o.User.UserId.Equals(userId))
+                .Include(o => o.OrderDetails)!
+                .ThenInclude(od => od.Book)
+                .ThenInclude(b => b.Author)
+                .Include(o => o.OrderDetails)!
+                .ThenInclude(od => od.Book)
+                .ThenInclude(b => b.Category)
+                .Where(o => o.User.UserId.Equals(userId))
+                .ToListAsync();
+
+            return orderInfo;
         }
     }
 }

@@ -35,7 +35,7 @@ namespace AppCore.Models.BookModels
             Column("file"),
             NotNull
         ]
-        public byte[]? File { get; set; }
+        public string? FilePath { get; set; }
 
         [
             Column("date_created"),
