@@ -89,7 +89,18 @@ namespace Infrastructure.Data.Repositories
                 user.AddressInformation.StreetAddress = dto.StreetAddress;
             }
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> UpdateUserPassword(UserChangePasswordDTO dto, int userId)
+        {
+            var user = _context.UserEntity.Single(u => u.UserId.Equals(userId) && u.Password.Equals(dto.OldPassword));
+
+            user.Password = dto.NewPassword;
+
+            await _context.SaveChangesAsync();
 
             return true;
         }

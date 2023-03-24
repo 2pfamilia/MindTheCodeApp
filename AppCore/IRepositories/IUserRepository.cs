@@ -16,5 +16,6 @@ namespace AppCore.IRepositories
         public UserRole CreateUserRole();
         Task<User> GetUserInfo(int userId);
         Task<Boolean> UpdateUserInfo(UserInfoDTO dto, int useId);
+        Task<Boolean> UpdateUserPassword(UserChangePasswordDTO dto, int userId);
     }
 }

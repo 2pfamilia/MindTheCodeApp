@@ -88,20 +88,25 @@ namespace AppCore.Services.Implementation
                 user.AddressInformation.AddressInformationId = addressInformation.AddressInformationId;
 
 
-
                 //Send User data to DB
                 _userRepository.CreateUser(user);
 
                 userCreated = true;
                 return userCreated;
-
             }
             else
             {
                 userCreated = false;
                 return userCreated;
             }
-           
+        }
+
+        public async Task<bool> UpdateUserPassword(UserChangePasswordDTO dto, int userId)
+        {
+            if (!dto.NewPassword.Equals(dto.ConfirmPassword))
+                return false;
+
+            return await _userRepository.UpdateUserPassword(dto, userId);
         }
     }
 }

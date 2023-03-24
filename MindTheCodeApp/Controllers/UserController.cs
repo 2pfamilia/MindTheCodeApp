@@ -27,13 +27,24 @@ public class UserController : Controller
         return View("/Views/MyAccount/MyAccount.cshtml", dto);
     }
     
-    [HttpPost("Info")]
+    [HttpPost("ChangeInfo")]
     [Authorize(Roles = "reuser, admin")]
     public async Task<IActionResult> InfoUpdate([FromForm] UserInfoDTO dto)
     {
         var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "-1");
 
         await _userService.UpdateUserInfo(dto, userId);
+        
+        return RedirectToAction("InfoView", "User");
+    }
+    
+    [HttpPost("ChangePassword")]
+    [Authorize(Roles = "reuser, admin")]
+    public async Task<IActionResult> UpdateUserPassword([FromForm] UserChangePasswordDTO dto)
+    {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "-1");
+
+        await _userService.UpdateUserPassword(dto, userId);
         
         return RedirectToAction("InfoView", "User");
     }
