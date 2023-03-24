@@ -11,6 +11,6 @@ namespace MindTheCodeApp.Services.IServices
         Task<UserInfoDTO> GetUserInfo(int userId);
         Task<Boolean> UpdateUserInfo(UserInfoDTO dto, int userId);
 
-        public bool CreateUser(RegisterDTO registerDTO);
+        Task<bool> CreateUser(RegisterDTO registerDTO);
     }
 }

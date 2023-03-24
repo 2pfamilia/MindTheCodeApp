@@ -34,7 +34,7 @@ namespace Infrastructure.Data.Repositories
             _context.SaveChanges();
         }
 
-        public bool UserExists(User user)
+        public async Task<bool> UserExists(User user)
         {
             var userExists = _context.UserEntity.Any(u =>
                         u.Email.Equals(user.Email)

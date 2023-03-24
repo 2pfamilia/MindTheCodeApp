@@ -9,7 +9,7 @@ namespace AppCore.IRepositories
         Task<List<User>> GetAllUsers();
 
         public void CreateUser(User user);
-        public bool UserExists(User user);
+        Task<bool> UserExists(User user);
 
         public void CreateAddress(AddressInformation address);
 

@@ -1,13 +1,7 @@
 ﻿using AppCore.IRepositories;
 using AppCore.Models.AuthModels;
 using AppCore.Models.DTOs;
-using Microsoft.AspNetCore.Mvc;
-using AppCore.Models.DTOs;
 using MindTheCodeApp.Services.IServices;
-
-using Infrastructure.Data;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using AppCore.Models.OrderModels;
 
 namespace AppCore.Services.Implementation
@@ -57,7 +51,7 @@ namespace AppCore.Services.Implementation
             return true;
         }
 
-        public bool CreateUser(RegisterDTO registerDTO)
+        public async Task<bool> CreateUser(RegisterDTO registerDTO)
         {
             bool userCreated = false;
 
@@ -66,10 +60,10 @@ namespace AppCore.Services.Implementation
 
             user.Email = registerDTO.Email;
 
-            if (!_userRepository.UserExists(user))
+            if (!await _userRepository.UserExists(user))
             {
                 user.Birthdate = registerDTO.Birthday;
-                user.Username = registerDTO.Username;
+                //user.Username = registerDTO.Username;
                 user.FirstName = registerDTO.FirstName;
                 user.LastName = registerDTO.LastName;
                 user.Password = registerDTO.Password;

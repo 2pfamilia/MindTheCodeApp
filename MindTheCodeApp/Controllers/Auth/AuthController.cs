@@ -93,7 +93,7 @@ namespace MindTheCodeApp.Controllers.Auth
 
             }
 
-            var userCreated = _userService.CreateUser(registerDTO);
+            var userCreated = await _userService.CreateUser(registerDTO);
 
             if (userCreated)
             {
