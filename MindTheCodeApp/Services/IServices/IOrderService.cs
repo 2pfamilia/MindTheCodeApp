@@ -1,9 +1,12 @@
-﻿using AppCore.Models.OrderModels;
+﻿using AppCore.Models.AuthModels;
+using AppCore.Models.BookModels;
+using AppCore.Models.OrderModels;
 
 namespace MindTheCodeApp.Services.IServices
 {
     public interface IOrderService
     {
-        Task<List<Order>> GetAllOrder();
+        Task<List<Order>> GetAllOrders();
+        Task<Order> CreateNewOrder(User user, Dictionary<Book, int> booksWithQuantities);
     }
 }
