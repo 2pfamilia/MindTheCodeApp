@@ -1,4 +1,6 @@
-﻿@{
+﻿@model AppCore.Models.DTOs.UserInfoDTO
+
+@{
     ViewData["Title"] = "My Account";
 }
 
@@ -33,30 +35,30 @@
         </nav>
         <div class="my-account-nav-bar-divider"></div>
     </div>
-    <form class="personal-info-form">
+    <form asp-controller="User" asp-action="InfoUpdate" class="personal-info-form">
         <div class="form-input">
-            <label class="form-input-label" for="email">Email *</label>
-            <input type="text" name="email" value="email@gmail.com" required />
+            <label class="form-input-label" for="Email">Email *</label>
+            <input type="text" name="Email" value="@Model.Email" required />
             <span class="form-error-msg"></span>
         </div>
         <div class="form-row-inputs">
             <div class="form-input">
-                <label class="form-input-label" for="first-name">First name *</label>
-                <input type="text" name="first-name" value="Spiros" required />
+                <label class="form-input-label" for="FirstName">First name *</label>
+                <input type="text" name="FirstName" value="@Model.FirstName" required />
                 <span class="form-error-msg"></span>
             </div>
             <div class="form-input">
-                <label class="form-input-label" for="last-name">Last name *</label>
-                <input type="text" name="last-name" required value="Dimou" />
+                <label class="form-input-label" for="LastName">Last name *</label>
+                <input type="text" name="LastName" required value="@Model.LastName" />
                 <span class="form-error-msg"></span>
             </div>
         </div>
         <div class="custom-select">
             <div class="custom-select-container form-select required">
-                <label class="form-input-label" for="country">Country *</label>
+                <label class="form-input-label" for="Country">Country *</label>
                 <input type="text"
-                       name="country"
-                       value="Greece"
+                       name="Country"
+                       value="@Model.StreetAddress"
                        placeholder="Country" />
                 <span class="custom-select-text"></span>
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
@@ -72,29 +74,29 @@
         <div class="form-row-inputs">
             <div class="form-input">
                 <label class="form-input-label" for="City">Town / City *</label>
-                <input type="text" name="city" value="Thessaloniki" required />
+                <input type="text" name="City" value="@Model.Country" required />
                 <span class="form-error-msg"></span>
             </div>
             <div class="form-input">
-                <label class="form-input-label" for="zip-code">Zip code *</label>
-                <input type="text" name="zip-code" value="12345" required />
+                <label class="form-input-label" for="ZipCode">Zip code *</label>
+                <input type="text" name="ZipCode" value="@Model.ZipCode" required />
                 <span class="form-error-msg"></span>
             </div>
         </div>
         <div class="form-input">
-            <label class="form-input-label" for="street-address">Street address *</label>
+            <label class="form-input-label" for="StreetAddress">Street address *</label>
             <input type="text"
-                   name="street-address"
-                   value="Pontou 2"
+                   name="StreetAddress"
+                   value="@Model.StreetAddress"
                    required />
             <span class="form-error-msg"></span>
         </div>
         <div class="form-input">
-            <label class="form-input-label" for="phone">Phone *</label>
-            <input type="text" name="phone" value="691234567" required />
+            <label class="form-input-label" for="Phone">Phone *</label>
+            <input type="text" name="Phone" value="@Model.Phone" required />
             <span class="form-error-msg"></span>
         </div>
-        <button type="submit" class="btn form-btn">CHANGE INFO</button>
+        <input type="submit" class="btn form-btn">CHANGE INFO</input>
     </form>
     <div class="account-page-orders">
         <section class="order-container">
