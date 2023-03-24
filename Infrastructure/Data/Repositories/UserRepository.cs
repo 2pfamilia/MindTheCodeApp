@@ -18,5 +18,14 @@ namespace Infrastructure.Data.Repositories
             var users = await _context.UserEntity.ToListAsync();
             return users;
         }
+
+        public async Task<User> GetUserInfo(int userId)
+        {
+            var user = await _context.UserEntity
+                .Include(u => u.AddressInformation)
+                .SingleAsync(u => u.UserId.Equals(userId));
+
+            return user;
+        }
     }
 }
