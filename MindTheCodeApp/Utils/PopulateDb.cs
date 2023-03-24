@@ -210,28 +210,32 @@ namespace AppCore.Utils
                 new()
                 {
                     FirstName = "Admin", LastName = "Admin", Email = "administrator@admin.org",
-                    Birthdate = DateTime.Now, Username = "admin", Password = "admin",
+                    Birthdate = DateTime.Now, /*Username = "admin",*/ Password = "admin",
+                    Phone = "2102713100",
                     Role = _dbcontext.UserRoleEntity.Single(role => role.Code.Equals("admin")),
                     AddressInformation = _dbcontext.AddressInformationEntity.Single(o => o.AddressInformationId == 1),
                 },
                 new()
                 {
                     FirstName = "Summer", LastName = "Gates", Email = "summer@gates.org", Birthdate = DateTime.Now,
-                    Username = "Summergates", Password = "123456",
+                    /*Username = "Summergates",*/ Password = "123456",
+                    Phone = "2102713100",
                     Role = _dbcontext.UserRoleEntity.Single(role => role.Code.Equals("reuser")),
                     AddressInformation = _dbcontext.AddressInformationEntity.Single(o => o.AddressInformationId == 1),
                 },
                 new()
                 {
                     FirstName = "Kael", LastName = "Kelly", Email = "kael@kelly.org", Birthdate = DateTime.Now,
-                    Username = "Kaelkelly", Password = "123456",
+                    /*Username = "Kaelkelly",*/ Password = "123456",
+                    Phone = "2102713100",
                     Role = _dbcontext.UserRoleEntity.Single(role => role.Code.Equals("reuser")),
                     AddressInformation = _dbcontext.AddressInformationEntity.Single(o => o.AddressInformationId == 1),
                 },
                 new()
                 {
                     FirstName = "Wilson", LastName = "Trevino", Email = "wilson@trevino.org", Birthdate = DateTime.Now,
-                    Username = "Wilsontrevino", Password = "123456",
+                    /*Username = "Wilsontrevino",*/ Password = "123456",
+                    Phone = "2102713100",
                     Role = _dbcontext.UserRoleEntity.Single(role => role.Code.Equals("reuser")),
                     AddressInformation = _dbcontext.AddressInformationEntity.Single(o => o.AddressInformationId == 1),
                 },
@@ -354,11 +358,11 @@ namespace AppCore.Utils
         private async Task PopulateBookPhoto(CancellationToken stoppingToken)
         {
             var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "img/books", "placeholder.png");
-            byte[] fileBytes = File.ReadAllBytes(imagePath);
+            string fileBytes = File.ReadAllText(imagePath);
 
             var data = new List<BookPhoto>
             {
-                new() { Title = "Placeholder", Description = "Placeholder", File = fileBytes },
+                new() { Title = "Placeholder", Description = "Placeholder", FilePath = fileBytes },
             };
 
             await _dbcontext.AddRangeAsync(data);
@@ -527,6 +531,13 @@ namespace AppCore.Utils
         {
             var data = new List<OrderDetails>
             {
+
+                new() { Order = _dbcontext.OrderEntity.Single(o => o.OrderId == 1), Book = _dbcontext.BookEntity.Single(b => b.BookId == 1),  Unitcost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 1).Price, TotalCost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 1).Price, Count = 1},
+                new() { Order = _dbcontext.OrderEntity.Single(o => o.OrderId == 1), Book = _dbcontext.BookEntity.Single(b => b.BookId == 4),  Unitcost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 4).Price, TotalCost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 4).Price * 4, Count = 4},
+                new() { Order = _dbcontext.OrderEntity.Single(o => o.OrderId == 2), Book = _dbcontext.BookEntity.Single(b => b.BookId == 13),  Unitcost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 13).Price, TotalCost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 13).Price, Count = 1},
+                new() { Order = _dbcontext.OrderEntity.Single(o => o.OrderId == 3), Book = _dbcontext.BookEntity.Single(b => b.BookId == 11),  Unitcost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 11).Price, TotalCost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 11).Price, Count = 1},
+                new() { Order = _dbcontext.OrderEntity.Single(o => o.OrderId == 3), Book = _dbcontext.BookEntity.Single(b => b.BookId == 4),  Unitcost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 4).Price, TotalCost = (decimal)_dbcontext.BookEntity.Single(b => b.BookId == 4).Price, Count = 1},
+
                 new()
                 {
                     Order = _dbcontext.OrderEntity.Single(o => o.OrderId == 1),
@@ -562,6 +573,7 @@ namespace AppCore.Utils
                     Unitcost = _dbcontext.BookEntity.Single(b => b.BookId == 4).Price,
                     TotalCost = _dbcontext.BookEntity.Single(b => b.BookId == 4).Price, Count = 1
                 },
+
             };
 
             await _dbcontext.AddRangeAsync(data);

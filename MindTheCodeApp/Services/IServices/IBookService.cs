@@ -1,5 +1,8 @@
 ﻿using AppCore.Models.BookModels;
 using AppCore.Models.DTOs;
+using AppCore.Models.OrderModels;
+using AppCore.Models.AuthModels;
+using System.Runtime.CompilerServices;
 
 namespace MindTheCodeApp.Services.IServices
 {
@@ -20,5 +23,6 @@ namespace MindTheCodeApp.Services.IServices
         Task<BookCategory> GetCategoryById(int id);
         Task<List<Book>> GetBooksByPriceRange(int? minRange, int? maxRange);
         Task<List<BookAuthor>> GetBestSellingAuthors();
+       
     }
 }

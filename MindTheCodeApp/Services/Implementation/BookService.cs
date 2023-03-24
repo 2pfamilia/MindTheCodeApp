@@ -1,6 +1,8 @@
 using AppCore.IRepositories;
+using AppCore.Models.AuthModels;
 using AppCore.Models.BookModels;
 using AppCore.Models.DTOs;
+using AppCore.Models.OrderModels;
 using MindTheCodeApp.Services.IServices;
 
 namespace AppCore.Services.Implementation
@@ -79,6 +81,7 @@ namespace AppCore.Services.Implementation
 
 
         #region DTOs
+
 
         public HomeDTO GetHomeDTO()
         {

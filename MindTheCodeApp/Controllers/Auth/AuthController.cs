@@ -28,7 +28,7 @@ namespace MindTheCodeApp.Controllers.Auth
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromForm] User user)
         {
-            if (user is null || user.Username is null || user.Password is null)
+            if (user is null || user.Email is null || user.Password is null)
                 return BadRequest();
 
             // Check if user exists in database with the correct password.
@@ -37,7 +37,7 @@ namespace MindTheCodeApp.Controllers.Auth
                 user = _context.UserEntity
                     .Include(u => u.Role)
                     .Single(u =>
-                        u.Username.Equals(user.Username) &&
+                        u.Email.Equals(user.Email) &&
                         u.Password.Equals(user.Password)
                     );
             }
@@ -50,14 +50,14 @@ namespace MindTheCodeApp.Controllers.Auth
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role!.Code),
+                new Claim(ClaimTypes.Role, user.Role.Code),
                 new Claim(ClaimTypes.Email, user.Email),
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity));
+            var principal = new ClaimsPrincipal(claimsIdentity);
+            
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
             return RedirectToAction("Index", "Home");
         }
