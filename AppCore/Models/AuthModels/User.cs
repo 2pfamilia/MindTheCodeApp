@@ -73,6 +73,7 @@ namespace AppCore.Models.AuthModels
             Required,
             Column("phone"),
             NotNull,
+            NotMapped,
             StringLength(24, MinimumLength = 6),
         ]
         public string Phone { get; set; }

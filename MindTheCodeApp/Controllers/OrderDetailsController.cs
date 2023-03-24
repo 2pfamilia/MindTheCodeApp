@@ -42,7 +42,7 @@ namespace MindTheCodeApp.Controllers
         // GET: Books/Create
         public IActionResult Create()
         {
-            ViewData["Orders"] = new SelectList(_context.OrderEntity, "OrderId", "Cost"); // Edo prepei na deixno ton user
+            ViewData["Orders"] = new SelectList(_context.OrderEntity.Include(u => u.User), "OrderId", "User.Email"); // Edo prepei na deixno ton user
             ViewData["Books"] = new SelectList(_context.BookEntity, "BookId", "Title");
 
             return View("/Views/Admin/OrderDetails/Create.cshtml");
@@ -149,7 +149,7 @@ namespace MindTheCodeApp.Controllers
                 EditDetailsVM.Count = (int)details.Count;
             }
 
-            ViewData["Orders"] = new SelectList(_context.OrderEntity, "OrderId", "Cost"); // Edo prepei na deixno ton user
+            ViewData["Orders"] = new SelectList(_context.OrderEntity.Include(u => u.User), "OrderId", "User.Email"); // Edo prepei na deixno ton user
             ViewData["Books"] = new SelectList(_context.BookEntity, "BookId", "Title");
 
             return View("/Views/Admin/OrderDetails/Edit.cshtml", EditDetailsVM);
