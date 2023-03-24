@@ -48,13 +48,13 @@ namespace AppCore.Models.AuthModels
         ]
         public DateTime? Birthdate { get; set; }
 
-        [
-            Required,
-            Column("username"),
-            NotNull,
-            StringLength(36, MinimumLength = 5)
-        ]
-        public string? Username { get; set; }
+        // [
+        //     Required,
+        //     Column("username"),
+        //     NotNull,
+        //     StringLength(36, MinimumLength = 5)
+        // ]
+        // public string? Username { get; set; }
 
         [
             Required,
@@ -79,7 +79,7 @@ namespace AppCore.Models.AuthModels
             StringLength(24, MinimumLength = 6),
         ]
         public string Phone { get; set; }
-        
+
         [
             Column("role_id"),
             ForeignKey("role_id"),
