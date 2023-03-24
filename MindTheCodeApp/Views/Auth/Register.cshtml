@@ -5,27 +5,27 @@
 
 <div class="signup-page-container">
     <h1 class="page-title">Create Account</h1>
-    <form class="signup-page-form">
+    <form class="signup-page-form" asp-controller="Auth" asp-action="Register" method="post">
         <div class="signup-page-form-section-header">
             <h3>Login Info</h3>
             <div class="hr-divider-100"></div>
         </div>
         <div class="form-input">
             <label class="form-input-label" for="email">Email *</label>
-            <input type="text" name="email" required />
+            <input type="text" id="email" name="email" required />
             <span class="form-error-msg"></span>
         </div>
         <div class="form-row-inputs password-confirmation">
             <div class="form-input">
                 <label class="form-input-label" for="new-password">Password *</label>
-                <input type="password" name="new-password" required />
+                <input type="password" name="new-password"  />
                 <span class="form-error-msg"></span>
             </div>
             <div class="form-input">
                 <label class="form-input-label" for="password-confirmation">
                     Confirm password *
                 </label>
-                <input type="password" name="password-confirmation" required />
+                <input type="password" name="password-confirmation"  />
                 <span class="form-error-msg"></span>
             </div>
         </div>
@@ -35,20 +35,20 @@
         </div>
         <div class="form-row-inputs">
             <div class="form-input">
-                <label class="form-input-label" for="first-name">First name *</label>
-                <input type="text" name="first-name" required />
+                <label class="form-input-label" for="FirstName">First name *</label>
+                <input type="text" name="FirstName" />
                 <span class="form-error-msg"></span>
             </div>
             <div class="form-input">
-                <label class="form-input-label" for="last-name">Last name *</label>
-                <input type="text" name="last-name" required />
+                <label class="form-input-label" for="LastName">Last name *</label>
+                <input type="text" name="LastName" />
                 <span class="form-error-msg"></span>
             </div>
         </div>
         <div class="custom-select">
             <div class="custom-select-container form-select required">
-                <label class="form-input-label" for="country">Country *</label>
-                <input type="text" name="country" placeholder="Country" />
+                <label class="form-input-label" for="Country">Country *</label>
+                <input type="text" name="Country" placeholder="Country" />
                 <span class="custom-select-text"></span>
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
                     <path d="M9.4 18 8 16.6l4.6-4.6L8 7.4 9.4 6l6 6Z" />
@@ -63,25 +63,29 @@
         <div class="form-row-inputs">
             <div class="form-input">
                 <label class="form-input-label" for="City">Town / City *</label>
-                <input type="text" name="city" required />
+                <input type="text" name="City" />
                 <span class="form-error-msg"></span>
             </div>
             <div class="form-input">
-                <label class="form-input-label" for="zip-code">Zip code *</label>
-                <input type="text" name="zip-code" required />
+                <label class="form-input-label" for="PostalCode">Zip code *</label>
+                <input type="text" name="PostalCode" />
                 <span class="form-error-msg"></span>
             </div>
         </div>
         <div class="form-input">
-            <label class="form-input-label" for="street-address">Street address *</label>
-            <input type="text" name="street-address" required />
+            <label class="form-input-label" for="StreetAddress">Street address *</label>
+            <input type="text" name="StreetAddress" />
             <span class="form-error-msg"></span>
         </div>
         <div class="form-input">
             <label class="form-input-label" for="phone">Phone *</label>
-            <input type="text" name="phone" required />
+            <input type="text" name="phone"  />
             <span class="form-error-msg"></span>
         </div>
         <button type="submit" class="btn-revert form-btn">SIGN UP</button>
+        <input type="submit" value="Hello" />
     </form>
 </div>
+
+<!--Allert Message-->
+@Html.Raw(TempData["msg"])

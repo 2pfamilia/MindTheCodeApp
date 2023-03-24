@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using AppCore.Models.DTOs;
+using MindTheCodeApp.Services.IServices;
 
 namespace MindTheCodeApp.Controllers.Auth
 {
@@ -15,10 +17,12 @@ namespace MindTheCodeApp.Controllers.Auth
     public class AuthController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IUserService _userService;
 
-        public AuthController(ApplicationDbContext context)
+        public AuthController(ApplicationDbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         [HttpPost("Login")]
@@ -68,9 +72,40 @@ namespace MindTheCodeApp.Controllers.Auth
         }
 
         [HttpGet("Register")]
-        public async Task<IActionResult> Register()
+        public async Task<IActionResult> RegisterView()
         {
-            return View("/Views/MyAccount/MyAccount.cshtml");
+            return View("/Views/Auth/Register.cshtml");
         }
+
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromForm] RegisterDTO registerDTO)
+        {
+            User user = new User();
+
+            //user.Email = registerDTO.Email;
+
+            if (registerDTO.Email is null || registerDTO.FirstName is null || registerDTO.LastName is null 
+                || registerDTO.City is null || registerDTO.StreetAddress is null || registerDTO.Country is null)
+            {
+                TempData["msg"] = "<script>alert('All Fields are Obligatory');</script>";
+
+                return View("/Views/Auth/Register.cshtml");
+
+            }
+
+            var userCreated = _userService.CreateUser(registerDTO);
+
+            if (userCreated)
+            {
+                TempData["msg"] = "<script>alert('User Created');</script>";
+            }
+            else
+            {
+                TempData["msg"] = "<script>alert('User Already Exists');</script>";
+            }
+
+            return View("/Views/Auth/Register.cshtml");
+        }
+
     }
 }
