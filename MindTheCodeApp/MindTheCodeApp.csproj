@@ -40,6 +40,7 @@
 
   <ItemGroup>
     <Folder Include="Views\Test\" />
+    <Folder Include="wwwroot\UploadedImages\" />
   </ItemGroup>
 
 </Project>

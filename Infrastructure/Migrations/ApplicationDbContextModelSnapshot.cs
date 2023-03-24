@@ -254,10 +254,10 @@ namespace AppCore.Migrations
                         .HasColumnType("nvarchar(500)")
                         .HasColumnName("description");
 
-                    b.Property<byte[]>("File")
+                    b.Property<string>("FilePath")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)")
-                        .HasColumnName("file");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("filepath");
 
                     b.Property<string>("Title")
                         .IsRequired()

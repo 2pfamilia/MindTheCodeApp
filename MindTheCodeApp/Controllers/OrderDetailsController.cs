@@ -1,4 +1,5 @@
-﻿using Infrastructure.Data;
+﻿using AppCore.Models.BookModels;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,8 @@ namespace MindTheCodeApp.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly List<IndexOrderDetailsVM> IndexOrderDetailsVMs = new List<IndexOrderDetailsVM>();
-        private readonly IndexOrderDetailsVM DetailsOrderDetailsVM = new IndexOrderDetailsVM(); 
+        private readonly IndexOrderDetailsVM DetailsOrderDetailsVM = new IndexOrderDetailsVM();
+        private readonly EditOrderDetailsVM EditDetailsVM = new EditOrderDetailsVM();
         public OrderDetailsController(ApplicationDbContext context)
         {
             _context = context;
@@ -57,7 +59,7 @@ namespace MindTheCodeApp.Controllers
             {
                 Order = order,
                 Book = book,
-                Unitcost = details.UnitCost, 
+                Unitcost = details.UnitCost,
                 TotalCost = totalCost,
                 Count = details.Count
             });
@@ -81,7 +83,7 @@ namespace MindTheCodeApp.Controllers
             var orderEmail = order.User.Email;
             var bookTitle = _context.OrderDetailsEntity.FirstOrDefault(o => o.OrderDetailsId == detail.OrderDetailsId).Book.Title;
 
-            if (detail == null) 
+            if (detail == null)
             {
                 return NotFound();
             }
@@ -131,6 +133,54 @@ namespace MindTheCodeApp.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var details = _context.OrderDetailsEntity.Include(o => o.Order).Include(a => a.Book)
+                .FirstOrDefault(o => o.OrderDetailsId == id);
+            if (details != null)
+            {
+                EditDetailsVM.EditDetailsId = (int)details.OrderDetailsId;
+                EditDetailsVM.OrderId = details.Order.OrderId;
+                EditDetailsVM.BookId = details.Book.BookId;
+                EditDetailsVM.UnitCost = (decimal)details.Unitcost;
+                EditDetailsVM.TotalCost = (decimal)details.TotalCost;
+                EditDetailsVM.Count = (int)details.Count;
+            }
+
+            ViewData["Orders"] = new SelectList(_context.OrderEntity, "OrderId", "Cost"); // Edo prepei na deixno ton user
+            ViewData["Books"] = new SelectList(_context.BookEntity, "BookId", "Title");
+
+            return View("/Views/Admin/OrderDetails/Edit.cshtml", EditDetailsVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, EditOrderDetailsVM editDetailsVM)
+        {
+            var details = _context.OrderDetailsEntity.Include(o => o.Order).Include(a => a.Book)
+                .FirstOrDefault(o => o.OrderDetailsId == id);
+            if (details != null)
+            {
+                if (id != editDetailsVM.EditDetailsId)
+                {
+                    return NotFound();
+                }
+                details.Unitcost = editDetailsVM.UnitCost;
+                details.Count = editDetailsVM.Count;
+                details.TotalCost = editDetailsVM.UnitCost * editDetailsVM.Count;
+                details.Order.OrderId = editDetailsVM.OrderId;
+                details.Book.BookId = editDetailsVM.BookId;
+
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }
