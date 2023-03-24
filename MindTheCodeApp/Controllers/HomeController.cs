@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using AppCore.Models.AuthModels;
 
 namespace MindTheCodeApp.Controllers
 {
@@ -38,5 +39,7 @@ namespace MindTheCodeApp.Controllers
 
             return View("/Views/Home/Index.cshtml", dto);
         }
+
+        
     }
 }
