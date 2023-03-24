@@ -8,5 +8,6 @@ namespace MindTheCodeApp.Services.IServices
     {
         Task<List<User>> GetAllUsers();
         Task<UserInfoDTO> GetUserInfo(int userId);
+        Task<Boolean> UpdateUserInfo(UserInfoDTO dto, int userId);
     }
 }

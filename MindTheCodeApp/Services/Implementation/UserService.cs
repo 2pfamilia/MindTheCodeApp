@@ -1,6 +1,7 @@
 ﻿using AppCore.IRepositories;
 using AppCore.Models.AuthModels;
 using AppCore.Models.DTOs;
+using Microsoft.AspNetCore.Mvc;
 using MindTheCodeApp.Services.IServices;
 
 namespace AppCore.Services.Implementation
@@ -41,6 +42,13 @@ namespace AppCore.Services.Implementation
             };
 
             return dto;
+        }
+
+        public async Task<Boolean> UpdateUserInfo(UserInfoDTO dto, int userId)
+        {
+            await _userRepository.UpdateUserInfo(dto, userId);
+
+            return true;
         }
     }
 }

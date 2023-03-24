@@ -1,4 +1,5 @@
 ﻿using AppCore.Models.AuthModels;
+using AppCore.Models.DTOs;
 
 namespace AppCore.IRepositories
 {
@@ -6,5 +7,6 @@ namespace AppCore.IRepositories
     {
         Task<List<User>> GetAllUsers();
         Task<User> GetUserInfo(int userId);
+        Task<Boolean> UpdateUserInfo(UserInfoDTO dto, int useId);
     }
 }
