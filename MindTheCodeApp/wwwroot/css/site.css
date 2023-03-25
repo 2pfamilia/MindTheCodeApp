@@ -705,6 +705,7 @@
 .home-section-books-item img {
     align-self: center;
     height: 26rem;
+    max-width: 24rem;
     object-fit: contain;
 }
 
