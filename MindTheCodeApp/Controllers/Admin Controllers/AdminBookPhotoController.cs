@@ -6,13 +6,13 @@ using MindTheCodeApp.ViewModels.BookVMs;
 
 namespace MindTheCodeApp.Controllers
 {
-    public class BookPhotoController : Controller
+    public class AdminBookPhotoController : Controller
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ApplicationDbContext _context;
         private List<BookPhotoVM> IndexPhotosVM = new List<BookPhotoVM>();
 
-        public BookPhotoController(IWebHostEnvironment webHostEnvironment, ApplicationDbContext context)
+        public AdminBookPhotoController(IWebHostEnvironment webHostEnvironment, ApplicationDbContext context)
         {
             _webHostEnvironment = webHostEnvironment;
             _context = context;
