@@ -7,14 +7,14 @@ using MindTheCodeApp.ViewModels.OrderVMs;
 
 namespace MindTheCodeApp.Controllers
 {
-    public class OrderDetailsController : Controller
+    public class AdminOrderDetailsController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly List<IndexOrderDetailsVM> IndexOrderDetailsVMs = new List<IndexOrderDetailsVM>();
         private readonly IndexOrderDetailsVM DetailsOrderDetailsVM = new IndexOrderDetailsVM();
         private readonly EditOrderDetailsVM EditDetailsVM = new EditOrderDetailsVM();
 
-        public OrderDetailsController(ApplicationDbContext context)
+        public AdminOrderDetailsController(ApplicationDbContext context)
         {
             _context = context;
         }

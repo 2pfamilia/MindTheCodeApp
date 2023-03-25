@@ -33,7 +33,7 @@
 </form>
 <header class="header">
     <div class="topbar">
-        <a href="/index.html">
+        <a href="@Url.Action("Index", "Home")">
             <img class="logo"
                  alt="bookstore logo"
                  src="img/logos/logo-simple.png"/>
@@ -99,49 +99,7 @@
             <a href="#" class="navlink">CONTACT US</a>
         </div>
         <div class="navbar-dropdown-menu">
-            <a href="" class="navbar-dropdown-menu-category">Bestsellers</a>
-            <a href="" class="navbar-dropdown-menu-category">Children’s</a>
-            <a href="" class="navbar-dropdown-menu-category">Non-Fiction</a>
-            <a href="" class="navbar-dropdown-menu-subcategory">Arts</a>
-            <a href="" class="navbar-dropdown-menu-subcategory">Biography</a>
-            <a href="" class="navbar-dropdown-menu-subcategory">Business</a>
-            <a href="" class="navbar-dropdown-menu-subcategory">Environmental</a>
-            <a href="" class="navbar-dropdown-menu-subcategory">Fashion</a>
-            <a href="" class="navbar-dropdown-menu-subcategory">History</a>
-            <a href="" class="navbar-dropdown-menu-subcategory">Political</a>
-            <a href="" class="navbar-dropdown-menu-subcategory">Science</a>
-            <a href="" class="navbar-dropdown-menu-subcategory">Sports</a>
-            <a href="" class="navbar-dropdown-menu-subcategory">Travel</a>
-            <a href="" class="navbar-dropdown-menu-subcategory">True crime</a>
-
-            <a href="" class="navbar-dropdown-menu-category">Finction</a>
-            <a href="" class="navbar-dropdown-menu-subcategory">
-                Action and adventure
-            </a>
-            <a href="" class="navbar-dropdown-menu-subcategory">
-                Crime and mystery
-            </a>
-            <a href="" class="navbar-dropdown-menu-subcategory">Romance</a>
-            <a href="" class="navbar-dropdown-menu-subcategory">
-                Speculative fiction
-            </a>
-            <a href="" class="navbar-dropdown-menu-subcategory">
-                Science fiction
-            </a>
-            <a href="" class="navbar-dropdown-menu-category">Finction</a>
-            <a href="" class="navbar-dropdown-menu-subcategory">
-                Action and adventure
-            </a>
-            <a href="" class="navbar-dropdown-menu-subcategory">
-                Crime and mystery
-            </a>
-            <a href="" class="navbar-dropdown-menu-subcategory">Romance</a>
-            <a href="" class="navbar-dropdown-menu-subcategory">
-                Speculative fiction
-            </a>
-            <a href="" class="navbar-dropdown-menu-subcategory">
-                Science fiction
-            </a>
+            @await Component.InvokeAsync("Categories")
         </div>
     </nav>
 </header>

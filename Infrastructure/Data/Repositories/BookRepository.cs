@@ -89,7 +89,7 @@ namespace Infrastructure.Data.Repositories
         public async Task<List<Book>> GetNewArrivals()
         {
             //get the first 5 books that are newer in the library
-            var newArrivals = await _context.BookEntity.OrderByDescending(mybook => mybook.DateCreated).Take(5)
+            var newArrivals = await _context.BookEntity.OrderByDescending(mybook => mybook.DateCreated).Take(4)
                 .ToListAsync();
             return newArrivals;
         }

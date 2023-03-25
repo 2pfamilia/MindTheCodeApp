@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using AppCore.Models.AuthModels;
 using AppCore.Models.BookModels;
 using AppCore.Models.OrderModels;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace AppCore.Utils
 {
@@ -357,12 +356,13 @@ namespace AppCore.Utils
 
         private async Task PopulateBookPhoto(CancellationToken stoppingToken)
         {
-            var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "img/books", "placeholder.png");
-            string fileBytes = File.ReadAllText(imagePath);
+            // var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "img/books", "placeholder.png");
+            // string fileBytes = File.ReadAllText(imagePath);
+            var filePath = "img/books/placeholder.png";
 
             var data = new List<BookPhoto>
             {
-                new() { Title = "Placeholder", Description = "Placeholder", FilePath = fileBytes },
+                new() { Title = "Placeholder", Description = "Placeholder", FilePath = filePath},
             };
 
             await _dbcontext.AddRangeAsync(data);
