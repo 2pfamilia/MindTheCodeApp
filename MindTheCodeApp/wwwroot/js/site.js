@@ -462,6 +462,7 @@ if (homeSectionBookImg) {
       const price = parent.querySelector(".home-section-books-item-price");
       const product = {
         id: parent.getAttribute("data-id"),
+        img: bookImg.getAttribute("src"),
         title: title.textContent.replace(/\s+/g, " ").trim(),
         author: author.textContent.replace(/\s+/g, " ").trim(),
         price: parseFloat(price.textContent.replace(/[$€]+/g, "")),
