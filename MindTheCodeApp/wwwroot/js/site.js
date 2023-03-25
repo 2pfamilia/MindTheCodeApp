@@ -460,17 +460,13 @@ if (homeSectionBookImg) {
       const title = parent.querySelector(".home-section-books-item-title");
       const author = parent.querySelector(".home-section-books-item-author");
       const price = parent.querySelector(".home-section-books-item-price");
-      // const addToCartTxt = document.querySelectorAll(
-      //   ".add-to-cart-overlay-btn span"
-      // );
-      // addToCartTxt[index].style.setProperty("animation-name", "textOversize");
       const product = {
-        img: bookImg.getAttribute("src"),
+        id: parent.getAttribute("data-id"),
         title: title.textContent.replace(/\s+/g, " ").trim(),
         author: author.textContent.replace(/\s+/g, " ").trim(),
-        price: parseFloat(price.textContent.replace(/[$,€]+/g, "")),
+        price: parseFloat(price.textContent.replace(/[$€]+/g, "")),
       };
-
+        console.log(product.price);
       addProductToCart(product, 1, true);
     });
     overlay.addEventListener("mouseleave", function () {
@@ -526,7 +522,7 @@ if (productCardCartIcons) {
           .replace(/\s+/g, " ")
           .trim(),
         price: parseFloat(
-          productCardPrice[index].textContent.replace(/[$,€]+/g, "")
+          productCardPrice[index].textContent.replace(/[$€]+/g, "")
         ),
       };
 
@@ -554,7 +550,7 @@ function addProductToCart(product, quantity = 1, onlyAdd = false) {
 // Remove Product from cart
 function removeProductFormCart(product) {
   if (userCart.length > 0 && userCartTotal > 0) {
-    userCart = userCart.filter((item) => item.title != product.title);
+    userCart = userCart.filter((item) => item.id != product.id);
     updateCartTotal();
     updateCartLocalStorage();
     updateCartDropDownList();
@@ -565,7 +561,7 @@ function removeProductFormCart(product) {
 // Checks if the product already exists in cart and updates the quantity, otherwise add it
 function checkAndUpadeCartIfExists(product, quantity = 1, onlyAdd) {
   const found = userCart.some((el) => {
-    if (el.title == product.title) {
+    if (el.id == product.id) {
       if (!onlyAdd) {
         el.quantity = quantity;
         el.subTotal = el.quantity * el.price;
@@ -642,7 +638,9 @@ function updateCartDropDownList() {
 
 function createCartIconListProduct(product) {
   const productContainer = document.createElement("li");
-  productContainer.classList.add("cart-dropdown-list-item");
+    productContainer.classList.add("cart-dropdown-list-item");
+    productContainer.setAttribute('data-id', product.id);
+
 
   // Product image
   const productImg = document.createElement("img");

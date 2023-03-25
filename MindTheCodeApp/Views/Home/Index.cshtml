@@ -68,7 +68,7 @@
     <div class="home-section-books-container">
         @foreach (var book in @Model.BestSellers!)
         {
-            <div class="home-section-books-item">
+            <div class="home-section-books-item" data-id="@book.BookId">
                 <div class="add-to-cart-overlay">
                     <div class="add-to-cart-overlay-btn">
                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -89,7 +89,7 @@
                 <a href="#" class="home-section-books-item-author product-author">
                     @((book.Author?.Name ?? "Unknown Author"))
                 </a>
-                <span class="home-section-books-item-price product-price">€ @book.Price</span>
+                <span class="home-section-books-item-price product-price">€@book.Price</span>
             </div>
         }
     </div>
@@ -110,7 +110,7 @@
     <div class="home-section-books-container">
         @foreach (var book in @Model.NewArrivals!)
         {
-            <div class="home-section-books-item">
+            <div class="home-section-books-item" data-id="@book.BookId">
                 <div class="add-to-cart-overlay">
                     <div class="add-to-cart-overlay-btn">
                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -131,7 +131,7 @@
                 <a href="#" class="home-section-books-item-author product-author">
                     @((book.Author?.Name ?? "Unknown Author"))
                 </a>
-                <span class="home-section-books-item-price product-price">€ @book.Price</span>
+                <span class="home-section-books-item-price product-price">€@book.Price</span>
             </div>
         }
     </div>
