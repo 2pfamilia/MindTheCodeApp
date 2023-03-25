@@ -1,0 +1,21 @@
+﻿@model MindTheCodeApp.ViewModels.BookVMs.BookPhotoVM
+
+<form method="post" enctype="multipart/form-data">
+    <div>
+        <label asp-for="ImageFile"></label>
+        <input asp-for="ImageFile" type="file">
+        <span asp-validation-for="ImageFile" class="text-danger"></span>
+    </div>
+    <button type="submit">Upload</button>
+</form>
+
+@if (Model.ImagePath != null)
+{
+    <div>
+        <img src="@Url.Content(Model.ImagePath)" alt="Uploaded image">
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}

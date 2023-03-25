@@ -1,5 +1,8 @@
 ﻿using AppCore.Models.BookModels;
 using AppCore.Models.DTOs;
+using AppCore.Models.OrderModels;
+using AppCore.Models.AuthModels;
+using System.Runtime.CompilerServices;
 
 namespace MindTheCodeApp.Services.IServices
 {

@@ -43,23 +43,21 @@ namespace AppCore.Models.AuthModels
 
         [
             Required,
-            Column("birthdate"),
-            NotNull
+            Column("birthdate")
         ]
         public DateTime? Birthdate { get; set; }
 
-        [
-            Required,
-            Column("username"),
-            NotNull,
-            StringLength(36, MinimumLength = 5)
-        ]
-        public string? Username { get; set; }
+        // [
+        //     Required,
+        //     Column("username"),
+        //     NotNull,
+        //     StringLength(36, MinimumLength = 5)
+        // ]
+        // public string? Username { get; set; }
 
         [
             Required,
             Column("password"),
-            NotNull,
             StringLength(24, MinimumLength = 6),
             PasswordPropertyText
         ]
@@ -71,6 +69,14 @@ namespace AppCore.Models.AuthModels
             AllowNull
         ]
         public AddressInformation? AddressInformation { get; set; }
+
+        [
+            Required,
+            Column("phone"),
+            NotNull,
+            StringLength(24, MinimumLength = 6),
+        ]
+        public string Phone { get; set; }
 
         [
             Column("role_id"),

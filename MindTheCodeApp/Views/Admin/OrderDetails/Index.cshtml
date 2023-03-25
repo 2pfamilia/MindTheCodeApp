@@ -1,0 +1,59 @@
+﻿@model IEnumerable<MindTheCodeApp.ViewModels.OrderVMs.IndexOrderDetailsVM>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New Book</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            <label>Order Email</label>
+        </th>
+        <th>
+            <label>Book Title</label>
+        </th>
+        <th>
+            <label>Unit Cost</label>
+        </th>
+        <th>
+            <label>Total Cost</label>
+        </th>
+        <th>
+            <label>Quantity</label>
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IndexOrderDetailsId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IndexOrderDetailsId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IndexOrderDetailsId">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

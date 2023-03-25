@@ -1,0 +1,45 @@
+﻿@model MindTheCodeApp.ViewModels.OrderVMs.IndexOrderDetailsVM
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+<div>
+    <h4>Order Details</h4>
+    <hr/>
+    <dl class="row">
+        <dt class="col-sm-2">
+            <label style="font-weight:bold;">Order Email</label>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OrderEmail)
+        </dd>
+        <dt class="col-sm-2">
+            <label style="font-weight:bold;">Book Title</label>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BookTitle)
+        </dd>
+        <dt class="col-sm-2">
+            <label style="font-weight:bold;">Unit Cost</label>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UnitCost)
+        </dd>
+        <dt class="col-sm-2">
+            <label style="font-weight:bold;">Total Cost</label>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalCost)
+        </dd>
+        <dt class="col-sm-2">
+            <label style="font-weight:bold;">Count</label>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Count)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
