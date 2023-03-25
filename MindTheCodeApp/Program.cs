@@ -5,7 +5,6 @@ using Infrastructure.Data.Repositories;
 using AppCore.IRepositories;
 using AppCore.Services.Implementation;
 using MindTheCodeApp.Services.IServices;
-using AppCore.Utils;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using MindTheCodeApp.Utils;
 
