@@ -5,14 +5,14 @@
 
 <div class="signup-page-container">
     <h1 class="page-title">Create Account</h1>
-    <form class="signup-page-form" asp-controller="Auth" asp-action="Register" method="post">
+    <form class="signup-page-form" asp-controller="User" asp-action="Register" method="post">
         <div class="signup-page-form-section-header">
             <h3>Login Info</h3>
             <div class="hr-divider-100"></div>
         </div>
         <div class="form-input">
-            <label class="form-input-label" for="email">Email *</label>
-            <input type="text" id="email" name="email" required/>
+            <label class="form-input-label" for="Email">Email *</label>
+            <input type="text" id="Email" name="email" required/>
             <span class="form-error-msg"></span>
         </div>
         <div class="form-row-inputs password-confirmation">
@@ -78,7 +78,7 @@
             <span class="form-error-msg"></span>
         </div>
         <div class="form-input">
-            <label class="form-input-label" for="phone">Phone *</label>
+            <label class="form-input-label" for="Phone">Phone *</label>
             <input type="text" name="phone"/>
             <span class="form-error-msg"></span>
         </div>
