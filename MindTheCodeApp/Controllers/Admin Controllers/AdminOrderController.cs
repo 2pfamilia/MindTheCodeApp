@@ -11,14 +11,14 @@ using MindTheCodeApp.ViewModels.OrderVMs;
 
 namespace MindTheCodeApp.Controllers
 {
-    public class OrderController : Controller
+    public class AdminOrderController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly List<IndexOrderVM> IndexOrderVMs = new List<IndexOrderVM>();
         private readonly IndexOrderVM DetailsOrderVM = new IndexOrderVM();
         private readonly EditOrderVM EditOrderVM = new EditOrderVM();
 
-        public OrderController(ApplicationDbContext context)
+        public AdminOrderController(ApplicationDbContext context)
         {
             _context = context;
         }

@@ -6,14 +6,14 @@ using MindTheCodeApp.ViewModels.BookVMs;
 
 namespace MindTheCodeApp.Controllers
 {
-    public class BookAuthorController : Controller
+    public class AdminBookAuthorController : Controller
     {
         private readonly ApplicationDbContext _context;
         private List<BookAuthorVM> IndexAuthorsVM { get; set; } = new();
         private BookAuthorVM DetailsBookAuthorVM { get; set; } = new BookAuthorVM();
         private EditBookAuthorVM EditBookAuthorVM { get; set; } = new EditBookAuthorVM();
 
-        public BookAuthorController(ApplicationDbContext context)
+        public AdminBookAuthorController(ApplicationDbContext context)
         {
             _context = context;
         }
