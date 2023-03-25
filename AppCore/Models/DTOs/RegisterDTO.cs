@@ -18,9 +18,5 @@ namespace AppCore.Models.DTOs
         public string? StreetAddress { get; set; }
         public string? Country { get; set; }
         public string? PostalCode { get; set; }
-
-
-
-
     }
 }

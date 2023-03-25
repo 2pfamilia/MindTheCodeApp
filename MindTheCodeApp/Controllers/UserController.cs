@@ -73,7 +73,7 @@ public class UserController : Controller
     {
         if (User.Identity!.IsAuthenticated)
             return RedirectToAction("Index", "Home");
-        
+
         if (user is null || user.Email is null || user.Password is null)
             return BadRequest();
 
@@ -123,7 +123,7 @@ public class UserController : Controller
     {
         if (User.Identity!.IsAuthenticated)
             return RedirectToAction("Index", "Home");
-        
+
         return View("/Views/Auth/Register.cshtml");
     }
 
@@ -133,7 +133,7 @@ public class UserController : Controller
     {
         if (User.Identity!.IsAuthenticated)
             return RedirectToAction("Index", "Home");
-        
+
         User user = new User();
 
         //user.Email = registerDTO.Email;

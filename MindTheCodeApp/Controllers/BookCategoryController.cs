@@ -12,10 +12,12 @@ namespace MindTheCodeApp.Controllers
         private List<BookCategoryVM> IndexCategoriesVM { get; set; } = new();
         private BookCategoryVM DetailsBookCategoryVM { get; set; } = new BookCategoryVM();
         private EditBookCategoryVM EditBookCategoryVM { get; set; } = new EditBookCategoryVM();
+
         public BookCategoryController(ApplicationDbContext context)
         {
             _context = context;
         }
+
         public async Task<IActionResult> Index()
         {
             var categories = await _context.BookCategoryEntity.ToListAsync();
@@ -37,6 +39,7 @@ namespace MindTheCodeApp.Controllers
         {
             return View("/Views/Admin/BookCategory/Create.cshtml");
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(BookCategoryVM categoryVM)
         {
@@ -78,6 +81,7 @@ namespace MindTheCodeApp.Controllers
             {
                 return Problem("Entity set 'ApplicationDbContext.BookCategoryEntity'  is null.");
             }
+
             var category = await _context.BookCategoryEntity.FindAsync(id);
             if (category != null)
             {
@@ -123,6 +127,7 @@ namespace MindTheCodeApp.Controllers
                 EditBookCategoryVM.Title = category.Title;
                 EditBookCategoryVM.Description = category.Description;
             }
+
             return View("/Views/Admin/BookCategory/Edit.cshtml", EditBookCategoryVM);
         }
 

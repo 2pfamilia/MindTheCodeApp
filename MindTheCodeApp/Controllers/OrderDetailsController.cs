@@ -13,10 +13,12 @@ namespace MindTheCodeApp.Controllers
         private readonly List<IndexOrderDetailsVM> IndexOrderDetailsVMs = new List<IndexOrderDetailsVM>();
         private readonly IndexOrderDetailsVM DetailsOrderDetailsVM = new IndexOrderDetailsVM();
         private readonly EditOrderDetailsVM EditDetailsVM = new EditOrderDetailsVM();
+
         public OrderDetailsController(ApplicationDbContext context)
         {
             _context = context;
         }
+
         public async Task<IActionResult> Index()
         {
             var orderDetails = await _context.OrderDetailsEntity.Include(o => o.Order).Include(b => b.Book)
@@ -25,9 +27,11 @@ namespace MindTheCodeApp.Controllers
             foreach (var detail in orderDetails)
             {
                 var orderDetVM = new IndexOrderDetailsVM();
-                var order = _context.OrderEntity.Include(u => u.User).Include(a => a.AddressInformation).FirstOrDefault(o => o.OrderId == detail.Order.OrderId);
+                var order = _context.OrderEntity.Include(u => u.User).Include(a => a.AddressInformation)
+                    .FirstOrDefault(o => o.OrderId == detail.Order.OrderId);
                 var orderEmail = order.User.Email;
-                var bookTitle = _context.OrderDetailsEntity.FirstOrDefault(o => o.OrderDetailsId == detail.OrderDetailsId).Book.Title;
+                var bookTitle = _context.OrderDetailsEntity
+                    .FirstOrDefault(o => o.OrderDetailsId == detail.OrderDetailsId).Book.Title;
                 orderDetVM.IndexOrderDetailsId = (int)detail.OrderDetailsId;
                 orderDetVM.OrderEmail = orderEmail;
                 orderDetVM.BookTitle = bookTitle;
@@ -36,13 +40,16 @@ namespace MindTheCodeApp.Controllers
                 orderDetVM.Count = (int)detail.Count;
                 IndexOrderDetailsVMs.Add(orderDetVM);
             }
+
             return View("/Views/Admin/OrderDetails/Index.cshtml", IndexOrderDetailsVMs);
         }
 
         // GET: Books/Create
         public IActionResult Create()
         {
-            ViewData["Orders"] = new SelectList(_context.OrderEntity.Include(u => u.User), "OrderId", "User.Email"); // Edo prepei na deixno ton user
+            ViewData["Orders"] =
+                new SelectList(_context.OrderEntity.Include(u => u.User), "OrderId",
+                    "User.Email"); // Edo prepei na deixno ton user
             ViewData["Books"] = new SelectList(_context.BookEntity, "BookId", "Title");
 
             return View("/Views/Admin/OrderDetails/Create.cshtml");
@@ -79,9 +86,11 @@ namespace MindTheCodeApp.Controllers
 
             var detail = _context.OrderDetailsEntity.Include(o => o.Order).Include(b => b.Book)
                 .FirstOrDefault(d => d.OrderDetailsId == id);
-            var order = _context.OrderEntity.Include(u => u.User).Include(a => a.AddressInformation).FirstOrDefault(o => o.OrderId == detail.Order.OrderId);
+            var order = _context.OrderEntity.Include(u => u.User).Include(a => a.AddressInformation)
+                .FirstOrDefault(o => o.OrderId == detail.Order.OrderId);
             var orderEmail = order.User.Email;
-            var bookTitle = _context.OrderDetailsEntity.FirstOrDefault(o => o.OrderDetailsId == detail.OrderDetailsId).Book.Title;
+            var bookTitle = _context.OrderDetailsEntity.FirstOrDefault(o => o.OrderDetailsId == detail.OrderDetailsId)
+                .Book.Title;
 
             if (detail == null)
             {
@@ -99,6 +108,7 @@ namespace MindTheCodeApp.Controllers
 
             return View("/Views/Admin/OrderDetails/Details.cshtml", DetailsOrderDetailsVM);
         }
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.OrderDetailsEntity == null)
@@ -125,6 +135,7 @@ namespace MindTheCodeApp.Controllers
             {
                 return Problem("Entity set 'ApplicationDbContext.OrderDetailsEntity'  is null.");
             }
+
             var detail = await _context.OrderDetailsEntity.FindAsync(id);
             if (detail != null)
             {
@@ -149,7 +160,9 @@ namespace MindTheCodeApp.Controllers
                 EditDetailsVM.Count = (int)details.Count;
             }
 
-            ViewData["Orders"] = new SelectList(_context.OrderEntity.Include(u => u.User), "OrderId", "User.Email"); // Edo prepei na deixno ton user
+            ViewData["Orders"] =
+                new SelectList(_context.OrderEntity.Include(u => u.User), "OrderId",
+                    "User.Email"); // Edo prepei na deixno ton user
             ViewData["Books"] = new SelectList(_context.BookEntity, "BookId", "Title");
 
             return View("/Views/Admin/OrderDetails/Edit.cshtml", EditDetailsVM);
@@ -167,6 +180,7 @@ namespace MindTheCodeApp.Controllers
                 {
                     return NotFound();
                 }
+
                 details.Unitcost = editDetailsVM.UnitCost;
                 details.Count = editDetailsVM.Count;
                 details.TotalCost = editDetailsVM.UnitCost * editDetailsVM.Count;
