@@ -107,7 +107,7 @@
                         in order.OrderDetails!)
                     {
                         <div class="order-product">
-                            <img src="img/books/516YkEzLC+L._SY344_BO1,204,203,200_.jpg"
+                            <img src="../@Url.Content((@orderDetail.Book.Photo?.FilePath ?? "img/books/placeholder.png"))"
                                  alt="book title"/>
                             <a class="order-product-title">
                                 @orderDetail.Book.Title
