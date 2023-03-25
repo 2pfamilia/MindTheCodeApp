@@ -183,7 +183,7 @@ accountIcon.addEventListener("click", () => {
 });
 
 //Singin button handler
-singinBtn.addEventListener("click", () => {
+singinBtn && singinBtn.addEventListener("click", () => {
   accountDropdownMenu.style.setProperty("display", "none");
   overlayEffect.style.setProperty("display", "block");
   signinForm.style.setProperty("display", "flex");
@@ -299,107 +299,116 @@ function showSlides() {
 
 // Form inputs handler
 formInputs.forEach((inputContainer) => {
-  const input = inputContainer.querySelector("input");
-  const label = inputContainer.querySelector("label");
-  const errorMsg = inputContainer.querySelector("span");
-  if (input.value.length > 0 && label.classList.contains("form-input-label")) {
-    label.classList.add("form-input-label-up");
-    label.classList.remove("form-input-label");
-  }
-
-  input.addEventListener("click", function () {
-    label.classList.add("form-input-label-up");
-    label.classList.remove("form-input-label");
-  });
-
-  input.addEventListener("keydown", function () {
-    label.classList.add("form-input-label-up");
-    label.classList.remove("form-input-label");
-    errorMsg.textContent = "";
-  });
-
-  input.addEventListener("focusout", () => {
-    if (input.value == "") {
-      label.classList.add("form-input-label");
-      label.classList.remove("form-input-label-up");
-      errorMsg.textContent = "";
+    const input = inputContainer.querySelector("input");
+    const label = inputContainer.querySelector("label");
+    const errorMsg = inputContainer.querySelector("span");
+    if (input.value.length > 0 && label.classList.contains("form-input-label")) {
+        label.classList.add("form-input-label-up");
+        label.classList.remove("form-input-label");
     }
-  });
 
-  input.addEventListener("change", () => {
-    if (input.name == "email") {
-      if (!validateEmail(input.value)) {
-        errorMsg.textContent = "Invalid email address.";
-      }
-    } else if (input.name == "phone") {
-      if (!ValidatePhone(input.value)) {
-        errorMsg.textContent = "Invalid phone number.";
-      }
-    } else if (input.name == "zip-code") {
-      if (!ValidateZipCode(input.value)) {
-        errorMsg.textContent = "Invalid Zip code.";
-      }
-    } else if (input.name == "new-password") {
-      const parent = document.querySelector(".password-confirmation");
-      if (parent) {
-        const passwordConfirmInput = parent.querySelector(
-          'input[name="password-confirmation"]'
-        );
-        const passwordConfirmErrorMsg =
-          passwordConfirmInput.parentElement.querySelector(".form-error-msg");
+    input.addEventListener("click", function () {
+        label.classList.add("form-input-label-up");
+        label.classList.remove("form-input-label");
+    });
 
-        if (passwordConfirmInput.value.length > 0) {
-          if (!passwordCofirmation(input.value, passwordConfirmInput.value)) {
-            passwordConfirmErrorMsg.textContent =
-              "Password confirmation does not match.";
-          } else {
-            passwordConfirmErrorMsg.textContent = "";
-          }
+    input.addEventListener("keydown", function () {
+        label.classList.add("form-input-label-up");
+        label.classList.remove("form-input-label");
+        errorMsg.textContent = "";
+    });
+
+    input.addEventListener("focusout", () => {
+        if (input.value == "") {
+            label.classList.add("form-input-label");
+            label.classList.remove("form-input-label-up");
+            errorMsg.textContent = "";
         }
-      }
+    });
 
-      if (!checkPassword(input.value)) {
-        errorMsg.textContent =
-          "At least 1 numeric digit, 1 uppercase and 1 lowercaser letter (6 to 20 characters).";
-      }
-    } else if (input.name == "password-confirmation") {
-      const parent = document.querySelector(".password-confirmation");
-      const passwordInput = parent.querySelector('input[name="new-password"]');
-      if (!passwordCofirmation(input.value, passwordInput.value)) {
-        errorMsg.textContent = "Password confirmation does not match.";
-      }
-    }
-  });
+    input.addEventListener("change", () => {
+        if (input.name == "Email") {
+            if (!validateEmail(input.value)) {
+                errorMsg.textContent = "Invalid email address.";
+            }
+        } else if (input.name == "phone") {
+            if (!ValidatePhone(input.value)) {
+                errorMsg.textContent = "Invalid phone number.";
+            }
+        } else if (input.name == "zip-code") {
+            if (!ValidateZipCode(input.value)) {
+                errorMsg.textContent = "Invalid Zip code.";
+            }
+        } else if (input.type == "password") {
+            const parent = document.querySelector(".password-confirmation");
+            if (parent) {
+                const passwordConfirmInput = parent.querySelectorAll('input[type="password"]')[1];
+                const passwordConfirmErrorMsg =
+                    passwordConfirmInput.parentElement.querySelector(".form-error-msg");
+
+                if (passwordConfirmInput.value.length > 0) {
+                    if (!passwordCofirmation(input.value, passwordConfirmInput.value)) {
+                        passwordConfirmErrorMsg.textContent =
+                            "Password confirmation does not match.";
+                    } else {
+                        passwordConfirmErrorMsg.textContent = "";
+                    }
+                }
+            }
+
+            if (!input.classList.contains("singin") && !checkPassword(input.value)) {
+                errorMsg.textContent =
+                    "At least 1 numeric digit, 1 uppercase and 1 lowercaser letter (6 to 20 characters).";
+            }
+        } else if (input.name.includes("PasswordConfirmation")) {
+            const parent = document.querySelector(".password-confirmation");
+            const passwordInput = parent.querySelector('input[type="password"]:first');
+            if (!passwordCofirmation(input.value, passwordInput.value)) {
+                errorMsg.textContent = "Password confirmation does not match.";
+            }
+        }
+    });
 });
 
 // Forms submit button handler
 formBtns.forEach((btn) => {
-  btn.addEventListener("click", (e) => {
-    e.preventDefault();
-    const form = btn.closest("form");
-    const inputs = form.querySelectorAll(".form-input");
-    const customSelects = form.querySelectorAll(".custom-select-container");
+    btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const form = btn.closest("form");
+        const inputs = form.querySelectorAll(".form-input");
+        const customSelects = form.querySelectorAll(".custom-select-container");
+        let hasErrors = false
 
-    inputs.forEach((inputContainer) => {
-      const input = inputContainer.querySelector("input");
-      const errorMsg = inputContainer.querySelector("span");
-      if (input.hasAttribute("required") && input.value.length == 0) {
-        errorMsg.textContent = "This field is required.";
-      }
-    });
+        inputs.forEach((inputContainer) => {
+            const input = inputContainer.querySelector("input");
+            const errorMsg = inputContainer.querySelector("span");
+            if (errorMsg.textContent.length != 0) {
+                hasErrors = true;
+            }
+            if (input.hasAttribute("required") && input.value.length == 0) {
+                errorMsg.textContent = "This field is required.";
+                hasErrors = true;
+            }
+        });
 
-    //
-    customSelects.forEach((selectContainer) => {
-      if (selectContainer.classList.contains("form-select")) {
-        const selectInput = selectContainer.querySelector("input");
-        if (selectInput.value.length == 0) {
-          const parent = selectContainer.parentNode;
-          const errorMsg = parent.querySelector(".form-error-msg");
-          errorMsg.textContent = "This field is required.";
+        //
+        customSelects.forEach((selectContainer) => {
+            if (selectContainer.classList.contains("form-select")) {
+                const selectInput = selectContainer.querySelector("input");
+                if (selectInput.value.length == 0) {
+                    const parent = selectContainer.parentNode;
+                    const errorMsg = parent.querySelector(".form-error-msg");
+                    errorMsg.textContent = "This field is required.";
+                    hasErrors = true;
+                }
+            }
+        });
+
+        if (!hasErrors) {
+            form.submit();
         }
-      }
+
     });
-  });
 });
 
 // Custom select element handler
@@ -727,264 +736,264 @@ function CustomInputAddListeners(minusBtn, plusBtn, input) {
 
 // Number input handlers
 function numberInputPlusBtn(input, minusBtn) {
-  const currValue = parseInt(input.value);
-  minusBtn.style.setProperty("visibility", "visible");
-  input.value = currValue + 1;
+    const currValue = parseInt(input.value);
+    minusBtn.style.setProperty("visibility", "visible");
+    input.value = currValue + 1;
 }
 
 function numberInputMinusBtn(input, minusBtn) {
-  const currValue = parseInt(input.value);
-  if (currValue - 1 > 1) {
-    input.value = currValue - 1;
-  } else if (currValue - 1 == 1) {
-    input.value = currValue - 1;
-    minusBtn.style.setProperty("visibility", "hidden");
-  }
+    const currValue = parseInt(input.value);
+    if (currValue - 1 > 1) {
+        input.value = currValue - 1;
+    } else if (currValue - 1 == 1) {
+        input.value = currValue - 1;
+        minusBtn.style.setProperty("visibility", "hidden");
+    }
 }
 
 if (productPageAddToCartBtn) {
-  // Get product's info
-  const product = {
-    img: productPageProductImg.getAttribute("src"),
-    title: productPageProductTitle.textContent.replace(/\s+/g, " ").trim(),
-    author: productPageProductAuthor.textContent.replace(/\s+/g, " ").trim(),
-    price: parseFloat(
-      productPageProductPrice.textContent.replace(/[$,€]+/g, "")
-    ),
-  };
+    // Get product's info
+    const product = {
+        img: productPageProductImg.getAttribute("src"),
+        title: productPageProductTitle.textContent.replace(/\s+/g, " ").trim(),
+        author: productPageProductAuthor.textContent.replace(/\s+/g, " ").trim(),
+        price: parseFloat(
+            productPageProductPrice.textContent.replace(/[$,€]+/g, "")
+        ),
+    };
 
-  const custonNumberInput = document.querySelector(
-    ".number-input-container input"
-  );
+    const custonNumberInput = document.querySelector(
+        ".number-input-container input"
+    );
 
-  // If products exists in cart set to the input the cart's quantity
-  if (userCart.length > 0 && userCartTotal > 0) {
-    userCart.forEach((i) => {
-      if (i.title == product.title && i.quantity > 1) {
-        const minusBtn = document.querySelector(".number-input-minus");
-        minusBtn.style.setProperty("visibility", "visible");
-        custonNumberInput.value = i.quantity;
-      }
+    // If products exists in cart set to the input the cart's quantity
+    if (userCart.length > 0 && userCartTotal > 0) {
+        userCart.forEach((i) => {
+            if (i.title == product.title && i.quantity > 1) {
+                const minusBtn = document.querySelector(".number-input-minus");
+                minusBtn.style.setProperty("visibility", "visible");
+                custonNumberInput.value = i.quantity;
+            }
+        });
+    }
+
+    productPageAddToCartBtn.addEventListener("click", () => {
+        const quantity = parseInt(custonNumberInput.value);
+        addProductToCart(product, quantity);
     });
-  }
-
-  productPageAddToCartBtn.addEventListener("click", () => {
-    const quantity = parseInt(custonNumberInput.value);
-    addProductToCart(product, quantity);
-  });
 }
 
 // Handles non-numeric inputs
 function numberInputOnKeyUpHandler(input, minusBtn) {
-  if (!input.value.match(/^(\s*|\d+)$/)) {
-    input.value = 1;
-    minusBtn.style.setProperty("visibility", "hidden");
-  }
+    if (!input.value.match(/^(\s*|\d+)$/)) {
+        input.value = 1;
+        minusBtn.style.setProperty("visibility", "hidden");
+    }
 }
 
 // Number input on change handler
 function numberInputOnChangeUpHandler(input, minusBtn) {
-  if (input.value.length == 0 || isNaN(input.value)) {
-    input.value = 1;
-    minusBtn.style.setProperty("visibility", "hidden");
-    return;
-  }
+    if (input.value.length == 0 || isNaN(input.value)) {
+        input.value = 1;
+        minusBtn.style.setProperty("visibility", "hidden");
+        return;
+    }
 
-  const currValue = parseInt(input.value);
+    const currValue = parseInt(input.value);
 
-  switch (currValue) {
-    case 0:
-      input.value = 1;
-      minusBtn.style.setProperty("visibility", "hidden");
-      break;
-    case 1:
-      minusBtn.style.setProperty("visibility", "hidden");
-      break;
-    default:
-      // Prevents modify insertions like 05 to 5
-      input.value = currValue;
-      minusBtn.style.setProperty("visibility", "visible");
-  }
+    switch (currValue) {
+        case 0:
+            input.value = 1;
+            minusBtn.style.setProperty("visibility", "hidden");
+            break;
+        case 1:
+            minusBtn.style.setProperty("visibility", "hidden");
+            break;
+        default:
+            // Prevents modify insertions like 05 to 5
+            input.value = currValue;
+            minusBtn.style.setProperty("visibility", "visible");
+    }
 }
 
 // Number input on focus out  handler
 function numberInputOnFocusOutHandler(input, minusBtn) {
-  if (input.value.length == 0 || isNaN(input.value)) {
-    input.value = 1;
-    minusBtn.style.setProperty("visibility", "hidden");
-  }
+    if (input.value.length == 0 || isNaN(input.value)) {
+        input.value = 1;
+        minusBtn.style.setProperty("visibility", "hidden");
+    }
 }
 
 myAccountNavLinks.forEach((navLink, index) => {
-  navLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    const navLinkIcon = navLink.querySelector("svg");
-    // Set up pages array
-    const personalInfoPage = document.querySelector(".personal-info-form");
-    const changePasswordPage = document.querySelector(".change-password-form");
-    const ordersPage = document.querySelector(".account-page-orders");
-    const accountPagesArr = [personalInfoPage, ordersPage, changePasswordPage];
+    navLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        const navLinkIcon = navLink.querySelector("svg");
+        // Set up pages array
+        const personalInfoPage = document.querySelector(".personal-info-form");
+        const changePasswordPage = document.querySelector(".change-password-form");
+        const ordersPage = document.querySelector(".account-page-orders");
+        const accountPagesArr = [personalInfoPage, ordersPage, changePasswordPage];
 
-    if (accountCurrentPageIndex != index) {
-      accountPagesArr.forEach((page, i) => {
-        if (index != i) {
-          page.style.setProperty("display", "none");
-          const hiddenNavLinkIcon = myAccountNavLinks[i].querySelector("svg");
-          hiddenNavLinkIcon.style.setProperty("visibility", "hidden");
-        } else {
-          accountCurrentPageIndex = index;
-          navLinkIcon.style.setProperty("visibility", "visible");
-          page.style.setProperty("display", "flex");
+        if (accountCurrentPageIndex != index) {
+            accountPagesArr.forEach((page, i) => {
+                if (index != i) {
+                    page.style.setProperty("display", "none");
+                    const hiddenNavLinkIcon = myAccountNavLinks[i].querySelector("svg");
+                    hiddenNavLinkIcon.style.setProperty("visibility", "hidden");
+                } else {
+                    accountCurrentPageIndex = index;
+                    navLinkIcon.style.setProperty("visibility", "visible");
+                    page.style.setProperty("display", "flex");
+                }
+            });
         }
-      });
-    }
-  });
+    });
 });
 
 // Creates cart list items in My-Cart page
 function CreateMyCartPageListItem(product) {
-  const cartItemContainer = document.createElement("section");
-  cartItemContainer.classList.add("my-cart-page-item");
+    const cartItemContainer = document.createElement("section");
+    cartItemContainer.classList.add("my-cart-page-item");
 
-  // Image and Title container
-  const imgTitleContainer = document.createElement("div");
-  imgTitleContainer.classList.add(
-    "my-cart-page-item-img-title-container",
-    "width-40"
-  );
+    // Image and Title container
+    const imgTitleContainer = document.createElement("div");
+    imgTitleContainer.classList.add(
+        "my-cart-page-item-img-title-container",
+        "width-40"
+    );
 
-  // Product image
-  const productImg = document.createElement("img");
-  productImg.src = product.img;
-  productImg.alt = product.title;
+    // Product image
+    const productImg = document.createElement("img");
+    productImg.src = product.img;
+    productImg.alt = product.title;
 
-  // Product title
-  const productTitle = document.createElement("a");
-  productTitle.src = "/";
-  productTitle.classList.add("my-cart-page-item-title");
-  productTitle.textContent = product.title;
+    // Product title
+    const productTitle = document.createElement("a");
+    productTitle.src = "/";
+    productTitle.classList.add("my-cart-page-item-title");
+    productTitle.textContent = product.title;
 
-  imgTitleContainer.appendChild(productImg);
-  imgTitleContainer.appendChild(productTitle);
+    imgTitleContainer.appendChild(productImg);
+    imgTitleContainer.appendChild(productTitle);
 
-  // Product price
-  const productPrice = document.createElement("span");
-  productPrice.classList.add("my-cart-page-item-price", "width-10");
-  productPrice.textContent = "€" + parseFloat(product.price).toFixed(2);
+    // Product price
+    const productPrice = document.createElement("span");
+    productPrice.classList.add("my-cart-page-item-price", "width-10");
+    productPrice.textContent = "€" + parseFloat(product.price).toFixed(2);
 
-  // Product subtotal
-  const productSubtotal = document.createElement("span");
-  productSubtotal.classList.add("my-cart-page-item-subtotal", "width-10");
-  productSubtotal.textContent =
-    "€" + parseFloat(product.quantity * product.price).toFixed(2);
+    // Product subtotal
+    const productSubtotal = document.createElement("span");
+    productSubtotal.classList.add("my-cart-page-item-subtotal", "width-10");
+    productSubtotal.textContent =
+        "€" + parseFloat(product.quantity * product.price).toFixed(2);
 
-  // Create list item
-  cartItemContainer.appendChild(CreateMyCartPageRevoveIcon(product));
-  cartItemContainer.appendChild(imgTitleContainer);
-  cartItemContainer.appendChild(productPrice);
-  cartItemContainer.appendChild(createMyCartPageNumberInput(product.quantity));
-  cartItemContainer.appendChild(productSubtotal);
+    // Create list item
+    cartItemContainer.appendChild(CreateMyCartPageRevoveIcon(product));
+    cartItemContainer.appendChild(imgTitleContainer);
+    cartItemContainer.appendChild(productPrice);
+    cartItemContainer.appendChild(createMyCartPageNumberInput(product.quantity));
+    cartItemContainer.appendChild(productSubtotal);
 
-  return cartItemContainer;
+    return cartItemContainer;
 }
 
 function CreateMyCartPageRevoveIcon(product) {
-  const removeIconContainer = document.createElement("div");
-  removeIconContainer.classList.add("my-cart-page-item-remove-icon", "width-5");
+    const removeIconContainer = document.createElement("div");
+    removeIconContainer.classList.add("my-cart-page-item-remove-icon", "width-5");
 
-  const iconSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  iconSVG.setAttribute("height", "24");
-  iconSVG.setAttribute("width", "24");
-  const iconPath = document.createElementNS(
-    "http://www.w3.org/2000/svg",
-    "path"
-  );
-  iconPath.setAttribute(
-    "d",
-    "M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z"
-  );
-  iconSVG.appendChild(iconPath);
-  removeIconContainer.appendChild(iconSVG);
+    const iconSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    iconSVG.setAttribute("height", "24");
+    iconSVG.setAttribute("width", "24");
+    const iconPath = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "path"
+    );
+    iconPath.setAttribute(
+        "d",
+        "M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6Z"
+    );
+    iconSVG.appendChild(iconPath);
+    removeIconContainer.appendChild(iconSVG);
 
-  iconSVG.addEventListener("click", () => {
-    removeProductFormCart(product);
-    const cartItemContainer = removeIconContainer.closest(".my-cart-page-item");
-    cartItemContainer.remove();
-    if (userCart.length == 0) {
-      showEmptyCartMsg();
-    }
-  });
+    iconSVG.addEventListener("click", () => {
+        removeProductFormCart(product);
+        const cartItemContainer = removeIconContainer.closest(".my-cart-page-item");
+        cartItemContainer.remove();
+        if (userCart.length == 0) {
+            showEmptyCartMsg();
+        }
+    });
 
-  return removeIconContainer;
+    return removeIconContainer;
 }
 
 function showEmptyCartMsg() {
-  const emptyCartMsgContainer = myCartPageContainer.querySelector(
-    ".my-cart-page-empty-cart"
-  );
+    const emptyCartMsgContainer = myCartPageContainer.querySelector(
+        ".my-cart-page-empty-cart"
+    );
 
-  const myCartPageTotalSection = myCartPageContainer.querySelector(
-    ".my-cart-page-checkout-container"
-  );
+    const myCartPageTotalSection = myCartPageContainer.querySelector(
+        ".my-cart-page-checkout-container"
+    );
 
-  const myCartPageListHeader = myCartPageContainer.querySelector(
-    ".my-cart-page-item-header"
-  );
-  emptyCartMsgContainer.style.setProperty("display", "flex");
-  myCartPageTotalSection.style.setProperty("display", "none");
-  myCartPageListHeader.style.setProperty("display", "none");
+    const myCartPageListHeader = myCartPageContainer.querySelector(
+        ".my-cart-page-item-header"
+    );
+    emptyCartMsgContainer.style.setProperty("display", "flex");
+    myCartPageTotalSection.style.setProperty("display", "none");
+    myCartPageListHeader.style.setProperty("display", "none");
 }
 
 function createMyCartPageNumberInput(value) {
-  const inputNumberContainer = document.createElement("div");
-  inputNumberContainer.classList.add("number-input-container");
+    const inputNumberContainer = document.createElement("div");
+    inputNumberContainer.classList.add("number-input-container");
 
-  const input = document.createElement("input");
-  input.setAttribute("type", "text");
-  input.classList.add("none");
-  input.value = value;
+    const input = document.createElement("input");
+    input.setAttribute("type", "text");
+    input.classList.add("none");
+    input.value = value;
 
-  const minusBtn = document.createElement("button");
-  minusBtn.classList.add("number-input-minus");
+    const minusBtn = document.createElement("button");
+    minusBtn.classList.add("number-input-minus");
 
-  const plusBtn = document.createElement("button");
-  plusBtn.classList.add("number-input-plus");
+    const plusBtn = document.createElement("button");
+    plusBtn.classList.add("number-input-plus");
 
-  const minusSVG = document.createElementNS(
-    "http://www.w3.org/2000/svg",
-    "svg"
-  );
-  minusSVG.setAttribute("height", "24");
-  minusSVG.setAttribute("width", "24");
-  const minusPath = document.createElementNS(
-    "http://www.w3.org/2000/svg",
-    "path"
-  );
-  minusPath.setAttribute("d", "M5 13v-2h14v2Z");
-  minusSVG.appendChild(minusPath);
+    const minusSVG = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "svg"
+    );
+    minusSVG.setAttribute("height", "24");
+    minusSVG.setAttribute("width", "24");
+    const minusPath = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "path"
+    );
+    minusPath.setAttribute("d", "M5 13v-2h14v2Z");
+    minusSVG.appendChild(minusPath);
 
-  const plusSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  plusSVG.setAttribute("height", "24");
-  plusSVG.setAttribute("width", "24");
-  const plusPath = document.createElementNS(
-    "http://www.w3.org/2000/svg",
-    "path"
-  );
-  plusPath.setAttribute("d", "M11 19v-6H5v-2h6V5h2v6h6v2h-6v6Z");
-  plusSVG.appendChild(plusPath);
+    const plusSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    plusSVG.setAttribute("height", "24");
+    plusSVG.setAttribute("width", "24");
+    const plusPath = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "path"
+    );
+    plusPath.setAttribute("d", "M11 19v-6H5v-2h6V5h2v6h6v2h-6v6Z");
+    plusSVG.appendChild(plusPath);
 
-  if (value > 1) {
-    minusBtn.style.setProperty("visibility", "visible");
-  }
-  minusBtn.appendChild(minusSVG);
-  plusBtn.appendChild(plusSVG);
+    if (value > 1) {
+        minusBtn.style.setProperty("visibility", "visible");
+    }
+    minusBtn.appendChild(minusSVG);
+    plusBtn.appendChild(plusSVG);
 
-  inputNumberContainer.appendChild(minusBtn);
-  inputNumberContainer.appendChild(input);
-  inputNumberContainer.appendChild(plusBtn);
-  CustomInputAddListeners(minusBtn, plusBtn, input);
+    inputNumberContainer.appendChild(minusBtn);
+    inputNumberContainer.appendChild(input);
+    inputNumberContainer.appendChild(plusBtn);
+    CustomInputAddListeners(minusBtn, plusBtn, input);
 
-  return inputNumberContainer;
+    return inputNumberContainer;
 }
 
 // Creates a deep copy of an object

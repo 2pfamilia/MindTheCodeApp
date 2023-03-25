@@ -56,17 +56,7 @@ public class UserController : Controller
         return RedirectToAction("InfoView", "User");
     }
 
-    [HttpGet("Login")]
-    [AllowAnonymous]
-    // Test Controller for Login.
-    public IActionResult LoginView()
-    {
-        if (User.Identity!.IsAuthenticated)
-            return RedirectToAction("Index", "Home");
-
-        return View("/Views/Auth/Login.cshtml");
-    }
-
+   
     [HttpPost("Login")]
     [AllowAnonymous]
     public async Task<IActionResult> Login([FromForm] User user)
@@ -89,7 +79,7 @@ public class UserController : Controller
         }
         catch (Exception)
         {
-            return NotFound();
+            return RedirectToAction("Index", "Home");
         }
 
         // Create claims for the user
