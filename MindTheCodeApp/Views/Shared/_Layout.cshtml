@@ -94,12 +94,12 @@
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
                     <path d="m12 15.375-6-6 1.4-1.4 4.6 4.6 4.6-4.6 1.4 1.4Z"/>
                 </svg>
+                <div class="navbar-dropdown-menu">
+                    @await Component.InvokeAsync("Categories")
+                </div>
             </div>
             <a href="#" class="navlink">ABOUT US</a>
             <a href="#" class="navlink">CONTACT US</a>
-        </div>
-        <div class="navbar-dropdown-menu">
-            @await Component.InvokeAsync("Categories")
         </div>
     </nav>
 </header>

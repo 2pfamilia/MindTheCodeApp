@@ -298,8 +298,6 @@
 
 .navbar-main-container {
     width: 100%;
-    position: relative;
-    /* background-color: #ffc078; */
 }
 
 .navbar {
@@ -317,6 +315,7 @@
 
 /* Header navbar links */
 .navlink-shop-container {
+    position:relative;
     display: flex;
     align-items: center;
     gap: 0.4rem;
@@ -343,12 +342,12 @@
     text-decoration: none;
 }
 
-.navlink-shop-container:hover,
+.navlink-shop-container span:hover,
 .navlink:hover {
     text-shadow: 0 0 0.1rem #212529;
 }
 
-.navlink-shop-container:active,
+.navlink-shop-container span:active,
 .navlink:active {
     text-shadow: 0 0 0.3rem #212529;
 }
@@ -356,7 +355,7 @@
 /* Shop dropdown menu */
 .navbar-dropdown-menu {
     position: absolute;
-    top: 5.2rem;
+    top: 3.2rem;
     left: 50%;
     transform: translate(-50%, 0%);
     z-index: 5;
@@ -366,8 +365,8 @@
     padding: 2.4rem 4.8rem;
     display: none;
     grid-auto-flow: column;
-    grid-template-columns: repeat(5, auto);
-    grid-template-rows: repeat(10, auto);
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: repeat(5, auto);
     row-gap: 1.2rem;
     column-gap: 2rem;
 }
