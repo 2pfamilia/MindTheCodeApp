@@ -1,9 +1,7 @@
-﻿using AppCore.Models.BookModels;
-using AppCore.Models.DTOs;
+﻿using AppCore.Models.DTOs;
 using MindTheCodeApp.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static System.Reflection.Metadata.BlobBuilder;
 
 
 namespace MindTheCodeApp.Controllers
@@ -45,25 +43,14 @@ namespace MindTheCodeApp.Controllers
                 The business logic will need to be in a service.
              */
             //var books = new List<Book>();
+            
             if (searchDTO == null)
             {
                 var books = await _bookService.GetAllBooks();
                 return View("/Views/Shop/Shop.cshtml", books);
-            }
-            else
-            {
-                return View("/Views/Shop/Shop.cshtml", searchDTO);
             }
 
-            if (searchDTO == null)
-            {
-                var books = await _bookService.GetAllBooks();
-                return View("/Views/Shop/Shop.cshtml", books);
-            }
-            else
-            {
-                return View("/Views/Shop/Shop.cshtml", searchDTO);
-            }
+            return View("/Views/Shop/Shop.cshtml", searchDTO);
         }
     }
 }
