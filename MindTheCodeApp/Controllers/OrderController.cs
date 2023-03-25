@@ -17,6 +17,7 @@ namespace MindTheCodeApp.Controllers
         private readonly List<IndexOrderVM> IndexOrderVMs = new List<IndexOrderVM>();
         private readonly IndexOrderVM DetailsOrderVM = new IndexOrderVM();
         private readonly EditOrderVM EditOrderVM = new EditOrderVM();
+
         public OrderController(ApplicationDbContext context)
         {
             _context = context;
@@ -25,22 +26,26 @@ namespace MindTheCodeApp.Controllers
         // GET: Order
         public async Task<IActionResult> Index()
         {
-            var orders = await _context.OrderEntity.Include(c => c.User).Include(a => a.AddressInformation).ToListAsync();
+            var orders = await _context.OrderEntity.Include(c => c.User).Include(a => a.AddressInformation)
+                .ToListAsync();
 
             foreach (var order in orders)
             {
                 var orderVM = new IndexOrderVM();
                 var email = _context.OrderEntity.FirstOrDefault(u => u.OrderId == order.OrderId).User.Email;
-                var address = _context.OrderEntity.FirstOrDefault(a => a.OrderId == order.OrderId).AddressInformation.StreetAddress;
+                var address = _context.OrderEntity.FirstOrDefault(a => a.OrderId == order.OrderId).AddressInformation
+                    .StreetAddress;
                 orderVM.IndexOrderId = order.OrderId;
                 if (email != null)
                 {
                     orderVM.CustomerEmail = email;
                 }
+
                 if (address != null)
                 {
                     orderVM.Address = address;
                 }
+
                 orderVM.Fulfilled = order.Fulfilled;
                 orderVM.Active = order.Active;
                 orderVM.Cancelled = order.Canceled;
@@ -63,7 +68,8 @@ namespace MindTheCodeApp.Controllers
             var order = await _context.OrderEntity.Include(u => u.User).Include(a => a.AddressInformation)
                 .FirstOrDefaultAsync(o => o.OrderId == id);
             var user = _context.OrderEntity.FirstOrDefault(u => u.OrderId == order.OrderId).User.Email;
-            var address = _context.OrderEntity.FirstOrDefault(a => a.OrderId == order.OrderId).AddressInformation.StreetAddress;
+            var address = _context.OrderEntity.FirstOrDefault(a => a.OrderId == order.OrderId).AddressInformation
+                .StreetAddress;
 
 
             if (order == null)
@@ -89,7 +95,8 @@ namespace MindTheCodeApp.Controllers
         public IActionResult Create()
         {
             ViewData["Users"] = new SelectList(_context.UserEntity, "UserId", "Email");
-            ViewData["Addresses"] = new SelectList(_context.AddressInformationEntity, "AddressInformationId", "StreetAddress");
+            ViewData["Addresses"] =
+                new SelectList(_context.AddressInformationEntity, "AddressInformationId", "StreetAddress");
             return View("/Views/Admin/Order/Create.cshtml");
         }
 
@@ -100,22 +107,23 @@ namespace MindTheCodeApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateOrderVM order)
         {
-                var user = _context.UserEntity.FirstOrDefault(u => u.UserId == order.UserId);
-                var address = _context.AddressInformationEntity.FirstOrDefault(a => a.AddressInformationId == order.AddressInformationId);
+            var user = _context.UserEntity.FirstOrDefault(u => u.UserId == order.UserId);
+            var address =
+                _context.AddressInformationEntity.FirstOrDefault(a =>
+                    a.AddressInformationId == order.AddressInformationId);
 
-                var newOrder = _context.OrderEntity.Add(new Order
-                {
-                    User = user,
-                    Fulfilled = order.Fulfilled,
-                    Active = order.Active,
-                    Canceled = order.Canceled,
-                    AddressInformation = address,
-                    Cost = order.Cost,
-                    DateCreated = DateTime.Now
-                });
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-
+            var newOrder = _context.OrderEntity.Add(new Order
+            {
+                User = user,
+                Fulfilled = order.Fulfilled,
+                Active = order.Active,
+                Canceled = order.Canceled,
+                AddressInformation = address,
+                Cost = order.Cost,
+                DateCreated = DateTime.Now
+            });
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         // GET: Order/Edit/5
@@ -136,7 +144,8 @@ namespace MindTheCodeApp.Controllers
             }
 
             ViewData["Users"] = new SelectList(_context.UserEntity, "UserId", "Email");
-            ViewData["Addresses"] = new SelectList(_context.AddressInformationEntity, "AddressInformationId", "StreetAddress");
+            ViewData["Addresses"] =
+                new SelectList(_context.AddressInformationEntity, "AddressInformationId", "StreetAddress");
 
             return View("/Views/Admin/Order/Edit.cshtml", EditOrderVM);
         }
@@ -164,7 +173,7 @@ namespace MindTheCodeApp.Controllers
                 order.AddressInformation.AddressInformationId = editOrderVM.AddressInformationId;
                 order.Cost = editOrderVM.Cost;
                 order.DateCreated = editOrderVM.OrderCreated;
-                
+
                 await _context.SaveChangesAsync();
             }
             else
@@ -202,19 +211,20 @@ namespace MindTheCodeApp.Controllers
             {
                 return Problem("Entity set 'ApplicationDbContext.OrderEntity'  is null.");
             }
+
             var order = await _context.OrderEntity.FindAsync(id);
             if (order != null)
             {
                 _context.OrderEntity.Remove(order);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool OrderExists(int id)
         {
-          return (_context.OrderEntity?.Any(e => e.OrderId == id)).GetValueOrDefault();
+            return (_context.OrderEntity?.Any(e => e.OrderId == id)).GetValueOrDefault();
         }
     }
 }

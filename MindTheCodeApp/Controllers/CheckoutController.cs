@@ -15,30 +15,32 @@ namespace MindTheCodeApp.Controllers
         private readonly IUserService _userService;
         private readonly IBookService _bookService;
 
-        public CheckoutController(ILogger<CheckoutController> logger, IOrderService orderService, IUserService userService, IBookService bookService)
+        public CheckoutController(ILogger<CheckoutController> logger, IOrderService orderService,
+            IUserService userService, IBookService bookService)
         {
             _logger = logger;
             _orderService = orderService;
             _userService = userService;
             _bookService = bookService;
         }
+
         public async Task<IActionResult> Index(string userCart, string userCartTotal)
         {
-           // var cart = 
+            // var cart = 
             //_logger.LogDebug(userCart + userCartTotal);
             //i need info from local storage
             return View("/Views/MyCart/MyCart.cshtml");
         }
 
         [HttpGet]
-        public async Task<IActionResult> Create() 
+        public async Task<IActionResult> Create()
         {
             //var checkoutDTO = new CheckoutDTO();
             return View("/Views/Checkout/Checkout.cshtml");
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromBody]CheckoutDTO checkoutDTO) 
+        public async Task<IActionResult> CreateOrder([FromBody] CheckoutDTO checkoutDTO)
         {
             var newOrder = await _orderService.CreateNewOrder(checkoutDTO.User, checkoutDTO.bookQuantities);
             return RedirectToAction("Index", "Home");

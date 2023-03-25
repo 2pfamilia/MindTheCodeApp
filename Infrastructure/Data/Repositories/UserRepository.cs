@@ -37,13 +37,13 @@ namespace Infrastructure.Data.Repositories
         public async Task<bool> UserExists(User user)
         {
             var userExists = _context.UserEntity.Any(u =>
-                        u.Email.Equals(user.Email)
-                    );
+                u.Email.Equals(user.Email)
+            );
 
             return userExists;
         }
 
-       public UserRole CreateUserRole()
+        public UserRole CreateUserRole()
         {
             var userRole = _context.UserRoleEntity.FirstOrDefault(role => role.RoleId == 2);
             return userRole;

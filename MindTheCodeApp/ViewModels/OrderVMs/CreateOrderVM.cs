@@ -9,6 +9,5 @@
         public bool Canceled { get; set; }
         public int AddressInformationId { get; set; }
         public decimal Cost { get; set; }
-
     }
 }

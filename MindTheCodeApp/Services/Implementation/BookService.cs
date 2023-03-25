@@ -82,7 +82,6 @@ namespace AppCore.Services.Implementation
 
         #region DTOs
 
-
         public HomeDTO GetHomeDTO()
         {
             var dto = new HomeDTO
