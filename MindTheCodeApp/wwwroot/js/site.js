@@ -567,22 +567,24 @@ shopFiltersBtn && shopFiltersBtn.addEventListener("click", (e) => {
 
 // Add to cart handler
 if (productCardCartIcons) {
-  productCardCartIcons.forEach((cartIcon, index) => {
-    cartIcon.addEventListener("click", () => {
-      const product = {
-        img: productCardImg[index].getAttribute("src"),
-        title: productCardTitle[index].textContent.replace(/\s+/g, " ").trim(),
-        author: productCardAuthor[index].textContent
-          .replace(/\s+/g, " ")
-          .trim(),
-        price: parseFloat(
-          productCardPrice[index].textContent.replace(/[$€]+/g, "")
-        ),
-      };
+    productCardCartIcons.forEach((cartIcon, index) => {
+        cartIcon.addEventListener("click", () => {
+            const container = cartIcon.closest(".product-card");
+            const product = {
+                id: container.getAttribute("data-id"),
+                img: productCardImg[index].getAttribute("src"),
+                title: productCardTitle[index].textContent.replace(/\s+/g, " ").trim(),
+                author: productCardAuthor[index].textContent
+                    .replace(/\s+/g, " ")
+                    .trim(),
+                price: parseFloat(
+                    productCardPrice[index].textContent.replace(/[$€]+/g, "")
+                ),
+            };
 
-      addProductToCart(product, 1, true);
+            addProductToCart(product, 1, true);
+        });
     });
-  });
 }
 
 // Adds product to cart
