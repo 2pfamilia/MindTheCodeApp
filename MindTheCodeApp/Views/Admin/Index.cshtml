@@ -2,14 +2,14 @@
     ViewData["Title"] = "Home Page Admin";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Admin Site for Book Shop</h1>
-    <ul>
+<div class="admin-page-content">
+    <h1 class="page-title">Admin</h1>
+    <nav class="admin-nav-bar">
         <a asp-controller="AdminBooks" asp-action="Index">Books</a>
         <a asp-controller="AdminBookCategory" asp-action="Index">Book Categories</a>
         <a asp-controller="AdminBookAuthor" asp-action="Index">Book Authors</a>
         <a asp-controller="AdminBookPhoto" asp-action="Index">Book Photos</a>
         <a asp-controller="AdminOrder" asp-action="Index">Orders</a>
         <a asp-controller="AdminOrderDetails" asp-action="Index">Orders Details</a>
-    </ul>
+    </nav>
 </div>

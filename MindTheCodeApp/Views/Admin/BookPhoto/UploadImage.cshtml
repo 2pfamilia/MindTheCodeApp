@@ -1,6 +1,18 @@
 ﻿@model MindTheCodeApp.ViewModels.BookVMs.BookPhotoVM
-
+@{
+    ViewData["Title"] = "UploadImage";
+}
 <form method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Title" class="control-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
     <div>
         <label asp-for="ImageFile"></label>
         <input asp-for="ImageFile" type="file">
@@ -9,13 +21,13 @@
     <button type="submit">Upload</button>
 </form>
 
-@if (Model.ImagePath != null)
+@*@if (Model.ImageFile != null)
 {
     <div>
         <img src="@Url.Content(Model.ImagePath)" alt="Uploaded image">
     </div>
 }
-
+*@
 @section Scripts {
     <partial name="_ValidationScriptsPartial"/>
 }

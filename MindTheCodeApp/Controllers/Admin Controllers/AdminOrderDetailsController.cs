@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MindTheCodeApp.ViewModels.OrderVMs;
+using Serilog;
 
 namespace MindTheCodeApp.Controllers
 {
     public class AdminOrderDetailsController : Controller
     {
+        Serilog.ILogger myLog = Log.ForContext<AdminOrderDetailsController>();
         private readonly ApplicationDbContext _context;
         private readonly List<IndexOrderDetailsVM> IndexOrderDetailsVMs = new List<IndexOrderDetailsVM>();
         private readonly IndexOrderDetailsVM DetailsOrderDetailsVM = new IndexOrderDetailsVM();
@@ -59,21 +61,31 @@ namespace MindTheCodeApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateOrderDetailsVM details)
         {
-            var order = _context.OrderEntity.FirstOrDefault(o => o.OrderId == details.OrderId);
-            var book = _context.BookEntity.FirstOrDefault(b => b.BookId == details.BookId);
-            var totalCost = details.UnitCost * details.Count;
-            var newDetails = _context.OrderDetailsEntity.Add(new AppCore.Models.OrderModels.OrderDetails
+            try
             {
-                Order = order,
-                Book = book,
-                Unitcost = details.UnitCost,
-                TotalCost = totalCost,
-                Count = details.Count
-            });
+                myLog.Verbose("Start - Create");
+                var order = _context.OrderEntity.FirstOrDefault(o => o.OrderId == details.OrderId);
+                var book = _context.BookEntity.FirstOrDefault(b => b.BookId == details.BookId);
+                var totalCost = details.UnitCost * details.Count;
+                var newDetails = _context.OrderDetailsEntity.Add(new AppCore.Models.OrderModels.OrderDetails
+                {
+                    Order = order,
+                    Book = book,
+                    Unitcost = details.UnitCost,
+                    TotalCost = totalCost,
+                    Count = details.Count
+                });
 
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("Index");
+                await _context.SaveChangesAsync();
+                myLog.Verbose("End - Create");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                myLog.Error(ex, "Exception on Create");
+                throw;
+            }
+            
         }
 
 
@@ -131,19 +143,30 @@ namespace MindTheCodeApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.OrderDetailsEntity == null)
+            try
             {
-                return Problem("Entity set 'ApplicationDbContext.OrderDetailsEntity'  is null.");
-            }
+                myLog.Verbose("Start - Delete");
+                if (_context.OrderDetailsEntity == null)
+                {
+                    return Problem("Entity set 'ApplicationDbContext.OrderDetailsEntity'  is null.");
+                }
 
-            var detail = await _context.OrderDetailsEntity.FindAsync(id);
-            if (detail != null)
+                var detail = await _context.OrderDetailsEntity.FindAsync(id);
+                if (detail != null)
+                {
+                    _context.OrderDetailsEntity.Remove(detail);
+                }
+
+                await _context.SaveChangesAsync();
+                myLog.Verbose("End - Delete");
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
             {
-                _context.OrderDetailsEntity.Remove(detail);
+                myLog.Error(ex, "Exception on Delete");
+                throw;
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            
         }
 
         public IActionResult Edit(int id)
@@ -172,29 +195,40 @@ namespace MindTheCodeApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditOrderDetailsVM editDetailsVM)
         {
-            var details = _context.OrderDetailsEntity.Include(o => o.Order).Include(a => a.Book)
-                .FirstOrDefault(o => o.OrderDetailsId == id);
-            if (details != null)
+            try
             {
-                if (id != editDetailsVM.EditDetailsId)
+                myLog.Verbose("Start - Edit");
+                var details = _context.OrderDetailsEntity.Include(o => o.Order).Include(a => a.Book)
+                .FirstOrDefault(o => o.OrderDetailsId == id);
+                if (details != null)
+                {
+                    if (id != editDetailsVM.EditDetailsId)
+                    {
+                        return NotFound();
+                    }
+
+                    details.Unitcost = editDetailsVM.UnitCost;
+                    details.Count = editDetailsVM.Count;
+                    details.TotalCost = editDetailsVM.UnitCost * editDetailsVM.Count;
+                    details.Order.OrderId = editDetailsVM.OrderId;
+                    details.Book.BookId = editDetailsVM.BookId;
+
+                    await _context.SaveChangesAsync();
+                    myLog.Verbose("End - Edit");
+                }
+                else
                 {
                     return NotFound();
                 }
 
-                details.Unitcost = editDetailsVM.UnitCost;
-                details.Count = editDetailsVM.Count;
-                details.TotalCost = editDetailsVM.UnitCost * editDetailsVM.Count;
-                details.Order.OrderId = editDetailsVM.OrderId;
-                details.Book.BookId = editDetailsVM.BookId;
-
-                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                myLog.Error(ex, "Exception on Edit");
+                throw;
             }
-
-            return RedirectToAction("Index");
+            
         }
     }
 }

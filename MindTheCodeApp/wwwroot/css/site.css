@@ -1638,12 +1638,26 @@
 .authors-page-content {
     width: 100%;
     display: flex;
-    justify-content:center;
-    align-content:center;
-    gap: 4.8rem;
+    flex-direction:column;
+    gap: 2.4rem;
     flex-wrap: wrap;
     padding: 4.8rem 2.4rem;
 }
+
+.authors-page-content .page-title {
+    align-self: center;
+    padding-bottom: 4.8rem;
+}
+
+.authors-page-items-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 4.8rem;
+    flex-wrap: wrap;
+}
+
 
 .authors-page-item {
     display: flex;
@@ -1753,3 +1767,157 @@
     flex-wrap: wrap;
     align-content: flex-start;
 }
+
+
+/**************************/
+/* ADMIN PAGE */
+/**************************/
+.admin-page-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+    padding: 4.8rem 2.4rem;
+}
+
+    .admin-page-content .page-title {
+        align-self: center;
+    }
+
+.admin-nav-bar {
+    align-self: center;
+    display: flex;
+    gap: 2.4rem;
+}
+
+    .admin-nav-bar a {
+        font-size: 1.8rem;
+        text-decoration: none;
+        color: #212529;
+    }
+
+    .admin-nav-bar a:hover {
+        text-shadow: 0 0 0.1rem #212529;
+    }
+
+    .admin-nav-bar a:active {
+        text-shadow: 0 0 0.3rem #212529;
+    }
+
+.admin-page-main-btns-container {
+    align-self: flex-start;
+    display: flex;
+    justify-content: flex-start;
+    gap: 2.4rem;
+}
+
+.admin-page-content table {
+    font-size: 1.6rem;
+    color: #212529;
+    border: 0.1rem solid #212529;
+    border-radius: 0.6rem;
+    box-shadow: 0 0.1rem 2rem rgba(0, 0, 0, 0.2);
+}
+
+    .admin-page-content table thead {
+        border: 0.1rem solid #212529;
+        padding: 1.2rem;
+    }
+
+    .admin-page-content table tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
+.admin-page-table {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 0.1rem solid #212529;
+    border-radius: 0.6rem;
+    padding: 2rem;
+}
+
+.admin-page-table-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2.4rem;
+    color: #212529;
+    font-size: 1.6rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 2rem 0;
+    border-bottom: 0.1rem solid rgba(0, 0, 0, 0.3);
+}
+
+.admin-page-table-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2.4rem;
+    border-bottom: 0.1rem solid rgba(0, 0, 0, 0.3);
+    padding: 2.4rem 0;
+}
+.admin-page-table-row span {
+    text-align: center;
+    font-size: 1.6rem;
+}
+
+.admin-page-table-btns-cell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    border-left: 0.1rem solid rgba(0, 0, 0, 0.3);
+    padding: 0 0.8rem;
+}
+
+.admin-page-table-row:hover {
+    background-color: #f1f3f5;
+}
+
+.admin-page-form{
+    align-self: center;
+    display:flex;
+    flex-direction:column;
+    gap: 2.4rem;
+}
+
+    .admin-page-form button {
+        align-self:center;
+    }
+    .admin-page-form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2.4rem;
+    font-size: 1.6rem;
+    color: #212529;
+}
+
+.admin-page-form-group label{
+    font-weight: 500;
+}
+        .admin-page-form-group textarea,
+        .admin-page-form-group input,
+        .admin-page-form-group select {
+            font-size: 1.6rem;
+            color: #212529;
+            width: 100%;
+        }
+
+.admin-page-form-error-msg {
+    max-width: 22rem;
+    font-size: 1.4rem;
+    color: #c92a2a;
+    font-style: italic;
+}
+
+.admin-page-back-link {
+   align-self: flex-start;
+}
+
+

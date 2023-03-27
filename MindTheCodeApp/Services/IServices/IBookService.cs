@@ -29,5 +29,9 @@ namespace MindTheCodeApp.Services.IServices
         Task<List<AuthorDTO>> FindAuthorDTOsByName(string name);
         void SelectCategoryDTO(CategoryDTO categoryDTO);
         void SelectAuthorDTO(AuthorDTO authorDTO);
+
+        public Book GetBookById(int bookId);
+
+
     }
 }

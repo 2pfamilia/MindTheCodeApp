@@ -4,7 +4,9 @@
     ViewData["Title"] = "Author Page";
 }
 
-<div class="authors-page-content">   
+<div class="authors-page-content">
+    <h1 class="page-title">Authors</h1>
+<div class="authors-page-items-container">
     @foreach (var author in ViewBag.Authors)
     {
         <div class="authors-page-item">
@@ -16,4 +18,5 @@
             </a>
         </div>
     }
+    </div>
 </div>

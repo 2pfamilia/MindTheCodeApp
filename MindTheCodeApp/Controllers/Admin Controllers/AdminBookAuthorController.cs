@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MindTheCodeApp.ViewModels.BookVMs;
+using Serilog;
 
 namespace MindTheCodeApp.Controllers
 {
     public class AdminBookAuthorController : Controller
     {
         private readonly ApplicationDbContext _context;
+        Serilog.ILogger myLog = Log.ForContext<AdminBookAuthorController>();
         private List<BookAuthorVM> IndexAuthorsVM { get; set; } = new();
         private BookAuthorVM DetailsBookAuthorVM { get; set; } = new BookAuthorVM();
         private EditBookAuthorVM EditBookAuthorVM { get; set; } = new EditBookAuthorVM();
@@ -20,6 +22,7 @@ namespace MindTheCodeApp.Controllers
 
         public async Task<IActionResult> Index()
         {
+            myLog.Verbose("Start - Index");
             var authors = await _context.BookAuthorEntity.ToListAsync();
 
             foreach (var author in authors)
@@ -30,7 +33,7 @@ namespace MindTheCodeApp.Controllers
                 authorVM.Description = author.Description;
                 IndexAuthorsVM.Add(authorVM);
             }
-
+            myLog.Verbose("End - Index");
             return View("/Views/Admin/BookAuthor/Index.cshtml", IndexAuthorsVM);
         }
 
@@ -42,15 +45,26 @@ namespace MindTheCodeApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(BookAuthorVM authorVM)
         {
-            var newAuthor = _context.BookAuthorEntity.Add(new AppCore.Models.BookModels.BookAuthor
+            myLog.Verbose("Start - Create");
+            try
             {
-                Name = authorVM.Name,
-                Description = authorVM.Description,
-                DateCreated = DateTime.Now
-            });
-            await _context.SaveChangesAsync();
+                var newAuthor = _context.BookAuthorEntity.Add(new AppCore.Models.BookModels.BookAuthor
+                {
+                    Name = authorVM.Name,
+                    Description = authorVM.Description,
+                    DateCreated = DateTime.Now
+                });
+                await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index");
+                myLog.Verbose("End - Create");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                myLog.Error(ex, "Exception at Create");
+                return null;
+            }
+            
         }
 
         public async Task<IActionResult> Delete(int? id)
@@ -130,25 +144,35 @@ namespace MindTheCodeApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditBookAuthorVM editBookAuthorVM)
         {
-            var author = _context.BookAuthorEntity.FirstOrDefault(b => b.AuthorId == id);
-            if (author != null)
+            myLog.Verbose("Start - Edit");
+            try
             {
-                if (id != author.AuthorId)
+                var author = _context.BookAuthorEntity.FirstOrDefault(b => b.AuthorId == id);
+                if (author != null)
+                {
+                    if (id != author.AuthorId)
+                    {
+                        return NotFound();
+                    }
+
+                    author.Name = editBookAuthorVM.Name;
+                    author.Description = editBookAuthorVM.Description;
+
+                    await _context.SaveChangesAsync();
+                }
+                else
                 {
                     return NotFound();
                 }
 
-                author.Name = editBookAuthorVM.Name;
-                author.Description = editBookAuthorVM.Description;
-
-                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                myLog.Error(ex, "Exception at Edit");
+                return null;
             }
-
-            return RedirectToAction("Index");
+            
         }
     }
 }

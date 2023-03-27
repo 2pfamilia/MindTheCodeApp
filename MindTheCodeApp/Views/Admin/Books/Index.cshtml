@@ -1,66 +1,57 @@
 ﻿@model IEnumerable<MindTheCodeApp.ViewModels.BookVMs.IndexBookVM>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Admin - Books";
 }
 
-<h1>Index</h1>
+<div class="admin-page-content">
+    <h1 class="page-title">Books</h1>
 
-<p>
-    <a asp-action="Create">Create New Book</a>
-</p>
-<table class="table">
-    <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category)
-        </th>
-        <th>
-            <label>Availability</label>
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Author)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Count)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.BookId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BookId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BookId">Delete</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+    <div class="admin-page-main-btns-container">
+        <a class="link-btn" asp-action="Create">CREATE NEW BOOK</a>
+    </div>
+    
+    <div class="admin-page-table">
+        <header class="admin-page-table-header">    
+            <h4 class="width-5">ID</h4>
+
+            <h4 class="width-25">@Html.DisplayNameFor(model => model.Title)</h4>
+            <h4 class="width-10">             @Html.DisplayNameFor(model => model.Category)
+            </h4>
+            <h4 class ="width-10">Availability</h4>
+            <h4 class ="width-15"> @Html.DisplayNameFor(model => model.Author)
+            </h4>            
+           @* <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>*@
+            <h4 class ="width-10">              @Html.DisplayNameFor(model => model.Price)
+            </h4>
+            <div class="width-25"></div>            
+        </header>
+        @foreach (var item in Model)
+        {
+            <div class="admin-page-table-row">
+                <span class="width-5">@Html.DisplayFor(modelItem => item.BookId)</span>
+                <span class="width-25">@Html.DisplayFor(modelItem => item.Title)</span>
+                <span class="width-10">
+                    @Html.DisplayFor(modelItem => item.Category)
+                </span>
+                <span class="width-10">@Html.DisplayFor(modelItem => item.Count)</span>
+                <span class ="width-15">
+                    @Html.DisplayFor(modelItem => item.Author)
+                </span>
+                @* <th>
+            @Html.DisplayFor(modelItem => item.Description)
+            </th>*@
+                <span class="width-10">
+                    @Html.DisplayFor(modelItem => item.Price)
+                </span>
+                <div class="admin-page-table-btns-cell width-25">
+                    <a class="table-link-btn" asp-action="Edit" asp-route-id="@item.BookId">Edit</a>
+                    <a class="table-link-btn" asp-action="Details" asp-route-id="@item.BookId">Details</a>
+                    <a class="table-link-btn" asp-action="Delete" asp-route-id="@item.BookId">Delete</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

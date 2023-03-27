@@ -20,7 +20,7 @@
         <a href="@Url.Action("Index", "Home")">
             <img class="logo"
                  alt="bookstore logo"
-                 src="img/logos/logo-simple.png"/>
+                 src="/img/logos/logo-simple.png"/>
         </a>
         <div class="search-bar">
             <input type="text" placeholder="I'm looking for..."/>
@@ -99,6 +99,141 @@
 <main role="main">
     @RenderBody()
 </main>
+@*    <div class="overlay"></div>
+    <form class="signin-form">
+        <div class="signin-form-header">
+            <h2>Already have an account?</h2>
+            <span>Sign in with your email and password</span>
+        </div>
+        <div class="form-input">
+            <label class="form-input-label" for="email">Email</label>
+            <input type="text" name="email" />
+            <span class="form-error-msg"></span>
+        </div>
+        <div class="form-input">
+            <label class="form-input-label" for="password">Password</label>
+            <input type="password" name="password" />
+            <span class="form-error-msg"></span>
+        </div>
+        <button class="btn">SIGN IN</button>
+    </form>
+    <header class="header">
+        <div class="topbar">
+            <a href="/index.html">
+                <img class="logo"
+                     alt="bookstore logo"
+                     src="img/logos/logo-simple.png" />
+            </a>
+            <div class="search-bar">
+                <input type="text" placeholder="I'm looking for..." />
+                <button class="search-bar-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+                        <path d="m19.6 21-6.3-6.3q-.75.6-1.725.95Q10.6 16 9.5 16q-2.725 0-4.612-1.887Q3 12.225 3 9.5q0-2.725 1.888-4.613Q6.775 3 9.5 3t4.613 1.887Q16 6.775 16 9.5q0 1.1-.35 2.075-.35.975-.95 1.725l6.3 6.3ZM9.5 14q1.875 0 3.188-1.312Q14 11.375 14 9.5q0-1.875-1.312-3.188Q11.375 5 9.5 5 7.625 5 6.312 6.312 5 7.625 5 9.5q0 1.875 1.312 3.188Q7.625 14 9.5 14Z" />
+                    </svg>
+                </button>
+            </div>
+            <div class="topbar-menu">
+                <div class="topbar-menu-icon-container">
+                    <svg class="cart-icon"
+                         xmlns="http://www.w3.org/2000/svg"
+                         height="24"
+                         width="24">
+                        <path d="M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z" />
+                    </svg>
+                    <span class="cart-icon-total">€0.00</span>
+                    <div class="cart-dropdown-list">
+                        <ul></ul>
+                        <div class="cart-dropdown-list-footer-container">
+                            <div class="hr-divider-90"></div>
+                            <div class="cart-dropdown-list-total-container">
+                                <span>TOTAL:</span>
+                                <span class="cart-dropdown-list-total">€0.00</span>
+                            </div>
+                            <div class="cart-dropdown-list-btn-container">
+                                <a href="#" class="link-btn" style="padding: 1.2rem">VIEW</a>
+                                <a href="#" class="link-btn" style="padding: 1.2rem">CHECKOUT</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="topbar-menu-icon-container">
+                    <svg class="account-icon"
+                         xmlns="http://www.w3.org/2000/svg"
+                         height="24"
+                         width="24">
+                        <path d="M12 12q-1.65 0-2.825-1.175Q8 9.65 8 8q0-1.65 1.175-2.825Q10.35 4 12 4q1.65 0 2.825 1.175Q16 6.35 16 8q0 1.65-1.175 2.825Q13.65 12 12 12Zm-8 8v-2.8q0-.85.438-1.563.437-.712 1.162-1.087 1.55-.775 3.15-1.163Q10.35 13 12 13t3.25.387q1.6.388 3.15 1.163.725.375 1.162 1.087Q20 16.35 20 17.2V20Zm2-2h12v-.8q0-.275-.137-.5-.138-.225-.363-.35-1.35-.675-2.725-1.013Q13.4 15 12 15t-2.775.337Q7.85 15.675 6.5 16.35q-.225.125-.362.35-.138.225-.138.5Zm6-8q.825 0 1.413-.588Q14 8.825 14 8t-.587-1.412Q12.825 6 12 6q-.825 0-1.412.588Q10 7.175 10 8t.588 1.412Q11.175 10 12 10Zm0-2Zm0 10Z" />
+                    </svg>
+                    <div class="account-dropdown-menu">
+                        <button class="btn signin-btn">SIGN IN</button>
+                        <div class="hr-divider-90"></div>
+                        <span>Don't have an account?</span>
+                        <a href="#" class="link-btn signup-btn">SIGN UP</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar-main-container"
+              @*<style="@(ViewData["Title"].Equals("Home Page") ? Html.Raw("background-color:transparent") : Html.Raw(""))"> *@
+@*            <div class="navbar">
+                <div class="navlink-shop-container">
+                    <span>SHOP</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+                        <path d="m12 15.375-6-6 1.4-1.4 4.6 4.6 4.6-4.6 1.4 1.4Z" />
+                    </svg>
+                </div>
+                <a href="#" class="navlink">ABOUT US</a>
+                <a href="#" class="navlink">CONTACT US</a>
+            </div>*@
+            <div class="navbar-dropdown-menu">
+                <a href="" class="navbar-dropdown-menu-category">Bestsellers</a>
+                <a href="" class="navbar-dropdown-menu-category">Children’s</a>
+                <a href="" class="navbar-dropdown-menu-category">Non-Fiction</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Arts</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Biography</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Business</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Environmental</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Fashion</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">History</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Political</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Science</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Sports</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Travel</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">True crime</a>
+
+                <a href="" class="navbar-dropdown-menu-category">Finction</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">
+                    Action and adventure
+                </a>
+                <a href="" class="navbar-dropdown-menu-subcategory">
+                    Crime and mystery
+                </a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Romance</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">
+                    Speculative fiction
+                </a>
+                <a href="" class="navbar-dropdown-menu-subcategory">
+                    Science fiction
+                </a>
+                <a href="" class="navbar-dropdown-menu-category">Finction</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">
+                    Action and adventure
+                </a>
+                <a href="" class="navbar-dropdown-menu-subcategory">
+                    Crime and mystery
+                </a>
+                <a href="" class="navbar-dropdown-menu-subcategory">Romance</a>
+                <a href="" class="navbar-dropdown-menu-subcategory">
+                    Speculative fiction
+                </a>
+                <a href="" class="navbar-dropdown-menu-subcategory">
+                    Science fiction
+                </a>
+            </div>
+        </nav>
+    </header>
+    <main role="main">
+        @RenderBody()
+    </main>
 
 <footer class="footer">
     <div class="footer-container">
@@ -106,7 +241,7 @@
             <a href="#">
                 <img class="logo"
                      alt="bookstore logo"
-                     src="img/logos/logo-white.png"/>
+                     src="/img/logos/logo-white.png"/>
             </a>
             <div class="footer-info">
                 <h3 class="footer-info-header">CONTACT US</h3>

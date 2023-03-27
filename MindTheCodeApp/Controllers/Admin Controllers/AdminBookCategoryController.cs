@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MindTheCodeApp.ViewModels.BookVMs;
+using Serilog;
 
 namespace MindTheCodeApp.Controllers
 {
     public class AdminBookCategoryController : Controller
     {
         private readonly ApplicationDbContext _context;
+        Serilog.ILogger myLog = Log.ForContext<AdminBookCategoryController>();
         private List<BookCategoryVM> IndexCategoriesVM { get; set; } = new();
         private BookCategoryVM DetailsBookCategoryVM { get; set; } = new BookCategoryVM();
         private EditBookCategoryVM EditBookCategoryVM { get; set; } = new EditBookCategoryVM();
@@ -43,34 +45,54 @@ namespace MindTheCodeApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(BookCategoryVM categoryVM)
         {
-            var newCategory = _context.BookCategoryEntity.Add(new AppCore.Models.BookModels.BookCategory
+            try
             {
-                Code = categoryVM.Code,
-                Title = categoryVM.Title,
-                Description = categoryVM.Description,
-                DateCreated = DateTime.Now
-            });
+                myLog.Verbose("Start - Create");
+                var newCategory = _context.BookCategoryEntity.Add(new AppCore.Models.BookModels.BookCategory
+                {
+                    Code = categoryVM.Code,
+                    Title = categoryVM.Title,
+                    Description = categoryVM.Description,
+                    DateCreated = DateTime.Now
+                });
 
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("Index");
+                await _context.SaveChangesAsync();
+                myLog.Verbose("End - Create");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                myLog.Error(ex, "Exception at Create");
+                return null;
+            }
+            
         }
 
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.BookCategoryEntity == null)
+            try
             {
-                return NotFound();
-            }
+                myLog.Verbose("Start - Delete");
+                if (id == null || _context.BookCategoryEntity == null)
+                {
+                    return NotFound();
+                }
 
-            var category = await _context.BookCategoryEntity
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
-            if (category == null)
+                var category = await _context.BookCategoryEntity
+                    .FirstOrDefaultAsync(m => m.CategoryId == id);
+                if (category == null)
+                {
+                    return NotFound();
+                }
+                myLog.Verbose("End - Delete");
+                return View("/Views/Admin/BookCategory/Delete.cshtml", category);
+            }
+            catch (Exception ex)
             {
-                return NotFound();
+                myLog.Error(ex, "Exception at Delete");
+                throw;
             }
-
-            return View("/Views/Admin/BookCategory/Delete.cshtml", category);
+            
         }
 
         [HttpPost, ActionName("Delete")]
@@ -135,26 +157,36 @@ namespace MindTheCodeApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditBookCategoryVM editBookCategoryVM)
         {
-            var category = _context.BookCategoryEntity.FirstOrDefault(b => b.CategoryId == id);
-            if (category != null)
+            try
             {
-                if (id != category.CategoryId)
+                myLog.Verbose("Start - Edit");
+                var category = _context.BookCategoryEntity.FirstOrDefault(b => b.CategoryId == id);
+                if (category != null)
+                {
+                    if (id != category.CategoryId)
+                    {
+                        return NotFound();
+                    }
+
+                    category.Code = editBookCategoryVM.Code;
+                    category.Title = editBookCategoryVM.Title;
+                    category.Description = editBookCategoryVM.Description;
+                    myLog.Verbose("End - Edit");
+                    await _context.SaveChangesAsync();
+                }
+                else
                 {
                     return NotFound();
                 }
 
-                category.Code = editBookCategoryVM.Code;
-                category.Title = editBookCategoryVM.Title;
-                category.Description = editBookCategoryVM.Description;
-
-                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                myLog.Error(ex, "Exception at Edit");
+                throw;
             }
-
-            return RedirectToAction("Index");
+            
         }
     }
 }

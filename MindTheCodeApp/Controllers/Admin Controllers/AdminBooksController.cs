@@ -8,11 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using AppCore.Models.BookModels;
 using Infrastructure.Data;
 using MindTheCodeApp.ViewModels.BookVMs;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
+using Serilog;
 
 namespace MindTheCodeApp.Controllers
 {
     public class AdminBooksController : Controller
     {
+        Serilog.ILogger myLog = Log.ForContext<AdminBooksController>();
         private readonly ApplicationDbContext _context;
         private List<IndexBookVM> IndexBooksVM { get; set; } = new List<IndexBookVM>();
         private EditBookVM EditBookVM { get; set; } = new EditBookVM();
@@ -102,24 +105,34 @@ namespace MindTheCodeApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BookVM book)
         {
-            var author = _context.BookAuthorEntity.FirstOrDefault(a => a.AuthorId == book.BookAuthorId);
-            var photo = _context.BookPhotoEntity.FirstOrDefault(p => p.PhotoId == book.PhotoId);
-            var category = _context.BookCategoryEntity.FirstOrDefault(c => c.CategoryId == book.BookCategoryId);
-
-            var newBook = _context.BookEntity.Add(new Book
+            try
             {
-                Title = book.Title,
-                Description = book.Description,
-                Category = category,
-                Count = book.Count,
-                Author = author,
-                Price = book.Price,
-                DateCreated = DateTime.Now
-            });
+                myLog.Verbose("Start - Create");
+                var author = _context.BookAuthorEntity.FirstOrDefault(a => a.AuthorId == book.BookAuthorId);
+                var photo = _context.BookPhotoEntity.FirstOrDefault(p => p.PhotoId == book.PhotoId);
+                var category = _context.BookCategoryEntity.FirstOrDefault(c => c.CategoryId == book.BookCategoryId);
 
-            await _context.SaveChangesAsync();
+                var newBook = _context.BookEntity.Add(new Book
+                {
+                    Title = book.Title,
+                    Description = book.Description,
+                    Category = category,
+                    Count = book.Count,
+                    Author = author,
+                    Price = book.Price,
+                    DateCreated = DateTime.Now
+                });
 
-            return RedirectToAction("Index");
+                await _context.SaveChangesAsync();
+                myLog.Verbose("End - Create");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                myLog.Error(ex, "Exception on Create");
+                throw;
+            }
+            
         }
 
         // GET: Books/Edit/5
@@ -153,30 +166,41 @@ namespace MindTheCodeApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditBookVM editBookVM)
         {
-            var book = _context.BookEntity.Include(b => b.Author).Include(b => b.Category)
-                .FirstOrDefault(b => b.BookId == id);
-            if (book != null)
+            try
             {
-                if (id != book.BookId)
+                myLog.Verbose("Start - Edit");
+                var book = _context.BookEntity.Include(b => b.Author).Include(b => b.Category)
+                .FirstOrDefault(b => b.BookId == id);
+                if (book != null)
+                {
+                    if (id != book.BookId)
+                    {
+                        return NotFound();
+                    }
+
+                    book.Title = editBookVM.Title;
+                    book.Description = editBookVM.Description;
+                    book.Author.AuthorId = editBookVM.AuthorId;
+                    book.Category.CategoryId = editBookVM.CategoryId;
+                    book.Count = editBookVM.Count;
+                    book.Price = editBookVM.Price;
+
+                    await _context.SaveChangesAsync();
+                    myLog.Verbose("End - Edit");
+                }
+                else
                 {
                     return NotFound();
                 }
 
-                book.Title = editBookVM.Title;
-                book.Description = editBookVM.Description;
-                book.Author.AuthorId = editBookVM.AuthorId;
-                book.Category.CategoryId = editBookVM.CategoryId;
-                book.Count = editBookVM.Count;
-                book.Price = editBookVM.Price;
-
-                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                myLog.Error(ex, "Exception on Edit");
+                throw;
             }
-
-            return RedirectToAction("Index");
+            
         }
 
         // GET: Books/Delete/5
@@ -202,19 +226,30 @@ namespace MindTheCodeApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.BookEntity == null)
+            try
             {
-                return Problem("Entity set 'ApplicationDbContext.BookEntity'  is null.");
-            }
+                myLog.Verbose("Start - Delete");
+                if (_context.BookEntity == null)
+                {
+                    return Problem("Entity set 'ApplicationDbContext.BookEntity'  is null.");
+                }
 
-            var book = await _context.BookEntity.FindAsync(id);
-            if (book != null)
+                var book = await _context.BookEntity.FindAsync(id);
+                if (book != null)
+                {
+                    _context.BookEntity.Remove(book);
+                }
+
+                await _context.SaveChangesAsync();
+                myLog.Verbose("End - Delete");
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
             {
-                _context.BookEntity.Remove(book);
+                myLog.Error(ex, "Exception on Delete");
+                throw;
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            
         }
 
         private bool BookExists(int id)

@@ -7,6 +7,7 @@ using AppCore.Services.Implementation;
 using MindTheCodeApp.Services.IServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using MindTheCodeApp.Utils;
+using MindTheCodeApp.Services.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +47,7 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 var app = builder.Build();
 
