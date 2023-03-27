@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MindTheCodeApp.ViewModels.BookVMs;
+using Serilog;
 
 namespace MindTheCodeApp.Controllers
 {
     public class AdminBookPhotoController : Controller
     {
+        Serilog.ILogger myLog = Log.ForContext<AdminBookPhotoController>();
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ApplicationDbContext _context;
         private List<BookPhotoVM> IndexPhotosVM = new List<BookPhotoVM>();
@@ -16,6 +18,11 @@ namespace MindTheCodeApp.Controllers
         {
             _webHostEnvironment = webHostEnvironment;
             _context = context;
+        }
+
+        public IActionResult UploadImage()
+        {
+            return View("/Views/Admin/BookPhoto/UploadImage.cshtml");
         }
 
         [HttpPost]
