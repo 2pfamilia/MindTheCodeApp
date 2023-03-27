@@ -1,61 +1,45 @@
 ﻿@model MindTheCodeApp.ViewModels.BookVMs.EditBookVM
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Book";
 }
 
-<h1>Edit</h1>
-
-<h4>Book</h4>
-<hr/>
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="admin-page-content">
+<h1 class="page-title">Edit Book</h1>
+    <form class="admin-page-form" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="admin-page-form-error-msg "></div>
             <input type="hidden" asp-for="EditBookId"/>
-            <div class="form-group">
+        <div class="admin-page-form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" value="@Model.Title"/>
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <span asp-validation-for="Title" class="admin-page-form-error-msg "></span>
             </div>
-            <br/>
-            <div class="form-group">
+        <div class="admin-page-form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control" value="@Model.Description"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
+            <textarea rows="6" cols="33" asp-for="Description" class="form-control" value="@Model.Description"></textarea>
+                <span asp-validation-for="Description" class="admin-page-form-error-msg "></span>
             </div>
-            <br/>
-            <div class="form-group">
+        <div class="admin-page-form-group">
                 <label asp-for="Count" class="control-label"></label>
                 <input asp-for="Count" class="form-control"/>
-                <span asp-validation-for="Count" class="text-danger"></span>
+                <span asp-validation-for="Count" class="admin-page-form-error-msg "></span>
             </div>
-            <br/>
-            <div class="form-group">
+        <div class="admin-page-form-group">
                 <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control"/>
-                <span asp-validation-for="Price" class="text-danger"></span>
+                <span asp-validation-for="Price" class="admin-page-form-error-msg "></span>
             </div>
-            <br/>
-            <div class="form-group">
+        <div class="admin-page-form-group">
                 <label asp-for="CategoryId" class="control-label">Category</label>
                 <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.BookCategories" value="ViewBag.Value"></select>
             </div>
-            <br/>
-            <div class="form-group">
+        <div class="admin-page-form-group">
                 <label asp-for="AuthorId" class="control-label">Author</label>
                 <select asp-for="AuthorId" class="form-control" asp-items="ViewBag.BookAuthors" value="ViewBag.Value"></select>
             </div>
-            <br/>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary"/>
-            </div>
+        <button type="submit" class="btn">SAVE</button>
         </form>
-    </div>
-</div>
-<br/>
-<div>
-    <a asp-action="Index">Back to List</a>
+    <a class="admin-page-back-link link-btn-revert" asp-action="Index">BACK TO LIST</a>
 </div>
 
 @section Scripts {

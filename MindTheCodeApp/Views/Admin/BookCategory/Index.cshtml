@@ -1,46 +1,42 @@
 ﻿@using MindTheCodeApp.ViewModels.BookVMs;
 @model IEnumerable<BookCategoryVM>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Admin-Book Categories";
 }
 <p>
     <a asp-controller="AdminBookCategory" asp-action="Create">Create new Category</a>
     <br/>
+<p/>
 
-</p>
-<table class="table">
-    <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Code)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-    </tr>
-    </thead>
-    <tbody>
+<div class="admin-page-content">
+    <h1 class="page-title">Book Categories</h1>
+    <div class="admin-page-main-btns-container">
+        <a class="link-btn" asp-controller="BookCategory" asp-action="Create">CREATE NEW CATEGORY</a>
+    </div>
+    
+    <div class="admin-page-table">
+        <header class="admin-page-table-header">
+            <h4 class="width-5">ID</h4>
+            <h4 class="width-10">@Html.DisplayNameFor(model => model.Code)</h4>
+
+            <h4 class="width-20">@Html.DisplayNameFor(model => model.Title)</h4>
+            <h4 class="width-40">@Html.DisplayNameFor(model => model.Description)</h4>
+            <div class="width-25"></div>
+        </header>
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CategoryId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a>
-            </td>
-        </tr>
+         <div class="admin-page-table-row">
+                <span class="width-5">@Html.DisplayFor(modelItem => item.CategoryId)</span>
+                <span class="width-10">@Html.DisplayFor(modelItem => item.Code)</span>
+                <span class="width-20"> @Html.DisplayFor(modelItem => item.Title)</span>
+                <span class="width-40">@Html.DisplayFor(modelItem => item.Description)</span>
+                
+                <div class="admin-page-table-btns-cell width-25">
+                <a class="table-link-btn" asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a> 
+                <a class="table-link-btn" asp-action="Details" asp-route-id="@item.CategoryId">Details</a> 
+                <a class="table-link-btn" asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a>
+                </div>
+            </div>
     }
-    </tbody>
-</table>
+    </div>
+</div>
