@@ -1638,12 +1638,26 @@
 .authors-page-content {
     width: 100%;
     display: flex;
-    justify-content:center;
-    align-content:center;
-    gap: 4.8rem;
+    flex-direction:column;
+    gap: 2.4rem;
     flex-wrap: wrap;
     padding: 4.8rem 2.4rem;
 }
+
+.authors-page-content .page-title {
+    align-self: center;
+    padding-bottom: 4.8rem;
+}
+
+.authors-page-items-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 4.8rem;
+    flex-wrap: wrap;
+}
+
 
 .authors-page-item {
     display: flex;
