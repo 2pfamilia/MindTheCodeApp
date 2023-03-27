@@ -241,7 +241,7 @@ namespace MindTheCodeApp.Utils
                 },
                 new()
                 {
-                    FirstName = "Wilson", LastName = "Trevino", Email = "wilson@trevino.org", Birthdate = DateTime.Now,
+                    FirstName = "Wilson", LastName = "Trevino", Email = "peterpap98@gmail.com", Birthdate = DateTime.Now,
                     /*Username = "Wilsontrevino",*/ Password = "123456",
                     Phone = "2102713100",
                     Role = _dbcontext.UserRoleEntity.Single(role => role.Code.Equals("reuser")),
