@@ -8,19 +8,27 @@ using Microsoft.EntityFrameworkCore;
 using AppCore.Models.OrderModels;
 using Infrastructure.Data;
 using MindTheCodeApp.ViewModels.OrderVMs;
+using Serilog;
+using System.Net;
+using AppCore.Models.DTOs;
+using MindTheCodeApp.Services.IServices;
 
 namespace MindTheCodeApp.Controllers
 {
     public class AdminOrderController : Controller
     {
+        Serilog.ILogger myLog = Log.ForContext<AdminOrderController>();
         private readonly ApplicationDbContext _context;
         private readonly List<IndexOrderVM> IndexOrderVMs = new List<IndexOrderVM>();
         private readonly IndexOrderVM DetailsOrderVM = new IndexOrderVM();
         private readonly EditOrderVM EditOrderVM = new EditOrderVM();
+        private readonly OrderEmailDTO OrderEmailDTO = new OrderEmailDTO();
+        private IEmailService _emailService;
 
-        public AdminOrderController(ApplicationDbContext context)
+        public AdminOrderController(ApplicationDbContext context, IEmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         // GET: Order
@@ -107,23 +115,41 @@ namespace MindTheCodeApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateOrderVM order)
         {
-            var user = _context.UserEntity.FirstOrDefault(u => u.UserId == order.UserId);
-            var address =
-                _context.AddressInformationEntity.FirstOrDefault(a =>
-                    a.AddressInformationId == order.AddressInformationId);
-
-            var newOrder = _context.OrderEntity.Add(new Order
+            try
             {
-                User = user,
-                Fulfilled = order.Fulfilled,
-                Active = order.Active,
-                Canceled = order.Canceled,
-                AddressInformation = address,
-                Cost = order.Cost,
-                DateCreated = DateTime.Now
-            });
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+                myLog.Verbose("Start - Create");
+                var user = _context.UserEntity.FirstOrDefault(u => u.UserId == order.UserId);
+                var address =
+                    _context.AddressInformationEntity.FirstOrDefault(a =>
+                        a.AddressInformationId == order.AddressInformationId);
+
+                var newOrder = _context.OrderEntity.Add(new Order
+                {
+                    User = user,
+                    Fulfilled = order.Fulfilled,
+                    Active = order.Active,
+                    Canceled = order.Canceled,
+                    AddressInformation = address,
+                    Cost = order.Cost,
+                    DateCreated = DateTime.Now
+                });
+
+                OrderEmailDTO.FirstName = user.FirstName;
+                OrderEmailDTO.LastName = user.LastName;
+                OrderEmailDTO.CustomerEmail = user.Email;
+                OrderEmailDTO.TotalCost = newOrder.Entity.Cost;
+                OrderEmailDTO.StreetAddress = address.StreetAddress;
+                await _emailService.SendOrderConfirmationEmail(OrderEmailDTO);
+                await _context.SaveChangesAsync();
+                myLog.Verbose("End - Create");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                myLog.Error(ex, "Exception on Create");
+                throw;
+            }
+            
         }
 
         // GET: Order/Edit/5
@@ -157,31 +183,42 @@ namespace MindTheCodeApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EditOrderVM editOrderVM)
         {
-            var order = _context.OrderEntity.Include(u => u.User).Include(a => a.AddressInformation)
-                .FirstOrDefault(o => o.OrderId == id);
-            if (order != null)
+            try
             {
-                if (id != order.OrderId)
+                myLog.Verbose("Start - Edit");
+                var order = _context.OrderEntity.Include(u => u.User).Include(a => a.AddressInformation)
+                .FirstOrDefault(o => o.OrderId == id);
+                if (order != null)
+                {
+                    if (id != order.OrderId)
+                    {
+                        return NotFound();
+                    }
+
+                    order.Fulfilled = editOrderVM.Fulfilled;
+                    order.Active = editOrderVM.Active;
+                    order.Canceled = editOrderVM.Canceled;
+                    order.User.UserId = editOrderVM.UserId;
+                    order.AddressInformation.AddressInformationId = editOrderVM.AddressInformationId;
+                    order.Cost = editOrderVM.Cost;
+                    order.DateCreated = editOrderVM.OrderCreated;
+
+                    await _context.SaveChangesAsync();
+                    myLog.Verbose("End - Edit");
+                }
+                else
                 {
                     return NotFound();
                 }
 
-                order.Fulfilled = editOrderVM.Fulfilled;
-                order.Active = editOrderVM.Active;
-                order.Canceled = editOrderVM.Canceled;
-                order.User.UserId = editOrderVM.UserId;
-                order.AddressInformation.AddressInformationId = editOrderVM.AddressInformationId;
-                order.Cost = editOrderVM.Cost;
-                order.DateCreated = editOrderVM.OrderCreated;
-
-                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
-            }
-
-            return RedirectToAction("Index");
+                myLog.Error(ex, "Exception on Edit");
+                throw;
+            }   
+            
         }
 
         // GET: Order/Delete/5
@@ -207,19 +244,30 @@ namespace MindTheCodeApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.OrderEntity == null)
+            try
             {
-                return Problem("Entity set 'ApplicationDbContext.OrderEntity'  is null.");
-            }
+                myLog.Verbose("Start - Delete");
+                if (_context.OrderEntity == null)
+                {
+                    return Problem("Entity set 'ApplicationDbContext.OrderEntity'  is null.");
+                }
 
-            var order = await _context.OrderEntity.FindAsync(id);
-            if (order != null)
+                var order = await _context.OrderEntity.FindAsync(id);
+                if (order != null)
+                {
+                    _context.OrderEntity.Remove(order);
+                }
+
+                await _context.SaveChangesAsync();
+                myLog.Verbose("End - Delete");
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
             {
-                _context.OrderEntity.Remove(order);
+                myLog.Error(ex, "Exception on Delete");
+                throw;
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            
         }
 
         private bool OrderExists(int id)
