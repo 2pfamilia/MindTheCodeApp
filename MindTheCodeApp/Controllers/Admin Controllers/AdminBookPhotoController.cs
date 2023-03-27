@@ -25,6 +25,8 @@ namespace MindTheCodeApp.Controllers
             return View("/Views/Admin/BookPhoto/UploadImage.cshtml");
         }
 
+        // Ena antistoixo UploadAuthor gia touw authors
+
         [HttpPost]
         public async Task<IActionResult> UploadImage(BookPhotoVM model)
         {
@@ -32,7 +34,7 @@ namespace MindTheCodeApp.Controllers
 
             if (model.ImageFile != null)
             {
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "UploadedImages");
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "products");
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ImageFile.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using var fileStream = new FileStream(filePath, FileMode.Create);
@@ -48,7 +50,7 @@ namespace MindTheCodeApp.Controllers
             });
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("/Views/Admin/Book/Index.cshtml");
+            return RedirectToAction("Index"); 
         }
 
         public async Task<IActionResult> Index()
