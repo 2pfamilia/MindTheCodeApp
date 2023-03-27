@@ -94,7 +94,7 @@ namespace AppCore.Services.Implementation
             return dto;
         }
 
-        public SearchDTO GetSearchDTO(string searchTerm)
+        /*public SearchDTO GetSearchDTO(string searchTerm)
         {
             List<Book> authorbooks = new List<Book>();
             List<Book> categorybooks = new List<Book>();
@@ -121,8 +121,50 @@ namespace AppCore.Services.Implementation
                 BooksByCategory = categorybooks
             };
             return searchDTO;
+        }*/
+        public async Task<List<CategoryDTO>> CreateCategoryDTOs()
+        {
+            List<CategoryDTO> categoryDTOs= new List<CategoryDTO>();
+            var categories = await _bookRepository.GetAllCategories();
+            foreach(var category in categories) 
+            {
+                categoryDTOs.Add(new CategoryDTO { Title = category.Title, Id = category.CategoryId, IsSelected = false });
+            }
+            return categoryDTOs;
+           //throw new NotImplementedException();
         }
 
+        public async Task<List<AuthorDTO>> CreateAuthorDTOs()
+        {
+            List<AuthorDTO> authorDTOs = new List<AuthorDTO>();
+            var authors = await _bookRepository.GetAllAuthors();
+            foreach (var author in authors)
+            {
+                authorDTOs.Add(new AuthorDTO { Name = author.Name, Id = author.AuthorId, IsSelected = false });
+            }
+            return authorDTOs;
+        }
+        public async void SelectCategoryDTO(CategoryDTO categoryDTO)
+        {
+            await Task.Run(() => { categoryDTO.IsSelected = true; });
+        }
+
+        public async void SelectAuthorDTO(AuthorDTO authorDTO)
+        {
+            await Task.Run(() => { authorDTO.IsSelected = true; });
+        }
+
+        public async Task<List<CategoryDTO>> FindCategoryDTOsByTitle(string title)
+        {
+            var categoryDTOs = await CreateCategoryDTOs();
+            var selectedCategoryDTOs = categoryDTOs.Where(myCategoryDTO => myCategoryDTO.Title == title).ToList();
+            return selectedCategoryDTOs;
+        }
+
+        public Task<List<AuthorDTO>> FindAuthorDTOsByName(string name)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
         #region Functions for BookAuthor Lists
