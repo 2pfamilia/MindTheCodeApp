@@ -2,7 +2,9 @@
 using MindTheCodeApp.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using static System.Reflection.Metadata.BlobBuilder;
+using Microsoft.Win32;
+using AppCore.Models.BookModels;
 
 namespace MindTheCodeApp.Controllers
 {
@@ -50,7 +52,31 @@ namespace MindTheCodeApp.Controllers
                 return View("/Views/Shop/Shop.cshtml", books);
             }
 
-            return View("/Views/Shop/Shop.cshtml", searchDTO);
+            if (searchDTO == null)
+            {
+                var books = await _bookService.GetAllBooks();
+                return View("/Views/Shop/Shop.cshtml", books);
+            }
+            else
+            {
+                return View("/Views/Shop/Shop.cshtml", searchDTO);
+            }
+        }
+
+        [Route("Product/{id}")]
+        public async Task <IActionResult> ProductInfo([FromRoute]int id)
+        {
+            //int x = id;
+
+            Book book = _bookService.GetBookById(id);
+            string str = book.Author.Name;
+            string str2 = book.Category.Title;
+            
+            ViewData["Book"] = book;
+
+            return View("Views/Product/Product.cshtml");
+            //return View("/Views/Auth/Register.cshtml");
+
         }
     }
 }
