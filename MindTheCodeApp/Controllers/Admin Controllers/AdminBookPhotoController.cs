@@ -40,7 +40,7 @@ namespace MindTheCodeApp.Controllers
             }
 
             model.ImagePath = uniqueFileName;
-            var newBookPhoto = _context.BookPhotoEntity.Add(new AppCore.Models.BookModels.BookPhoto
+            var newBookPhoto = _context.PhotoEntity.Add(new AppCore.Models.PhotoModels.Photo()
             {
                 Title = model.Title,
                 Description = model.Description,
@@ -53,7 +53,7 @@ namespace MindTheCodeApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var photos = await _context.BookPhotoEntity.ToListAsync();
+            var photos = await _context.PhotoEntity.ToListAsync();
             foreach (var photo in photos)
             {
                 var photoVM = new BookPhotoVM();

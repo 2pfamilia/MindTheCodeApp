@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using AppCore.Models.PhotoModels;
 
 namespace AppCore.Models.BookModels
 {
@@ -35,6 +36,13 @@ namespace AppCore.Models.BookModels
             StringLength(500)
         ]
         public string? Description { get; set; }
+
+        [
+            Column("photo_id"),
+            ForeignKey("photo_id"),
+            AllowNull
+        ]
+        public Photo? Photo { get; set; }
 
         [
             Column("date_created"),
