@@ -42,9 +42,9 @@ namespace AppCore.Services.Implementation
             return categoryBooks;
         }
 
-        public async Task<List<Book>> GetBooksByPriceRange(int? minRange, int? maxRange)
+        public async Task<List<Book>> GetBooksByPriceRange(int maxRange)
         {
-            var rangeBooks = await _bookRepository.GetBooksByPriceRange(minRange, maxRange);
+            var rangeBooks = await _bookRepository.GetBooksByPriceRange(maxRange);
             return rangeBooks;
         }
 
@@ -94,33 +94,103 @@ namespace AppCore.Services.Implementation
             return dto;
         }
 
-        public SearchDTO GetSearchDTO(string searchTerm)
+        public SearchPostDTO GetSearchPostDTO(string? searchTerm, int[]? categoryIDs, int[]? authorIDs, int? maxPrice)
         {
-            List<Book> authorbooks = new List<Book>();
-            List<Book> categorybooks = new List<Book>();
+            //filters applied by order:
+            //-matching title
+            //-category
+            //-author
+            //-price
+            List<Book> filteredItems = new List<Book>();
+            List<FilterDTO> categoryFilters = new List<FilterDTO>();
+            List<FilterDTO> authorFilters = new List<FilterDTO>();
 
-            var authors = _bookRepository.GetAuthorsByName(searchTerm).Result;
-            foreach (var author in authors)
+            //initialization of filterDTOs
+            List<BookCategory> allCategories = _bookRepository.GetAllCategories().Result;
+            List<BookAuthor> allAuthors = _bookRepository.GetAllAuthors().Result;
+            foreach (var category in allCategories)
             {
-                var found = _bookRepository.GetBooksByAuthor(author).Result;
-                authorbooks.AddRange(found);
+                categoryFilters.Add(new FilterDTO { Id = category.CategoryId, Name = category.Code });
+            }
+            foreach (var author in allAuthors)
+            {
+                authorFilters.Add(new FilterDTO { Id = author.AuthorId, Name = author.Name });
             }
 
-            var categories = _bookRepository.GetCategoryByName(searchTerm).Result;
-            foreach (var category in categories)
+            //1st filter: matching title
+            if (searchTerm != null) filteredItems = _bookRepository.GetBooksByTitle(searchTerm).Result;
+            else filteredItems = _bookRepository.GetAllBooks().Result;
+
+            //2nd filter: selected categories
+            if (categoryIDs != null)
             {
-                var found = _bookRepository.GetBooksByCategory(category).Result;
-                categorybooks.AddRange(found);
+                //remove irrelevant entries from the filteredItems list
+                //update relevant categoryDTOs
+                List<Book> relevant = new List<Book>();
+
+                foreach (var category in categoryIDs)
+                {
+                    foreach (var book in filteredItems)
+                    {
+                        if (book.Category.CategoryId == category)
+                        {
+                            relevant.Add(book);
+                        }
+                    }
+                    foreach (var categoryDTO in categoryFilters)
+                    {
+                        if (categoryDTO.Id == category)
+                        {
+                            categoryDTO.isActive = true;
+                        }
+                    }
+                }
+
+                filteredItems.RemoveAll(x => !relevant.Contains(x));
             }
 
-            SearchDTO searchDTO = new SearchDTO
+            //3rd filter: selected authors
+            if (authorIDs != null)
             {
-                SearchTerm = searchTerm,
-                BooksByTitle = _bookRepository.GetBooksByTitle(searchTerm).Result,
-                BooksByAuthor = authorbooks,
-                BooksByCategory = categorybooks
+                //remove irrelevant entries from the filteredItems list
+                //update relevant authorDTos
+                List<Book> relevant = new List<Book>();
+
+                foreach (var author in authorIDs)
+                {
+                    foreach (var book in filteredItems)
+                    {
+                        if (book.Author.AuthorId == author)
+                        {
+                            relevant.Add(book);
+                        }
+                    }
+                    foreach (var authorDTO in authorFilters)
+                    {
+                        if (authorDTO.Id == author)
+                        {
+                            authorDTO.isActive = true;
+                        }
+                    }
+                }
+
+                filteredItems.RemoveAll(x => !relevant.Contains(x));
+            }
+
+            //4th filter: price range
+            if (maxPrice != null) 
+            {
+                filteredItems.RemoveAll(x => x.Price > maxPrice);
+            }
+
+            SearchPostDTO searchPostDTO = new SearchPostDTO
+            {
+                BooksFound = filteredItems,
+                AuthorFiltersFound = authorFilters,
+                CategoryFiltersFound = categoryFilters,
+                maxPrice = maxPrice
             };
-            return searchDTO;
+            return searchPostDTO;
         }
 
         #endregion
@@ -163,15 +233,16 @@ namespace AppCore.Services.Implementation
             var category = categoryList.Where(myCategory => myCategory.CategoryId == id).FirstOrDefault();
             return category;
         }
+        public async Task<Book> GetBookById(int bookId)
+        {
+            //BookAuthor author = new BookAuthor();
+
+            Book book = await _bookRepository.GetBookInfoById(bookId);
+            return book;
+        }
 
         #endregion
 
-        public Book GetBookById(int bookId)
-        {
-            BookAuthor author = new BookAuthor();
-            
-            Book book = _bookRepository.GetBookInfoById(bookId);
-            return book;
-        }
+
     }
 }
