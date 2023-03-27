@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static System.Reflection.Metadata.BlobBuilder;
 using Microsoft.Win32;
-
+using AppCore.Models.BookModels;
 
 namespace MindTheCodeApp.Controllers
 {
