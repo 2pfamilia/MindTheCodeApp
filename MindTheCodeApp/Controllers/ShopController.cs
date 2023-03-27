@@ -42,6 +42,7 @@ namespace MindTheCodeApp.Controllers
             return View("/Views/Shop/Shop.cshtml", books);
         }
 
+        [HttpGet("/SearchByCategory/{categoryName}")]
         public async Task<IActionResult> SearchByCategory(string categoryName) 
         {
             var selectedCategoryDTOs = await _bookService.FindCategoryDTOsByTitle(categoryName);
@@ -49,12 +50,12 @@ namespace MindTheCodeApp.Controllers
             {
                 await Task.Run(() => { _bookService.SelectCategoryDTO(selected); }); 
             }
-            return RedirectToAction("SearchPost", selectedCategoryDTOs);
+            return RedirectToAction("SearchPost", new { selectedCategoryDTOs });
         }
 
 
-        [HttpPost("")]
-        public async Task<IActionResult> SearchPost([FromForm] string? searchTerm, List<CategoryDTO>? categoryDTOs, List<AuthorDTO>? authorDTOs)
+        [HttpPost("/SearchPost/{result}")]
+        public async Task<IActionResult> SearchPost(string? searchTerm, List<CategoryDTO>? categoryDTOs, List<AuthorDTO>? authorDTOs)
         {
             //  Return a list of books for the view to display
             /*
@@ -92,7 +93,7 @@ namespace MindTheCodeApp.Controllers
 
             if (searchDTO == null)
             {
-                _logger.LogDebug("lmaoooooooooooooooooo");
+               // _logger.LogDebug("lmaoooooooooooooooooo");
                 var books = await _bookService.GetAllBooks();
                 return View("/Views/Shop/Shop.cshtml", books);
             }
