@@ -4,6 +4,7 @@ using MindTheCodeApp.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static System.Reflection.Metadata.BlobBuilder;
+using Microsoft.Win32;
 
 
 namespace MindTheCodeApp.Controllers
@@ -64,6 +65,22 @@ namespace MindTheCodeApp.Controllers
             {
                 return View("/Views/Shop/Shop.cshtml", searchDTO);
             }
+        }
+
+        [Route("Product/{id}")]
+        public async Task <IActionResult> ProductInfo([FromRoute]int id)
+        {
+            //int x = id;
+
+            Book book = _bookService.GetBookById(id);
+            string str = book.Author.Name;
+            string str2 = book.Category.Title;
+            
+            ViewData["Book"] = book;
+
+            return View("Views/Product/Product.cshtml");
+            //return View("/Views/Auth/Register.cshtml");
+
         }
     }
 }

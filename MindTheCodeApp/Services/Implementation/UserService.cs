@@ -63,10 +63,10 @@ namespace AppCore.Services.Implementation
             if (!await _userRepository.UserExists(user))
             {
                 user.Birthdate = registerDTO.Birthday;
-                //user.Username = registerDTO.Username;
                 user.FirstName = registerDTO.FirstName;
                 user.LastName = registerDTO.LastName;
                 user.Password = registerDTO.Password;
+                user.Phone = registerDTO.Phone;
 
                 //Create & Populate AddressInformation Object
                 AddressInformation addressInformation = new AddressInformation();

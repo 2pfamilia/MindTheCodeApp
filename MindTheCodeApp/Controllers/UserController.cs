@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MindTheCodeApp.Controllers;
 
-[Route("/Account/")]
+[Route("/Auth/")]
 public class UserController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -139,7 +139,8 @@ public class UserController : Controller
         //user.Email = registerDTO.Email;
 
         if (registerDTO.Email is null || registerDTO.FirstName is null || registerDTO.LastName is null
-            || registerDTO.City is null || registerDTO.StreetAddress is null || registerDTO.Country is null)
+            || registerDTO.City is null || registerDTO.StreetAddress is null || registerDTO.Country is null
+            || registerDTO.PostalCode is null || registerDTO.Phone is null || registerDTO.Password is null)
         {
             TempData["msg"] = "<script>alert('All Fields are Obligatory');</script>";
 

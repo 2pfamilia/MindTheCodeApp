@@ -33,5 +33,8 @@ namespace AppCore.IRepositories
         //test method - get the first 5 authors
         Task<List<BookCategory>> GetCategoryByName(string name);
         Task<List<BookAuthor>> GetAuthorsByName(string name);
+
+        //Get Book Info by Id
+        public Book GetBookInfoById(int id);
     }
 }

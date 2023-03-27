@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using AppCore.IRepositories;
 using AppCore.Models.BookModels;
+using AppCore.Models.AuthModels;
 
 namespace Infrastructure.Data.Repositories
 {
@@ -118,6 +119,13 @@ namespace Infrastructure.Data.Repositories
         {
             var categories = await _context.BookCategoryEntity.ToListAsync();
             return categories;
+        }
+
+        public Book GetBookInfoById(int bookId)
+        {
+            Book book = _context.BookEntity.Include(x=>x.Author).Include(x=>x.Category).Single(bookById => bookById.BookId == bookId);
+           
+            return book;
         }
     }
 }

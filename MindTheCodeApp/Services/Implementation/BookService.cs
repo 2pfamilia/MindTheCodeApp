@@ -166,5 +166,13 @@ namespace AppCore.Services.Implementation
         }
 
         #endregion
+
+        public Book GetBookById(int bookId)
+        {
+            BookAuthor author = new BookAuthor();
+            
+            Book book = _bookRepository.GetBookInfoById(bookId);
+            return book;
+        }
     }
 }
