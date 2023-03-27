@@ -1,0 +1,22 @@
+﻿@model AppCore.Models.BookModels.BookAuthor
+
+@{
+    ViewData["Title"] = "Author Page";
+}
+
+<div class="authors-page-content">
+    <h1 class="page-title">Authors</h1>
+<div class="authors-page-items-container">
+    @foreach (var author in ViewBag.Authors)
+    {
+        <div class="authors-page-item">
+            <div>
+                <img src="/img/books/placeholder.png" alt="@author.Name photo" />
+            </div>
+            <a asp-controller="Author" asp-action="Details" asp-route-id="@author.AuthorId">
+                <span>@author.Name</span>
+            </a>
+        </div>
+    }
+    </div>
+</div>

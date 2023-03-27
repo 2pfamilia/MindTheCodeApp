@@ -6,39 +6,40 @@ using MindTheCodeApp.ViewModels.BookVMs;
 
 namespace MindTheCodeApp.Controllers
 {
-    public class BookPhotoController : Controller
+    public class AdminBookPhotoController : Controller
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ApplicationDbContext _context;
         private List<BookPhotoVM> IndexPhotosVM = new List<BookPhotoVM>();
-        public BookPhotoController(IWebHostEnvironment webHostEnvironment, ApplicationDbContext context)
+
+        public AdminBookPhotoController(IWebHostEnvironment webHostEnvironment, ApplicationDbContext context)
         {
             _webHostEnvironment = webHostEnvironment;
             _context = context;
         }
+
         [HttpPost]
         public async Task<IActionResult> UploadImage(BookPhotoVM model)
         {
+            string uniqueFileName = null;
 
-                string uniqueFileName = null;
+            if (model.ImageFile != null)
+            {
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "UploadedImages");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ImageFile.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using var fileStream = new FileStream(filePath, FileMode.Create);
+                await model.ImageFile.CopyToAsync(fileStream);
+            }
 
-                if (model.ImageFile != null)
-                {
-                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "UploadedImages");
-                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ImageFile.FileName;
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    using var fileStream = new FileStream(filePath, FileMode.Create);
-                    await model.ImageFile.CopyToAsync(fileStream);
-                }
-
-                model.ImagePath = uniqueFileName;
-                var newBookPhoto = _context.BookPhotoEntity.Add(new AppCore.Models.BookModels.BookPhoto
-                {
-                    Title = model.Title,
-                    Description = model.Description,
-                    FilePath = uniqueFileName
-                });
-                await _context.SaveChangesAsync();
+            model.ImagePath = uniqueFileName;
+            var newBookPhoto = _context.BookPhotoEntity.Add(new AppCore.Models.BookModels.BookPhoto
+            {
+                Title = model.Title,
+                Description = model.Description,
+                FilePath = uniqueFileName
+            });
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("/Views/Admin/Book/Index.cshtml");
         }
@@ -55,6 +56,7 @@ namespace MindTheCodeApp.Controllers
                 photoVM.ImagePath = photo.FilePath;
                 IndexPhotosVM.Add(photoVM);
             }
+
             return View("/Views/Admin/BookPhoto/Index.cshtml", IndexPhotosVM);
         }
     }

@@ -6,16 +6,18 @@ using MindTheCodeApp.ViewModels.BookVMs;
 
 namespace MindTheCodeApp.Controllers
 {
-    public class BookAuthorController : Controller
+    public class AdminBookAuthorController : Controller
     {
         private readonly ApplicationDbContext _context;
         private List<BookAuthorVM> IndexAuthorsVM { get; set; } = new();
         private BookAuthorVM DetailsBookAuthorVM { get; set; } = new BookAuthorVM();
         private EditBookAuthorVM EditBookAuthorVM { get; set; } = new EditBookAuthorVM();
-        public BookAuthorController(ApplicationDbContext context)
+
+        public AdminBookAuthorController(ApplicationDbContext context)
         {
             _context = context;
         }
+
         public async Task<IActionResult> Index()
         {
             var authors = await _context.BookAuthorEntity.ToListAsync();
@@ -31,6 +33,7 @@ namespace MindTheCodeApp.Controllers
 
             return View("/Views/Admin/BookAuthor/Index.cshtml", IndexAuthorsVM);
         }
+
         public IActionResult Create()
         {
             return View("/Views/Admin/BookAuthor/Create.cshtml");
@@ -75,6 +78,7 @@ namespace MindTheCodeApp.Controllers
             {
                 return Problem("Entity set 'ApplicationDbContext.BookAuthorEntity'  is null.");
             }
+
             var author = await _context.BookAuthorEntity.FindAsync(id);
             if (author != null)
             {
@@ -118,6 +122,7 @@ namespace MindTheCodeApp.Controllers
                 EditBookAuthorVM.Name = author.Name;
                 EditBookAuthorVM.Description = author.Description;
             }
+
             return View("/Views/Admin/BookAuthor/Edit.cshtml", EditBookAuthorVM);
         }
 

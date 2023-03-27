@@ -18,8 +18,8 @@ namespace AppCore.Services.Implementation
 
         public async Task<Order> CreateNewOrder(User user, Dictionary<Book, int> booksWithQuantities)
         {
-           var newOrder = await _orderRepository.CreateOrder(user, booksWithQuantities);
-           return newOrder;
+            var newOrder = await _orderRepository.CreateOrder(user, booksWithQuantities);
+            return newOrder;
         }
 
         public async Task<List<Order>> GetAllOrders()
@@ -28,8 +28,8 @@ namespace AppCore.Services.Implementation
             return orders;
         }
 
-        public CheckoutDTO GetCheckoutDTO() 
-        { 
+        public CheckoutDTO GetCheckoutDTO()
+        {
             var checkoutDTO = new CheckoutDTO();
             return checkoutDTO;
         }

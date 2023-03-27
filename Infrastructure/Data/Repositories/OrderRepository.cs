@@ -31,6 +31,7 @@ namespace Infrastructure.Data.Repositories
             {
                 orderDetails.Add(await CreateOrderDetails(order, book, books[book]));
             }
+
             await _context.OrderEntity.AddAsync(order);
             _context.SaveChanges();
             return order;
@@ -57,13 +58,14 @@ namespace Infrastructure.Data.Repositories
             var orders = await _context.OrderEntity.ToListAsync();
             return orders;
         }
-        
+
         public async Task<List<OrderDetails>> GetOrderDetailsByOrder(Order order)
         {
-            var orderDetails = await _context.OrderDetailsEntity.Where(myOrderDetails=>myOrderDetails.Order== order).ToListAsync();
+            var orderDetails = await _context.OrderDetailsEntity.Where(myOrderDetails => myOrderDetails.Order == order)
+                .ToListAsync();
             return orderDetails;
         }
-        
+
         public async Task<List<Order>> GetOrdersByUser(int userId)
         {
             var orderInfo = await _context.OrderEntity

@@ -39,7 +39,5 @@ namespace MindTheCodeApp.Controllers
 
             return View("/Views/Home/Index.cshtml", dto);
         }
-
-        
     }
 }
