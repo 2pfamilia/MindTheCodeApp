@@ -49,6 +49,10 @@ const numberInputContainers = document.querySelectorAll(
 );
 
 // Shop filters
+const shopFiltersBtn = document.querySelector(
+    ".shop-filters-sidebar button"
+);
+
 const shopFiltersLabelsIcons = document.querySelectorAll(
   ".shop-filters-filter-label-container svg"
 );
@@ -476,7 +480,6 @@ if (homeSectionBookImg) {
         author: author.textContent.replace(/\s+/g, " ").trim(),
         price: parseFloat(price.textContent.replace(/[$€]+/g, "")),
       };
-        console.log(product.price);
       addProductToCart(product, 1, true);
     });
     overlay.addEventListener("mouseleave", function () {
@@ -518,27 +521,70 @@ if (shopPriceFilter) {
   });
   shopPriceFilter.addEventListener("touchmove", () => {
     shopPriceFilterSpan.textContent = shopPriceFilter.value + "€";
-  });
+  }, { passive: true });
 }
+
+// Shop page apply filters button
+shopFiltersBtn && shopFiltersBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    let filters = {
+        category: [],
+        author: [],
+        price: 0
+    }
+    // Fieldsets
+    const filterContainers = document.querySelectorAll('.shop-filters-filter-container')
+
+    filterContainers.forEach(filter => {
+        const type = filter.querySelector(".shop-filters-filter-label-container h3").textContent.toLowerCase();
+
+        const inputs = filter.querySelectorAll(".shop-filters-box-filter-item input")
+        inputs.forEach(input => {
+            if (input.checked) {
+                filters[type].push(input.name)
+            }
+        });
+    });
+
+    // Price slider
+    const priceSlider = document.querySelector('.shop-filters-price-container input');
+    const maxPrice = parseFloat(priceSlider.getAttribute('max'));
+    const selectedPrice = parseFloat(priceSlider.value);
+
+    if (maxPrice > selectedPrice) {
+        filters.price = selectedPrice;
+    }
+
+    if (filters.price != 0 || filters.category.length != 0 || filters.author.length != 0) {
+
+        const filtersForm = shopFiltersBtn.closest("form");
+        //filtersForm.submit();
+
+    }
+
+})
+
 
 // Add to cart handler
 if (productCardCartIcons) {
-  productCardCartIcons.forEach((cartIcon, index) => {
-    cartIcon.addEventListener("click", () => {
-      const product = {
-        img: productCardImg[index].getAttribute("src"),
-        title: productCardTitle[index].textContent.replace(/\s+/g, " ").trim(),
-        author: productCardAuthor[index].textContent
-          .replace(/\s+/g, " ")
-          .trim(),
-        price: parseFloat(
-          productCardPrice[index].textContent.replace(/[$€]+/g, "")
-        ),
-      };
+    productCardCartIcons.forEach((cartIcon, index) => {
+        cartIcon.addEventListener("click", () => {
+            const container = cartIcon.closest(".product-card");
+            const product = {
+                id: container.getAttribute("data-id"),
+                img: productCardImg[index].getAttribute("src"),
+                title: productCardTitle[index].textContent.replace(/\s+/g, " ").trim(),
+                author: productCardAuthor[index].textContent
+                    .replace(/\s+/g, " ")
+                    .trim(),
+                price: parseFloat(
+                    productCardPrice[index].textContent.replace(/[$€]+/g, "")
+                ),
+            };
 
-      addProductToCart(product, 1, true);
+            addProductToCart(product, 1, true);
+        });
     });
-  });
 }
 
 // Adds product to cart
@@ -998,50 +1044,53 @@ function createMyCartPageNumberInput(value) {
 
 // Creates a deep copy of an object
 function createDeepObjectCopy(item) {
-  const clone = JSON.parse(JSON.stringify(item));
-  return clone;
+    const clone = JSON.parse(JSON.stringify(item));
+    return clone;
 }
+
 // Emal validator
 function validateEmail(email) {
-  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  if (email.match(emailRegex)) {
-    return true;
-  }
-  return false;
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (email.match(emailRegex)) {
+        return true;
+    }
+    return false;
 }
 
 // Phone number validator
 function ValidatePhone(phone) {
-  const phoneRegex = /^\s*-?[0-9]{1,10}\s*$/;
-  if (phone.match(phoneRegex)) {
-    return true;
-  }
-  return false;
+    const phoneRegex = /^\s*-?[0-9]{1,10}\s*$/;
+    if (phone.match(phoneRegex)) {
+        return true;
+    }
+    return false;
 }
 
 // Zip code validator
 function ValidateZipCode(zipCode) {
-  const zipCodeRegex = /^\s*-?[0-9]{1,5}\s*$/;
-  if (zipCode.match(zipCodeRegex)) {
-    return true;
-  }
-  return false;
+    const zipCodeRegex = /^\s*-?[0-9]{1,5}\s*$/;
+    if (zipCode.match(zipCodeRegex)) {
+        return true;
+    }
+    return false;
 }
 
 // Check a password between 6 to 20 characters which contain at least one numeric digit, one uppercase and one lowercase letter
 function checkPassword(password) {
-  var pswRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
-  if (password.match(pswRegex)) {
-    return true;
-  } else {
-    return false;
-  }
+    var pswRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+    if (password.match(pswRegex)) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function passwordCofirmation(password, passwordCofirmation) {
-  if (password == passwordCofirmation) {
-    return true;
-  } else {
-    return false;
-  }
+    if (password == passwordCofirmation) {
+        return true;
+    } else {
+        return false;
+    }
 }
+
+
