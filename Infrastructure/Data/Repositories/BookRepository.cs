@@ -53,31 +53,10 @@ namespace Infrastructure.Data.Repositories
             return categoryBooks;
         }
 
-        public async Task<List<Book>> GetBooksByPriceRange(int? minPrice, int? maxPrice)
+        public async Task<List<Book>> GetBooksByPriceRange(int maxPrice)
         {
-            if (minPrice == null && maxPrice == null)
-            {
-                return await GetAllBooks();
-            }
-            else
-            {
-                if (minPrice == null)
-                {
-                    var minBooks = await _context.BookEntity.Where(mybook => mybook.Price <= maxPrice).ToListAsync();
-                    return minBooks;
-                }
-                else if (maxPrice == null)
-                {
-                    var maxBooks = await _context.BookEntity.Where(mybook => mybook.Price >= minPrice).ToListAsync();
-                    return maxBooks;
-                }
-                else
-                {
-                    var rangeBooks = await _context.BookEntity
-                        .Where(mybook => mybook.Price <= maxPrice && mybook.Price >= minPrice).ToListAsync();
-                    return rangeBooks;
-                }
-            }
+            var minBooks = await _context.BookEntity.Where(mybook => mybook.Price <= maxPrice).ToListAsync();
+            return minBooks;
         }
 
         public async Task<List<Book>> GetBooksByTitle(string titleQuery)
@@ -121,11 +100,23 @@ namespace Infrastructure.Data.Repositories
             return categories;
         }
 
-        public Book GetBookInfoById(int bookId)
+        public async Task<Book> GetBookInfoById(int bookId)
         {
-            Book book = _context.BookEntity.Include(x=>x.Author).Include(x=>x.Category).Single(bookById => bookById.BookId == bookId);
-           
+            Book book = await _context.BookEntity.Include(x => x.Author).Include(x => x.Category).SingleAsync(bookById => bookById.BookId == bookId);
+
             return book;
+        }
+
+        public async Task<BookCategory> GetBookCategoryById(int id)
+        {
+            BookCategory bookCategory = await _context.BookCategoryEntity.Include(x=>x.Books).SingleAsync(category=>category.CategoryId== id);
+            return bookCategory;
+        }
+
+        public async Task<BookAuthor> GetAuthorInfoById(int id)
+        {
+            BookAuthor bookAuthor = await _context.BookAuthorEntity.Include(x=>x.Books).SingleAsync(author=>author.AuthorId== id);
+            return bookAuthor;
         }
     }
 }

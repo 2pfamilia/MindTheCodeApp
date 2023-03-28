@@ -10,14 +10,10 @@ namespace AppCore.Models.DTOs
 {
     public class SearchDTO
     {
-        //public string? SearchTerm { get; set; }
-
-        public List<Book>? BooksByTitle { get; set; }
-        public List<Book>? BooksByAuthor { get; set; }
-        public List<Book>? BooksByCategory { get; set; }
-
-
-        //public int? PageIndex { get; set; }
-        //public int? PageCount { get; set; }
+        public string? SearchTerm { get; set; }
+        public int[]? CategoryIDs { get; set; }
+        public int[]? AuthorIDs { get; set; }
+        public int? maxPrice;
+    
     }
 }

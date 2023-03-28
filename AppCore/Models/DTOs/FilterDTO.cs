@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace AppCore.Models.DTOs
 {
-    public class CategoryDTO
+    public class FilterDTO
     {
         public int Id { get; set; }
-        public string? Title { get; set; }
-        public bool? IsSelected { get; set; }
+        public string Name { get; set; }
+        public bool isActive { get; set; } = false;
     }
 }

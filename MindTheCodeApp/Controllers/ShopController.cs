@@ -14,23 +14,14 @@ namespace MindTheCodeApp.Controllers
     {
         private readonly ILogger<ShopController> _logger;
         private readonly IBookService _bookService;
-       // private List<CategoryDTO> _categories;
-       // private List<AuthorDTO> _authors;
+      
 
         public ShopController(ILogger<ShopController> logger, IBookService bookService)
         {
             _logger = logger;
             _bookService = bookService;
-            //create categoryDTOs for all categories
-            //LazyInitializer()
-           // Init();
         }
 
-       /* async void Init()
-        {
-            _categories = await _bookService.CreateCategoryDTOs();
-            _authors = await _bookService.CreateAuthorDTOs();
-        }*/
 
         [HttpGet("")]
         public async Task<IActionResult> Index()
@@ -45,55 +36,19 @@ namespace MindTheCodeApp.Controllers
         }
 
         [HttpGet("/SearchByCategory/{categoryName}")]
-        public async Task<IActionResult> SearchByCategory(string categoryName) 
+        public async Task<IActionResult> SearchByCategory(int[] categoryIDs) 
         {
-            var selectedCategoryDTOs = await _bookService.FindCategoryDTOsByTitle(categoryName);
-            foreach(var selected in selectedCategoryDTOs) 
-            {
-                await Task.Run(() => { _bookService.SelectCategoryDTO(selected); }); 
-            }
-            return RedirectToAction("SearchPost", new { selectedCategoryDTOs });
+            SearchDTO searchDTO = new SearchDTO { CategoryIDs = categoryIDs};
+            return RedirectToAction("SearchPost", searchDTO);
+           
         }
 
 
-        [HttpPost("/SearchPost/{result}")]
-        public async Task<IActionResult> SearchPost(string? searchTerm, List<CategoryDTO>? categoryDTOs, List<AuthorDTO>? authorDTOs)
+        [HttpPost("Shop")]
+        public async Task<IActionResult> SearchPost([FromBody] SearchDTO searchDTO)
         {
-            //  Return a list of books for the view to display
-            /*
-                If searchDTO is null then return all the books
-                or use the information inside it to filter
-                the books you are gonna be returning
-
-                The business logic will need to be in a service.
-             */
-            //var books = new List<Book>();
-            List<CategoryDTO> selectedCategoryDTO = null;
-            List<AuthorDTO> selectedAuthorDTO = null;
-            if (categoryDTOs != null) selectedCategoryDTO = categoryDTOs.Where(myCategoryDTO => myCategoryDTO.IsSelected == true).ToList();
-            if (authorDTOs != null) selectedAuthorDTO = authorDTOs.Where(myAuthorDTO => myAuthorDTO.IsSelected == true).ToList();
-
-            var searchDTO = new SearchDTO();
-            if (searchTerm != null)
-            {
-                searchDTO.BooksByTitle = await _bookService.GetBooksByTitle(searchTerm);
-            }
-            if (selectedCategoryDTO != null)
-            {
-                foreach (var categoryDTO in selectedCategoryDTO)
-                {
-                    searchDTO.BooksByCategory.AddRange(await _bookService.GetBooksByCategory(await _bookService.GetCategoryById(categoryDTO.Id)));
-                }
-            }
-            if (selectedAuthorDTO != null)
-            {
-                foreach (var authorDTO in selectedAuthorDTO)
-                {
-                    searchDTO.BooksByAuthor.AddRange(await _bookService.GetBooksByAuthor(await _bookService.GetAuthorById(authorDTO.Id)));
-                }
-            }
-
-            if (searchDTO == null)
+            SearchPostDTO searchPostDTO = _bookService.GetSearchPostDTO(searchDTO.SearchTerm, searchDTO.CategoryIDs, searchDTO.AuthorIDs, searchDTO.maxPrice);
+            if (searchPostDTO == null)
             {
                // _logger.LogDebug("lmaoooooooooooooooooo");
                 var books = await _bookService.GetAllBooks();
@@ -102,7 +57,7 @@ namespace MindTheCodeApp.Controllers
             else
             {
                // _logger.LogDebug("Got em bookies");
-                return View("/Views/Shop/Shop.cshtml", searchDTO);
+                return View("/Views/Shop/Shop.cshtml",searchPostDTO);
             }
         }
     }
