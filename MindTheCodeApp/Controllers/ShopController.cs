@@ -74,7 +74,7 @@ namespace MindTheCodeApp.Controllers
             
             ViewData["Book"] = book;
 
-            return View("/Views/Product/Product.cshtml");
+            return View("Views/Shop/Product.cshtml");
             //return View("/Views/Auth/Register.cshtml");
 
         }
