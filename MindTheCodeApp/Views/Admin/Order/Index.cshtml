@@ -1,72 +1,67 @@
 ﻿@model IEnumerable<MindTheCodeApp.ViewModels.OrderVMs.IndexOrderVM>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Admin - Orders";
 }
 
-<h1>Index</h1>
+@Html.Partial("PartialViews/_AdminMenuPartial");
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CustomerEmail)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Fulfilled)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Active)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cancelled)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cost)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderCreated)
-        </th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
+<div class="admin-page-content">
+    <h1 class="page-title">Orders</h1>
+    <div class="admin-page-main-btns-container">
+        <a class="link-btn" asp-action="Create">CREATE NEW ORDER</a>
+    </div>
+
+    <div class="admin-page-table">
+        <header class="admin-page-table-header">
+            <h4 class="width-5">ID</h4>
+            <h4 class="width-15">@Html.DisplayNameFor(model => model.CustomerEmail)</h4>
+            <h4 class="width-5">
+                @Html.DisplayNameFor(model => model.Fulfilled)
+            </h4>
+            <h4 class="width-5"> @Html.DisplayNameFor(model => model.Active)</h4>
+            <h4 class="width-5">
+                @Html.DisplayNameFor(model => model.Cancelled)
+            </h4>
+           
+            <h4 class="width-15">
+                @Html.DisplayNameFor(model => model.Address)
+            </h4>
+            <h4 class="width-10">
+                @Html.DisplayNameFor(model => model.Cost)
+            </h4>
+            <h4 class="width-15">
+                @Html.DisplayNameFor(model => model.OrderCreated)
+            </h4>
+            <div class="width-25"></div>
+        </header>
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fulfilled)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Active)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cancelled)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cost)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderCreated)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IndexOrderId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IndexOrderId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IndexOrderId">Delete</a>
-            </td>
-        </tr>
+            <div class="admin-page-table-row">
+                <span class="width-5">@Html.DisplayFor(modelItem => item.IndexOrderId)</span>
+                <span class="width-15">@Html.DisplayFor(modelItem => item.CustomerEmail)</span>
+                <span class="width-5">
+                    @Html.DisplayFor(modelItem => item.Fulfilled)
+                </span>
+                <span class="width-5">@Html.DisplayFor(modelItem => item.Active)</span>
+                <span class="width-5">
+                    @Html.DisplayFor(modelItem => item.Cancelled)
+                </span>                
+                <span class="width-15">
+                    @Html.DisplayFor(modelItem => item.Address)
+                </span>
+                 <span class="width-10">
+                    €@Html.DisplayFor(modelItem => item.Cost)
+                </span>
+                <span class="width-15">
+                    @Html.DisplayFor(modelItem => item.OrderCreated)
+                </span>
+                <div class="admin-page-table-btns-cell width-25">
+                    <a class="table-link-btn" asp-action="Edit" asp-route-id="@item.IndexOrderId">Edit</a> 
+                    <a class="table-link-btn" asp-action="Details" asp-route-id="@item.IndexOrderId">Details</a> 
+                    <a class="table-link-btn" asp-action="Delete" asp-route-id="@item.IndexOrderId">Delete</a>
+                   </div>
+            </div>
     }
-    </tbody>
-</table>
+    </div>
+</div>

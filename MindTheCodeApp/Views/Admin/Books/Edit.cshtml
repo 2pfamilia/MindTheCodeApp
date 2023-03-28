@@ -4,30 +4,32 @@
     ViewData["Title"] = "Edit Book";
 }
 
+@Html.Partial("PartialViews/_AdminMenuPartial");
+
 <div class="admin-page-content">
 <h1 class="page-title">Edit Book</h1>
     <form class="admin-page-form" asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="admin-page-form-error-msg "></div>
+            <div asp-validation-summary="ModelOnly" class="admin-page-form-error-msg"></div>
             <input type="hidden" asp-for="EditBookId"/>
         <div class="admin-page-form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" value="@Model.Title"/>
-                <span asp-validation-for="Title" class="admin-page-form-error-msg "></span>
+                <span asp-validation-for="Title" class="admin-page-form-error-msg"></span>
             </div>
         <div class="admin-page-form-group">
                 <label asp-for="Description" class="control-label"></label>
             <textarea rows="6" cols="33" asp-for="Description" class="form-control" value="@Model.Description"></textarea>
-                <span asp-validation-for="Description" class="admin-page-form-error-msg "></span>
+                <span asp-validation-for="Description" class="admin-page-form-error-msg"></span>
             </div>
         <div class="admin-page-form-group">
                 <label asp-for="Count" class="control-label"></label>
                 <input asp-for="Count" class="form-control"/>
-                <span asp-validation-for="Count" class="admin-page-form-error-msg "></span>
+                <span asp-validation-for="Count" class="admin-page-form-error-msg"></span>
             </div>
         <div class="admin-page-form-group">
                 <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control"/>
-                <span asp-validation-for="Price" class="admin-page-form-error-msg "></span>
+                <span asp-validation-for="Price" class="admin-page-form-error-msg"></span>
             </div>
         <div class="admin-page-form-group">
                 <label asp-for="CategoryId" class="control-label">Category</label>
