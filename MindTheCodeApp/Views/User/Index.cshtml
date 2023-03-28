@@ -9,25 +9,26 @@
     <div class="my-account-nav-bar-container">
         <nav class="my-account-nav-bar">
             <div class="my-account-nav-link">
-                <a href="personal-info">Personal Info</a>
+                <h4 href="personal-info">Personal Info</h4>
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
                     <path d="m12 15.375-6-6 1.4-1.4 4.6 4.6 4.6-4.6 1.4 1.4Z"/>
                 </svg>
             </div>
             <div class="my-account-nav-link">
-                <a href="orders">Orders</a>
+                <h4 href="orders">Orders</h4>
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
                     <path d="m12 15.375-6-6 1.4-1.4 4.6 4.6 4.6-4.6 1.4 1.4Z"/>
                 </svg>
             </div>
             <div class="my-account-nav-link">
-                <a href="change-password">Change Password</a>
+                <h4 href="change-password">Change Password</h4>
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
                     <path d="m12 15.375-6-6 1.4-1.4 4.6 4.6 4.6-4.6 1.4 1.4Z"/>
                 </svg>
             </div>
             <div class="my-account-nav-link">
-                <a href="">Sign out</a>
+                <a asp-controller ="User" asp-action="Logout">
+                    Sign Out</a>
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
                     <path d="m12 15.375-6-6 1.4-1.4 4.6 4.6 4.6-4.6 1.4 1.4Z"/>
                 </svg>
@@ -96,7 +97,7 @@
             <input type="text" name="Phone" value="@Model.Phone" required/>
             <span class="form-error-msg"></span>
         </div>
-        <input type="submit" class="btn form-btn" value="CHANGE INFO"/>
+        <button type="submit" class="btn">CHANGE INFO</button>
     </form>
     <div class="account-page-orders">
         @foreach (var order in @Model.Orders)
@@ -145,6 +146,6 @@
                 <span class="form-error-msg"></span>
             </div>
         </div>
-        <input type="submit" class="btn form-btn" value="CHANGE PASSWORD"/>
+        <button type="submit" class="btn">CHANGE PASSWORD</button>
     </form>
 </div>

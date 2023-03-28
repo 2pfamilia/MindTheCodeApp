@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230327210311_AddIsbookIsAuthorInPhotoModel")]
+    partial class AddIsbookIsAuthorInPhotoModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,7 +84,7 @@ namespace AppCore.Migrations
 
                     b.HasIndex("role_id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("AppCore.Models.AuthModels.UserRole", b =>
@@ -117,7 +120,7 @@ namespace AppCore.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("User_Roles", (string)null);
+                    b.ToTable("User_Roles");
                 });
 
             modelBuilder.Entity("AppCore.Models.BookModels.Book", b =>
@@ -171,7 +174,7 @@ namespace AppCore.Migrations
 
                     b.HasIndex("photo_id");
 
-                    b.ToTable("Books", (string)null);
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("AppCore.Models.BookModels.BookAuthor", b =>
@@ -205,7 +208,7 @@ namespace AppCore.Migrations
 
                     b.HasIndex("photo_id");
 
-                    b.ToTable("Books_Authors", (string)null);
+                    b.ToTable("Books_Authors");
                 });
 
             modelBuilder.Entity("AppCore.Models.BookModels.BookCategory", b =>
@@ -241,7 +244,7 @@ namespace AppCore.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Books_Category", (string)null);
+                    b.ToTable("Books_Category");
                 });
 
             modelBuilder.Entity("AppCore.Models.OrderModels.AddressInformation", b =>
@@ -279,7 +282,7 @@ namespace AppCore.Migrations
 
                     b.HasKey("AddressInformationId");
 
-                    b.ToTable("Address_Information", (string)null);
+                    b.ToTable("Address_Information");
                 });
 
             modelBuilder.Entity("AppCore.Models.OrderModels.Order", b =>
@@ -324,7 +327,7 @@ namespace AppCore.Migrations
 
                     b.HasIndex("user_id");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("AppCore.Models.OrderModels.OrderDetails", b =>
@@ -365,7 +368,7 @@ namespace AppCore.Migrations
 
                     b.HasIndex("order_id");
 
-                    b.ToTable("Order_Details", (string)null);
+                    b.ToTable("Order_Details");
                 });
 
             modelBuilder.Entity("AppCore.Models.PhotoModels.Photo", b =>
@@ -407,7 +410,7 @@ namespace AppCore.Migrations
 
                     b.HasKey("PhotoId");
 
-                    b.ToTable("Photos", (string)null);
+                    b.ToTable("Photos");
                 });
 
             modelBuilder.Entity("AppCore.Models.AuthModels.User", b =>

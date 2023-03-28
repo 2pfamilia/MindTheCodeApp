@@ -3,6 +3,7 @@ using AppCore.Models.OrderModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using AppCore.Models.PhotoModels;
 
 namespace AppCore.Models.BookModels
 {
@@ -50,7 +51,7 @@ namespace AppCore.Models.BookModels
             ForeignKey("photo_id"),
             AllowNull
         ]
-        public BookPhoto? Photo { get; set; }
+        public Photo? Photo { get; set; }
 
         [
             Column("count")

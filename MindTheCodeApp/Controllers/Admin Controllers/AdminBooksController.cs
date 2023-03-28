@@ -92,7 +92,7 @@ namespace MindTheCodeApp.Controllers
         public IActionResult Create()
         {
             ViewData["BookCategories"] = new SelectList(_context.BookCategoryEntity, "CategoryId", "Title");
-            ViewData["BookPhoto"] = new SelectList(_context.BookPhotoEntity, "PhotoId", "File");
+            ViewData["BookPhoto"] = new SelectList(_context.PhotoEntity, "PhotoId", "File");
             ViewData["BookAuthors"] = new SelectList(_context.BookAuthorEntity, "AuthorId", "Name");
 
             return View("/Views/Admin/Books/Create.cshtml");
@@ -109,7 +109,7 @@ namespace MindTheCodeApp.Controllers
             {
                 myLog.Verbose("Start - Create");
                 var author = _context.BookAuthorEntity.FirstOrDefault(a => a.AuthorId == book.BookAuthorId);
-                var photo = _context.BookPhotoEntity.FirstOrDefault(p => p.PhotoId == book.PhotoId);
+                var photo = _context.PhotoEntity.FirstOrDefault(p => p.PhotoId == book.PhotoId);
                 var category = _context.BookCategoryEntity.FirstOrDefault(c => c.CategoryId == book.BookCategoryId);
 
                 var newBook = _context.BookEntity.Add(new Book
