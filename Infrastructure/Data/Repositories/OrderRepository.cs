@@ -72,11 +72,14 @@ namespace Infrastructure.Data.Repositories
                 .Include(o => o.User)
                 .Where(o => o.User.UserId.Equals(userId))
                 .Include(o => o.OrderDetails)!
-                .ThenInclude(od => od.Book)
-                .ThenInclude(b => b.Author)
+                    .ThenInclude(od => od.Book)
+                    .ThenInclude(b => b.Author)
                 .Include(o => o.OrderDetails)!
-                .ThenInclude(od => od.Book)
-                .ThenInclude(b => b.Category)
+                    .ThenInclude(od => od.Book)
+                    .ThenInclude(b => b.Photo)
+                .Include(o => o.OrderDetails)!
+                    .ThenInclude(od => od.Book)
+                    .ThenInclude(b => b.Category)
                 .Where(o => o.User.UserId.Equals(userId))
                 .ToListAsync();
 
