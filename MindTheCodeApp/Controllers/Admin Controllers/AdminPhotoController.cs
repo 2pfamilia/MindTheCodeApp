@@ -104,5 +104,52 @@ namespace MindTheCodeApp.Controllers
 
             return View("/Views/Admin/Photo/Index.cshtml", IndexPhotosVM);
         }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _context.PhotoEntity == null)
+            {
+                return NotFound();
+            }
+
+            var order = await _context.PhotoEntity
+                .FirstOrDefaultAsync(m => m.PhotoId == id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View("/Views/Admin/Photo/Delete.cshtml", order);
+        }
+
+        // POST: Order/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            try
+            {
+                myLog.Verbose("Start - Delete");
+                if (_context.PhotoEntity == null)
+                {
+                    return Problem("Entity set 'ApplicationDbContext.PhotoEntity'  is null.");
+                }
+
+                var photo = await _context.PhotoEntity.FindAsync(id);
+                if (photo != null)
+                {
+                    _context.PhotoEntity.Remove(photo);
+                }
+
+                await _context.SaveChangesAsync();
+                myLog.Verbose("End - Delete");
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                myLog.Error(ex, "Exception on Delete");
+                throw;
+            }
+        }
     }
 }
