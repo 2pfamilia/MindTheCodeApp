@@ -127,17 +127,32 @@ namespace MindTheCodeApp.Utils
 
         private async Task PopulatePhoto(CancellationToken stoppingToken)
         {
-            // var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "img/books", "placeholder.png");
-            // string fileBytes = File.ReadAllText(imagePath);
-            var filePath = "img/books/placeholder.png";
+            var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "authors");
+            var jpgFiles = Directory.GetFiles(imagePath, "*.jpg");
 
-            var data = new List<Photo>
+            var authorImages = jpgFiles.Select(imagePath => new Photo
             {
-                new() { Title = "Placeholder", Description = "Placeholder", FilePath = filePath },
-            };
+                Title = Path.GetFileName(imagePath),
+                Description = Path.GetFileName(imagePath),
+                IsAuthor = true,
+                FilePath = $"/authors/{Path.GetFileName(imagePath)}"
+            }).ToList();
 
-            await _dbcontext.AddRangeAsync(data);
-            await _dbcontext.SaveChangesAsync();
+            imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "products");
+            jpgFiles = Directory.GetFiles(imagePath, "*.jpg");
+
+            var bookImages = jpgFiles.Select(imagePath => new Photo
+            {
+                Title = Path.GetFileName(imagePath),
+                Description = Path.GetFileName(imagePath),
+                IsBook = true,
+                FilePath = $"/products/{Path.GetFileName(imagePath)}"
+            }).ToList();
+
+            var data = authorImages.Concat(bookImages).ToList();
+
+            await _dbcontext.AddRangeAsync(data, stoppingToken);
+            await _dbcontext.SaveChangesAsync(stoppingToken);
         }
 
         private async Task PopulateUserRole(CancellationToken stoppingToken)
@@ -272,6 +287,9 @@ namespace MindTheCodeApp.Utils
 
         private async Task PopulateBookAuthor(CancellationToken stoppingToken)
         {
+            var random = new Random();
+            var photos = _dbcontext.PhotoEntity.Where(p => p.IsAuthor).ToList();
+
             var data = new List<BookAuthor>
             {
                 new()
@@ -279,70 +297,70 @@ namespace MindTheCodeApp.Utils
                     Name = "Emma Green",
                     Description =
                         "Emma Green is a bestselling romance author known for her steamy and emotional love stories. Her books often feature strong female leads and explore themes of empowerment and personal growth.",
-                    Photo = _dbcontext.PhotoEntity.First(),
+                    Photo = photos.OrderBy(a => random.Next()).First(),
                 },
                 new()
                 {
                     Name = "Max Cooper",
                     Description =
                         "Max Cooper is a prolific science fiction author whose work spans a range of sub-genres, from hard sci-fi to space opera. His stories often grapple with complex scientific concepts and the ethical dilemmas that arise from new technologies.",
-                    Photo = _dbcontext.PhotoEntity.First(),
+                    Photo = photos.OrderBy(a => random.Next()).First(),
                 },
                 new()
                 {
                     Name = "Harper Jameson",
                     Description =
                         "Harper Jameson is a mystery author whose books are known for their gripping plot twists and intricate puzzles. Her stories often feature strong female leads who use their intelligence and intuition to solve crimes.",
-                    Photo = _dbcontext.PhotoEntity.First(),
+                    Photo = photos.OrderBy(a => random.Next()).First(),
                 },
                 new()
                 {
                     Name = "Alex Rodriguez",
                     Description =
                         "Alex Rodriguez is a thriller author who writes fast-paced and suspenseful stories that keep readers on the edge of their seats. His books often explore themes of power and corruption, and the dangers that arise when people are pushed to their limits.",
-                    Photo = _dbcontext.PhotoEntity.First(),
+                    Photo = photos.OrderBy(a => random.Next()).First(),
                 },
                 new()
                 {
                     Name = "Sarah Patel",
                     Description =
                         "Sarah Patel is a fantasy author whose work is inspired by myth and legend from around the world. Her stories often feature richly imagined worlds populated by a wide variety of magical creatures and characters.",
-                    Photo = _dbcontext.PhotoEntity.First(),
+                    Photo = photos.OrderBy(a => random.Next()).First(),
                 },
                 new()
                 {
                     Name = "Daniel Hill",
                     Description =
                         "Daniel Hill is a horror author known for his chilling and unsettling stories that delve into the darkest corners of the human psyche. His books often explore themes of fear, isolation, and the supernatural.",
-                    Photo = _dbcontext.PhotoEntity.First(),
+                    Photo = photos.OrderBy(a => random.Next()).First(),
                 },
                 new()
                 {
                     Name = "Grace Kim",
                     Description =
                         "Grace Kim is a contemporary fiction author whose work explores the complexities of modern life and relationships. Her stories often feature diverse and relatable characters grappling with the challenges of love, family, and career.",
-                    Photo = _dbcontext.PhotoEntity.First(),
+                    Photo = photos.OrderBy(a => random.Next()).First(),
                 },
                 new()
                 {
                     Name = "Jack Davis",
                     Description =
                         "Jack Davis is a historical fiction author whose books transport readers to a wide variety of time periods and places, from ancient Rome to the American Civil War. His stories often feature richly drawn characters and meticulously researched historical detail.",
-                    Photo = _dbcontext.PhotoEntity.First(),
+                    Photo = photos.OrderBy(a => random.Next()).First(),
                 },
                 new()
                 {
                     Name = "Lily Chen",
                     Description =
                         "Lily Chen is a young adult author whose books explore the challenges of growing up and finding one's place in the world. Her stories often feature diverse and relatable characters grappling with issues like identity, self-confidence, and social justice.",
-                    Photo = _dbcontext.PhotoEntity.First(),
+                    Photo = photos.OrderBy(a => random.Next()).First(),
                 },
                 new()
                 {
                     Name = "Jason Lee",
                     Description =
                         "Jason Lee is a non-fiction author whose work spans a wide variety of topics, from personal finance to self-improvement to travel. His books are known for their accessible and practical advice, as well as their engaging and conversational tone.",
-                    Photo = _dbcontext.PhotoEntity.First(),
+                    Photo = photos.OrderBy(a => random.Next()).First(),
                 },
             };
 
@@ -484,6 +502,7 @@ namespace MindTheCodeApp.Utils
             var random = new Random();
             var categories = _dbcontext.BookCategoryEntity.ToList();
             var authors = _dbcontext.BookAuthorEntity.ToList();
+            var photos = _dbcontext.PhotoEntity.Where(p => p.IsBook).ToList();
 
             var data = new List<Book>
             {
@@ -496,7 +515,7 @@ namespace MindTheCodeApp.Utils
                     Count = 5,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 9.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -507,7 +526,7 @@ namespace MindTheCodeApp.Utils
                     Count = 3,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 7.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -518,7 +537,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 12.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -529,7 +548,7 @@ namespace MindTheCodeApp.Utils
                     Count = 6,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 8.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -540,7 +559,7 @@ namespace MindTheCodeApp.Utils
                     Count = 4,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 10.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -551,7 +570,7 @@ namespace MindTheCodeApp.Utils
                     Count = 7,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 14.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -562,7 +581,7 @@ namespace MindTheCodeApp.Utils
                     Count = 3,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 12.50m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -573,7 +592,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 10.75m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -584,7 +603,7 @@ namespace MindTheCodeApp.Utils
                     Count = 4,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 11.25m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -595,7 +614,7 @@ namespace MindTheCodeApp.Utils
                     Count = 3,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 12.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -606,7 +625,7 @@ namespace MindTheCodeApp.Utils
                     Count = 1,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 9.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -617,7 +636,7 @@ namespace MindTheCodeApp.Utils
                     Count = 5,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 15.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -628,7 +647,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 11.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -639,7 +658,7 @@ namespace MindTheCodeApp.Utils
                     Count = 4,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 13.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -650,7 +669,7 @@ namespace MindTheCodeApp.Utils
                     Count = 3,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 25.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -661,7 +680,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 35.50m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -672,7 +691,7 @@ namespace MindTheCodeApp.Utils
                     Count = 4,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 18.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -683,7 +702,7 @@ namespace MindTheCodeApp.Utils
                     Count = 1,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 50.00m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -694,7 +713,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 29.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -705,7 +724,7 @@ namespace MindTheCodeApp.Utils
                     Count = 3,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 14.95m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -716,7 +735,7 @@ namespace MindTheCodeApp.Utils
                     Count = 1,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 42.50m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -727,7 +746,7 @@ namespace MindTheCodeApp.Utils
                     Count = 3,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 12.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -738,7 +757,7 @@ namespace MindTheCodeApp.Utils
                     Count = 5,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 15.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -749,7 +768,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 9.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -760,7 +779,7 @@ namespace MindTheCodeApp.Utils
                     Count = 4,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 11.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -771,7 +790,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 13.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -782,7 +801,7 @@ namespace MindTheCodeApp.Utils
                     Count = 5,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 17.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -793,7 +812,7 @@ namespace MindTheCodeApp.Utils
                     Count = 3,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 10.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -804,7 +823,7 @@ namespace MindTheCodeApp.Utils
                     Count = 3,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 24.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -815,7 +834,7 @@ namespace MindTheCodeApp.Utils
                     Count = 5,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 17.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -826,7 +845,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 12.50m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -837,7 +856,7 @@ namespace MindTheCodeApp.Utils
                     Count = 4,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 14.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -848,7 +867,7 @@ namespace MindTheCodeApp.Utils
                     Count = 3,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 21.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -859,7 +878,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 19.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -870,7 +889,7 @@ namespace MindTheCodeApp.Utils
                     Count = 1,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 9.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -881,7 +900,7 @@ namespace MindTheCodeApp.Utils
                     Count = 5,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 16.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -892,7 +911,7 @@ namespace MindTheCodeApp.Utils
                     Count = 3,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 12.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -903,7 +922,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 15.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -914,7 +933,7 @@ namespace MindTheCodeApp.Utils
                     Count = 1,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 19.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -925,7 +944,7 @@ namespace MindTheCodeApp.Utils
                     Count = 4,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 14.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -936,7 +955,7 @@ namespace MindTheCodeApp.Utils
                     Count = 3,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 17.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -947,7 +966,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 13.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -958,7 +977,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 11.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -969,7 +988,7 @@ namespace MindTheCodeApp.Utils
                     Count = 3,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 20.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -980,7 +999,7 @@ namespace MindTheCodeApp.Utils
                     Count = 5,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 25.50m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -991,7 +1010,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 18.75m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1002,7 +1021,7 @@ namespace MindTheCodeApp.Utils
                     Count = 4,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 21.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1013,7 +1032,7 @@ namespace MindTheCodeApp.Utils
                     Count = 3,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 23.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1024,7 +1043,7 @@ namespace MindTheCodeApp.Utils
                     Count = 1,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 16.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1035,7 +1054,7 @@ namespace MindTheCodeApp.Utils
                     Count = 5,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 28.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1046,7 +1065,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 45.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1058,7 +1077,7 @@ namespace MindTheCodeApp.Utils
                     Count = 3,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 15.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1069,7 +1088,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 12.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1080,7 +1099,7 @@ namespace MindTheCodeApp.Utils
                     Count = 4,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 9.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1091,7 +1110,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 14.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1102,7 +1121,7 @@ namespace MindTheCodeApp.Utils
                     Count = 3,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 11.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1113,7 +1132,7 @@ namespace MindTheCodeApp.Utils
                     Count = 5,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 8.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1125,7 +1144,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(α => random.Next()).First(),
                     Price = 16.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1136,7 +1155,7 @@ namespace MindTheCodeApp.Utils
                     Count = 5,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 13.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1148,7 +1167,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 16.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1159,7 +1178,7 @@ namespace MindTheCodeApp.Utils
                     Count = 3,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 12.50m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1170,7 +1189,7 @@ namespace MindTheCodeApp.Utils
                     Count = 1,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 21.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1181,7 +1200,7 @@ namespace MindTheCodeApp.Utils
                     Count = 4,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 18.95m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1192,7 +1211,7 @@ namespace MindTheCodeApp.Utils
                     Count = 2,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 14.99m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
                 new()
                 {
@@ -1203,7 +1222,7 @@ namespace MindTheCodeApp.Utils
                     Count = 3,
                     Author = authors.OrderBy(a => random.Next()).First(),
                     Price = 15.25m,
-                    Photo = _dbcontext.PhotoEntity.First()
+                    Photo = photos.OrderBy(a => random.Next()).First()
                 },
             };
 
