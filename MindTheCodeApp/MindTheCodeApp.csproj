@@ -42,7 +42,8 @@
 
   <ItemGroup>
     <Folder Include="Views\Shared\Components" />
-    <Folder Include="wwwroot\UploadedImages\" />
+    <Folder Include="wwwroot\authors\" />
+    <Folder Include="wwwroot\products\" />
   </ItemGroup>
 
 </Project>

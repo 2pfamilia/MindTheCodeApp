@@ -37,6 +37,10 @@
                 <label asp-for="AuthorId" class="control-label">Author</label>
                 <select asp-for="AuthorId" class="form-control" asp-items="ViewBag.BookAuthors" value="ViewBag.Value"></select>
             </div>
+        <div class="admin-page-form-group">
+            <label asp-for="PhotoId" class="control-label"></label>
+            <select asp-for="PhotoId" class="form-control" asp-items="ViewBag.BookPhoto"></select>
+        </div>
         <button type="submit" class="btn">SAVE</button>
         </form>
     <a class="admin-page-back-link link-btn-revert" asp-action="Index">BACK TO LIST</a>

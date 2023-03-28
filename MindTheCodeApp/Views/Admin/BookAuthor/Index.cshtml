@@ -18,6 +18,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhotoFilePath)
+        </th>
     </tr>
     </thead>
     <tbody>
@@ -30,6 +33,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhotoFilePath)
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.AuthorId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.AuthorId">Details</a> |
