@@ -12,6 +12,7 @@ namespace AppCore.Models.DTOs
         public string LastName { get; set; } = string.Empty;
         public string CustomerEmail { get; set; } = string.Empty;
         public string StreetAddress { get; set; } = string.Empty;
+        //Quantity of product
         public decimal TotalCost { get; set; }
     }
 }

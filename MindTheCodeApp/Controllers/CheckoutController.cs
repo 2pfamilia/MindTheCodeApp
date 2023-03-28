@@ -29,7 +29,7 @@ namespace MindTheCodeApp.Controllers
             // var cart = 
             //_logger.LogDebug(userCart + userCartTotal);
             //i need info from local storage
-            return View("/Views/MyCart/MyCart.cshtml");
+            return View("/Views/User/Cart.cshtml");
         }
 
         [HttpGet]

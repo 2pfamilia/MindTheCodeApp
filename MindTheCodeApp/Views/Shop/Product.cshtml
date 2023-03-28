@@ -1,4 +1,6 @@
-﻿@{
+﻿@using AppCore.Models.BookModels
+
+@{
     ViewData["Title"] = "Product Page";
 }
 
@@ -8,17 +10,26 @@
         <img src="/img/books/never-never.jpg" alt=""/>
         <div class="product-page-product-info">
             <h2 class="product-page-product-title">
-                Never Never: A twisty, angsty romance Never Never: A twisty,
-                angsty romance Never Never: A twisty, angsty romance Never Never:
-                A twisty, angsty romance Never Never: A twisty, angsty romance
+                @{
+                    var book = ViewData["Book"] as Book;
+                    @book.Title
+                    ;
+                }
             </h2>
             <div class="product-page-product-author">
                 by
-                <a href="">Colleen Hoove</a>
+                <a href="">@book.Author.Name</a>
             </div>
             <div class="hr-divider-100"></div>
-            <span class="product-page-product-availability">Available</span>
-            <span class="product-page-product-price">€12.00</span>
+            @if (book.Count > 0)
+            {
+                <span class="product-page-product-availability">Available</span>
+            } 
+            else
+            {
+                <span class="product-page-product-availability">Not Available</span>
+            }
+            <span class="product-page-product-price">@book.Price</span>
             <div class="product-page-product-btns">
                 <div class="number-input-container">
                     <button class="number-input-minus product-page">
@@ -46,18 +57,7 @@
             </div>
             <div class="hr-divider-100"></div>
             <p class="product-page-product-description">
-                Aging has long been considered a normal process. We think disease,
-                frailty, and gradual decline are inevitable parts of life. But
-                they don’t have to be. Science today sees aging as a treatable
-                disease. By addressing its root causes we can not only increase
-                our health span and live longer but prevent and reverse the
-                maladies of aging—including heart disease, cancer, diabetes, and
-                dementia. In Young Forever, Dr. Mark Hyman challenges us to
-                reimagine our biology, health, and the process of aging. To
-                uncover the secrets to longevity, he explores the biological
-                hallmarks of aging, their causes, and their consequences—then
-                shows us how to overcome them with simple dietary, lifestyle, and
-                emerging longevity
+                @book.Description
             </p>
         </div>
     </section>
@@ -69,11 +69,7 @@
         <div class="product-page-author-info">
             <h4>About the Author</h4>
             <p>
-                Mark Hyman, MD, is the director of the Cleveland Clinic Center for
-                Functional Medicine, and founder and director of The
-                Ultra-Wellness Center. He is the bestselling author of numerous
-                books, including Eat Fat, Get Thin, The Blood Sugar Solution
-                10-Day Detox Diet, and The Blood Sugar Solution.
+                @book.Author.Description
             </p>
         </div>
     </section>

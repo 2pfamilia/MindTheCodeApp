@@ -1,5 +1,6 @@
 ﻿using AppCore.Models.BookModels;
 using AppCore.Models.DTOs;
+using AppCore.Models.PhotoModels;
 using Infrastructure.Data;
 
 namespace MindTheCodeApp.Utils
@@ -25,7 +26,7 @@ namespace MindTheCodeApp.Utils
             bookAuthors = new();
             bookCategories = new();
 
-            var photo = _context.BookPhotoEntity.First();
+            var photo = _context.PhotoEntity.First();
 
             // var authorsIdLookup = new HashSet<int?>();
             // var categoryIdLookup = new HashSet<int?>();
@@ -75,7 +76,7 @@ namespace MindTheCodeApp.Utils
         private Book ConvertBookCsvDTO
         (
             BookCsvDTO dto,
-            BookPhoto photo,
+            Photo photo,
             BookAuthor bookAuthor,
             BookCategory bookCategory,
             int? authorId,

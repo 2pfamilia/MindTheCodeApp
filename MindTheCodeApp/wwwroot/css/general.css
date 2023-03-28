@@ -280,13 +280,24 @@ main {
     visibility: hidden;
 }
 
+.form-main-error-msg,
 .form-error-msg {
-    max-width: 22rem;
-    font-size: 1.4rem;
+    display: none;
+    align-self: center;
     color: #c92a2a;
     font-style: italic;
 }
 
+.form-error-msg {
+    font-size: 1.4rem;
+}
+    .form-main-error-msg {
+        font-size: 1.6rem;
+    }
+
+.form-main-error-msg {
+    text-align: center;
+}
 .custom-select {
     display: flex;
     flex-direction: column;

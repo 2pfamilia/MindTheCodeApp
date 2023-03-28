@@ -1,4 +1,5 @@
-﻿using Infrastructure.Data;
+﻿using AppCore.Models.BookModels;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -24,13 +25,15 @@ namespace MindTheCodeApp.Controllers
         {
             myLog.Verbose("Start - Index");
             var authors = await _context.BookAuthorEntity.ToListAsync();
-
+            
             foreach (var author in authors)
             {
+                //var photo = _context.BookAuthorEntity.FirstOrDefault(a => a.AuthorId == author.AuthorId).Photo.FilePath;
                 var authorVM = new BookAuthorVM();
                 authorVM.AuthorId = author.AuthorId;
                 authorVM.Name = author.Name;
                 authorVM.Description = author.Description;
+                //authorVM.PhotoFilePath = photo;
                 IndexAuthorsVM.Add(authorVM);
             }
             myLog.Verbose("End - Index");
@@ -39,19 +42,22 @@ namespace MindTheCodeApp.Controllers
 
         public IActionResult Create()
         {
+            ViewData["AuthorPhoto"] = new SelectList(_context.PhotoEntity.Where(p => p.IsAuthor == true), "PhotoId", "Title");
             return View("/Views/Admin/BookAuthor/Create.cshtml");
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(BookAuthorVM authorVM)
+        public async Task<IActionResult> Create(CreateBookAuthorVM authorVM)
         {
             myLog.Verbose("Start - Create");
             try
             {
+                var photo = _context.PhotoEntity.FirstOrDefault(p => p.PhotoId == authorVM.PhotoId);
                 var newAuthor = _context.BookAuthorEntity.Add(new AppCore.Models.BookModels.BookAuthor
                 {
                     Name = authorVM.Name,
                     Description = authorVM.Description,
+                    Photo = photo,
                     DateCreated = DateTime.Now
                 });
                 await _context.SaveChangesAsync();
@@ -112,6 +118,8 @@ namespace MindTheCodeApp.Controllers
 
             var author = await _context.BookAuthorEntity
                 .FirstOrDefaultAsync(m => m.AuthorId == id);
+            var authorPhoto = _context.BookAuthorEntity.FirstOrDefault(c => c.AuthorId == id).Photo.FilePath;
+
 
             if (author == null)
             {
@@ -122,6 +130,7 @@ namespace MindTheCodeApp.Controllers
                 DetailsBookAuthorVM.AuthorId = author.AuthorId;
                 DetailsBookAuthorVM.Name = author.Name;
                 DetailsBookAuthorVM.Description = author.Description;
+                DetailsBookAuthorVM.PhotoFilePath = authorPhoto;
             }
 
             return View("/Views/Admin/BookAuthor/Details.cshtml", DetailsBookAuthorVM);
@@ -135,7 +144,10 @@ namespace MindTheCodeApp.Controllers
                 EditBookAuthorVM.EditBookAuthorId = author.AuthorId;
                 EditBookAuthorVM.Name = author.Name;
                 EditBookAuthorVM.Description = author.Description;
+                //EditBookAuthorVM.PhotoId = author.Photo.PhotoId;
             }
+
+            ViewData["AuthorPhoto"] = new SelectList(_context.PhotoEntity.Where(b => b.IsAuthor == true), "PhotoId", "Title");
 
             return View("/Views/Admin/BookAuthor/Edit.cshtml", EditBookAuthorVM);
         }
@@ -157,6 +169,7 @@ namespace MindTheCodeApp.Controllers
 
                     author.Name = editBookAuthorVM.Name;
                     author.Description = editBookAuthorVM.Description;
+                    author.Photo.PhotoId = editBookAuthorVM.PhotoId;
 
                     await _context.SaveChangesAsync();
                 }

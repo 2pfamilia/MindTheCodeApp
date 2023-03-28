@@ -5,6 +5,7 @@
         <h2>Already have an account?</h2>
         <span>Sign in with your email and password</span>
     </div>
+    <span style="max-width: 22rem;" class="form-main-error-msg"></span>
     <div class="form-input">
         <label class="form-input-label" asp-for="Email">Email</label>
         <input type="text" asp-for="Email" required autocomplete="on" />
@@ -12,8 +13,8 @@
     </div>
     <div class="form-input">
         <label class="form-input-label" asp-for="Password">Password</label>
-        <input type="password" asp-for="Password" class="singin" required autocomplete="of"> />
+        <input type="password" asp-for="Password" class="singin" required autocomplete="of"/>
         <span class="form-error-msg"></span>
-    </div>
+    </div>    
     <button type="submit" class="btn form-btn">SIGN IN</button>
 </form>

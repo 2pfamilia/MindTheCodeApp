@@ -8,6 +8,7 @@
         public string Category { get; set; } = string.Empty;
         public int Count { get; set; }
         public string Author { get; set; } = string.Empty;
+        public string PhotoPath { get; set; } = string.Empty;
         public decimal Price { get; set; }
     }
 }

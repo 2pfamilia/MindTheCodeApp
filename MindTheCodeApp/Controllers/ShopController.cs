@@ -14,14 +14,12 @@ namespace MindTheCodeApp.Controllers
     {
         private readonly ILogger<ShopController> _logger;
         private readonly IBookService _bookService;
-      
 
         public ShopController(ILogger<ShopController> logger, IBookService bookService)
         {
             _logger = logger;
             _bookService = bookService;
         }
-
 
         [HttpGet("")]
         public async Task<IActionResult> Index()
@@ -35,30 +33,50 @@ namespace MindTheCodeApp.Controllers
             return View("/Views/Shop/Shop.cshtml", books);
         }
 
-        [HttpGet("/SearchByCategory/{categoryName}")]
-        public async Task<IActionResult> SearchByCategory(int[] categoryIDs) 
+        [HttpPost("")]
+        public async Task<IActionResult> Search([FromForm] SearchDTO? searchDTO)
         {
-            SearchDTO searchDTO = new SearchDTO { CategoryIDs = categoryIDs};
-            return RedirectToAction("SearchPost", searchDTO);
-           
-        }
+            //  Return a list of books for the view to display
+            /*
+                If searchDTO is null then return all the books
+                or use the information inside it to filter
+                the books you are gonna be returning
 
-
-        [HttpPost("Shop")]
-        public async Task<IActionResult> SearchPost([FromBody] SearchDTO searchDTO)
-        {
-            SearchPostDTO searchPostDTO = _bookService.GetSearchPostDTO(searchDTO.SearchTerm, searchDTO.CategoryIDs, searchDTO.AuthorIDs, searchDTO.maxPrice);
-            if (searchPostDTO == null)
+                The business logic will need to be in a service.
+             */
+            //var books = new List<Book>();
+            
+            if (searchDTO == null)
             {
-               // _logger.LogDebug("lmaoooooooooooooooooo");
+                var books = await _bookService.GetAllBooks();
+                return View("/Views/Shop/Shop.cshtml", books);
+            }
+
+            if (searchDTO == null)
+            {
                 var books = await _bookService.GetAllBooks();
                 return View("/Views/Shop/Shop.cshtml", books);
             }
             else
             {
-               // _logger.LogDebug("Got em bookies");
-                return View("/Views/Shop/Shop.cshtml",searchPostDTO);
+                return View("/Views/Shop/Shop.cshtml", searchDTO);
             }
+        }
+
+        [Route("Product/{id}")]
+        public async Task <IActionResult> ProductInfo([FromRoute]int id)
+        {
+            //int x = id;
+
+            Book book = _bookService.GetBookById(id);
+            string str = book.Author.Name;
+            string str2 = book.Category.Title;
+            
+            ViewData["Book"] = book;
+
+            return View("/Views/Shop/Product.cshtml");
+            //return View("/Views/Auth/Register.cshtml");
+
         }
     }
 }

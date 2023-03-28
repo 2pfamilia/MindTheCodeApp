@@ -81,7 +81,7 @@ namespace AppCore.Migrations
 
                     b.HasIndex("role_id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("AppCore.Models.AuthModels.UserRole", b =>
@@ -117,7 +117,7 @@ namespace AppCore.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("User_Roles");
+                    b.ToTable("User_Roles", (string)null);
                 });
 
             modelBuilder.Entity("AppCore.Models.BookModels.Book", b =>
@@ -171,7 +171,7 @@ namespace AppCore.Migrations
 
                     b.HasIndex("photo_id");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("AppCore.Models.BookModels.BookAuthor", b =>
@@ -198,9 +198,14 @@ namespace AppCore.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("name");
 
+                    b.Property<int?>("photo_id")
+                        .HasColumnType("int");
+
                     b.HasKey("AuthorId");
 
-                    b.ToTable("Books_Authors");
+                    b.HasIndex("photo_id");
+
+                    b.ToTable("Books_Authors", (string)null);
                 });
 
             modelBuilder.Entity("AppCore.Models.BookModels.BookCategory", b =>
@@ -236,41 +241,7 @@ namespace AppCore.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Books_Category");
-                });
-
-            modelBuilder.Entity("AppCore.Models.BookModels.BookPhoto", b =>
-                {
-                    b.Property<int>("PhotoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("photo_id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PhotoId"));
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("date_created");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
-                        .HasColumnName("description");
-
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("file");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnName("title");
-
-                    b.HasKey("PhotoId");
-
-                    b.ToTable("Books_Photos");
+                    b.ToTable("Books_Category", (string)null);
                 });
 
             modelBuilder.Entity("AppCore.Models.OrderModels.AddressInformation", b =>
@@ -308,7 +279,7 @@ namespace AppCore.Migrations
 
                     b.HasKey("AddressInformationId");
 
-                    b.ToTable("Address_Information");
+                    b.ToTable("Address_Information", (string)null);
                 });
 
             modelBuilder.Entity("AppCore.Models.OrderModels.Order", b =>
@@ -353,7 +324,7 @@ namespace AppCore.Migrations
 
                     b.HasIndex("user_id");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("AppCore.Models.OrderModels.OrderDetails", b =>
@@ -394,7 +365,49 @@ namespace AppCore.Migrations
 
                     b.HasIndex("order_id");
 
-                    b.ToTable("Order_Details");
+                    b.ToTable("Order_Details", (string)null);
+                });
+
+            modelBuilder.Entity("AppCore.Models.PhotoModels.Photo", b =>
+                {
+                    b.Property<int>("PhotoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("photo_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PhotoId"));
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("date_created");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
+                        .HasColumnName("description");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("file");
+
+                    b.Property<bool>("IsAuthor")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_author");
+
+                    b.Property<bool>("IsBook")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_book");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("title");
+
+                    b.HasKey("PhotoId");
+
+                    b.ToTable("Photos", (string)null);
                 });
 
             modelBuilder.Entity("AppCore.Models.AuthModels.User", b =>
@@ -426,7 +439,7 @@ namespace AppCore.Migrations
                         .HasForeignKey("category_id")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("AppCore.Models.BookModels.BookPhoto", "Photo")
+                    b.HasOne("AppCore.Models.PhotoModels.Photo", "Photo")
                         .WithMany("Books")
                         .HasForeignKey("photo_id")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -434,6 +447,15 @@ namespace AppCore.Migrations
                     b.Navigation("Author");
 
                     b.Navigation("Category");
+
+                    b.Navigation("Photo");
+                });
+
+            modelBuilder.Entity("AppCore.Models.BookModels.BookAuthor", b =>
+                {
+                    b.HasOne("AppCore.Models.PhotoModels.Photo", "Photo")
+                        .WithMany("Authors")
+                        .HasForeignKey("photo_id");
 
                     b.Navigation("Photo");
                 });
@@ -501,11 +523,6 @@ namespace AppCore.Migrations
                     b.Navigation("Books");
                 });
 
-            modelBuilder.Entity("AppCore.Models.BookModels.BookPhoto", b =>
-                {
-                    b.Navigation("Books");
-                });
-
             modelBuilder.Entity("AppCore.Models.OrderModels.AddressInformation", b =>
                 {
                     b.Navigation("Orders");
@@ -516,6 +533,13 @@ namespace AppCore.Migrations
             modelBuilder.Entity("AppCore.Models.OrderModels.Order", b =>
                 {
                     b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("AppCore.Models.PhotoModels.Photo", b =>
+                {
+                    b.Navigation("Authors");
+
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

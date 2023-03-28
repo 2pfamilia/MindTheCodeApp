@@ -48,7 +48,7 @@
                             <span class="cart-dropdown-list-total">€0.00</span>
                         </div>
                         <div class="cart-dropdown-list-btn-container">
-                            <a href="#" class="link-btn" style="padding: 1.2rem">VIEW</a>
+                                <a asp-controller="User" asp-action="Cart" class="link-btn" style="padding: 1.2rem">VIEW</a>
                             <a href="#" class="link-btn" style="padding: 1.2rem">CHECKOUT</a>
                         </div>
                     </div>
@@ -312,6 +312,7 @@
 @*<script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
 <script src="~/js/site.js" asp-append-version="true"></script>
+    @Html.Raw(TempData["loginErrorMsg"])
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

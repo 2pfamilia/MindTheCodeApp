@@ -2,6 +2,7 @@
 using AppCore.Models.AuthModels;
 using AppCore.Models.BookModels;
 using AppCore.Models.OrderModels;
+using AppCore.Models.PhotoModels;
 
 namespace Infrastructure.Data
 {
@@ -81,11 +82,17 @@ namespace Infrastructure.Data
             {
                 entity.HasMany(e => e.Books)
                     .WithOne(e => e.Author);
+
+                entity.HasOne(e => e.Photo)
+                    .WithMany(e => e.Authors);
             });
 
-            modelBuilder.Entity<BookPhoto>(entity =>
+            modelBuilder.Entity<Photo>(entity =>
             {
                 entity.HasMany(e => e.Books)
+                    .WithOne(e => e.Photo);
+
+                entity.HasMany(e => e.Authors)
                     .WithOne(e => e.Photo);
             });
 
@@ -117,7 +124,7 @@ namespace Infrastructure.Data
         public DbSet<OrderDetails> OrderDetailsEntity { get; set; }
         public DbSet<BookCategory> BookCategoryEntity { get; set; }
         public DbSet<BookAuthor> BookAuthorEntity { get; set; }
-        public DbSet<BookPhoto> BookPhotoEntity { get; set; }
+        public DbSet<Photo> PhotoEntity { get; set; }
         public DbSet<Book> BookEntity { get; set; }
     }
 }
