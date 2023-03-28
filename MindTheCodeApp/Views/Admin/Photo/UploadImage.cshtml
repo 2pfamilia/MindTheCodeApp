@@ -1,4 +1,4 @@
-﻿@model MindTheCodeApp.ViewModels.BookVMs.BookPhotoVM
+﻿@model MindTheCodeApp.ViewModels.BookVMs.PhotoVM
 @{
     ViewData["Title"] = "UploadImage";
 }
@@ -12,6 +12,16 @@
         <label asp-for="Description" class="control-label"></label>
         <input asp-for="Description" class="form-control" />
         <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group form-check">
+        <label class="form-check-label">
+            <input class="form-check-input" asp-for="IsBook" /> @Html.DisplayNameFor(model => model.IsBook)
+        </label>
+    </div>
+    <div class="form-group form-check">
+        <label class="form-check-label">
+            <input class="form-check-input" asp-for="IsAuthor" /> @Html.DisplayNameFor(model => model.IsAuthor)
+        </label>
     </div>
     <div>
         <label asp-for="ImageFile"></label>

@@ -1,11 +1,11 @@
-﻿@model IEnumerable<MindTheCodeApp.ViewModels.BookVMs.BookPhotoVM>
+﻿@model IEnumerable<MindTheCodeApp.ViewModels.BookVMs.PhotoVM>
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
 <p>
-    <a asp-controller="AdminBookPhoto" asp-action="UploadImage">Upload New Book</a>
+    <a asp-controller="AdminPhoto" asp-action="UploadImage">Upload New Book</a>
 </p>
 <table class="table">
     <thead>
@@ -15,6 +15,12 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsBook)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsAuthor)
         </th>
         <th>
             <label>Image Path</label>
@@ -30,6 +36,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsBook)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAuthor)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ImagePath)

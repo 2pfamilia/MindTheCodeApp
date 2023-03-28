@@ -36,6 +36,7 @@ namespace MindTheCodeApp.Controllers
                 var bookVM = new IndexBookVM();
                 var bookCategory = _context.BookEntity.FirstOrDefault(c => c.BookId == book.BookId).Category.Title;
                 var bookAuthor = _context.BookEntity.FirstOrDefault(c => c.BookId == book.BookId).Author.Name;
+                //var bookPhoto = _context.BookEntity.FirstOrDefault(c => c.BookId == book.BookId).Photo.FilePath;
                 bookVM.BookId = book.BookId;
                 bookVM.Title = book.Title;
                 bookVM.Description = book.Description;
@@ -49,6 +50,10 @@ namespace MindTheCodeApp.Controllers
                 {
                     bookVM.Author = bookAuthor;
                 }
+                //if (bookPhoto != null)
+                //{
+                //    bookVM.PhotoPath = bookPhoto;
+                //}
 
                 bookVM.Price = (decimal)book.Price;
                 IndexBooksVM.Add(bookVM);
@@ -69,7 +74,7 @@ namespace MindTheCodeApp.Controllers
                 .FirstOrDefaultAsync(m => m.BookId == id);
             var bookCategory = _context.BookEntity.FirstOrDefault(c => c.BookId == book.BookId).Category.Title;
             var bookAuthor = _context.BookEntity.FirstOrDefault(c => c.BookId == book.BookId).Author.Name;
-
+            var bookPhoto = _context.BookEntity.FirstOrDefault(c => c.BookId == book.BookId).Photo.FilePath;
             if (book == null)
             {
                 return NotFound();
@@ -82,6 +87,7 @@ namespace MindTheCodeApp.Controllers
                 DetailBookVM.Category = bookCategory;
                 DetailBookVM.Count = (int)book.Count;
                 DetailBookVM.Author = bookAuthor;
+                DetailBookVM.PhotoPath = bookPhoto;
                 DetailBookVM.Price = (decimal)book.Price;
             }
 
@@ -92,7 +98,7 @@ namespace MindTheCodeApp.Controllers
         public IActionResult Create()
         {
             ViewData["BookCategories"] = new SelectList(_context.BookCategoryEntity, "CategoryId", "Title");
-            ViewData["BookPhoto"] = new SelectList(_context.PhotoEntity, "PhotoId", "File");
+            ViewData["BookPhoto"] = new SelectList(_context.PhotoEntity.Where(p => p.IsBook == true), "PhotoId", "Title");
             ViewData["BookAuthors"] = new SelectList(_context.BookAuthorEntity, "AuthorId", "Name");
 
             return View("/Views/Admin/Books/Create.cshtml");
@@ -119,6 +125,7 @@ namespace MindTheCodeApp.Controllers
                     Category = category,
                     Count = book.Count,
                     Author = author,
+                    Photo = photo,
                     Price = book.Price,
                     DateCreated = DateTime.Now
                 });
@@ -149,11 +156,11 @@ namespace MindTheCodeApp.Controllers
                 EditBookVM.Price = (decimal)book.Price;
                 EditBookVM.CategoryId = book.Category.CategoryId;
                 EditBookVM.AuthorId = book.Author.AuthorId;
-                //BookVM.PhotoId = book.Photo.PhotoId;
+                EditBookVM.PhotoId = book.Photo.PhotoId;
             }
 
             ViewData["BookCategories"] = new SelectList(_context.BookCategoryEntity, "CategoryId", "Title");
-            //ViewData["BookPhoto"] = new SelectList(_context.BookPhotoEntity, "PhotoId", "File");
+            ViewData["BookPhoto"] = new SelectList(_context.PhotoEntity.Where(b => b.IsBook == true), "PhotoId", "Title");
             ViewData["BookAuthors"] = new SelectList(_context.BookAuthorEntity, "AuthorId", "Name");
 
             return View("/Views/Admin/Books/Edit.cshtml", EditBookVM);
@@ -182,6 +189,7 @@ namespace MindTheCodeApp.Controllers
                     book.Description = editBookVM.Description;
                     book.Author.AuthorId = editBookVM.AuthorId;
                     book.Category.CategoryId = editBookVM.CategoryId;
+                    book.Photo.PhotoId = editBookVM.PhotoId;
                     book.Count = editBookVM.Count;
                     book.Price = editBookVM.Price;
 
