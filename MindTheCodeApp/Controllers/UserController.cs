@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MindTheCodeApp.Controllers;
 
-[Route("/my-acccount/")]
+[Route("/my-account/")]
 public class UserController : Controller
 {
     private readonly ApplicationDbContext _context;
