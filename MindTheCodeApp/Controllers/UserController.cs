@@ -145,13 +145,14 @@ public class UserController : Controller
         if (userCreated)
         {
             TempData["msg"] = "<script>alert('User Created');</script>";
+            return RedirectToAction("Index", "Home");
         }
         else
         {
-            TempData["msg"] = "<script>alert('User Already Exists');</script>";
+            TempData["registerErrorMsg"] = $"<script defer src=\"/js/register-error-msg.js\"></script>";
+            return View();
         }
-
-        return View();
+        
     }
 
     [HttpGet("cart")]

@@ -6,6 +6,7 @@
 <div class="signup-page-container">
     <h1 class="page-title">Create Account</h1>
     <form class="signup-page-form" asp-controller="User" asp-action="Register" method="post">
+        <span style="max-width: 30rem;" class="form-main-error-msg"> Email Address is Already Registered</span>
         <div class="signup-page-form-section-header">
             <h3>Login Info</h3>
             <div class="hr-divider-100"></div>
@@ -81,10 +82,10 @@
             <label class="form-input-label" for="phone">Phone *</label>
             <input type="text" name="Phone" />
             <span class="form-error-msg"></span>
-        </div>
+        </div>        
         <button type="submit" class="btn-revert form-btn">SIGN UP</button>
     </form>
 </div>
 
 <!--Allert Message-->
-@Html.Raw(TempData["msg"])
+@Html.Raw(TempData["registerErrorMsg"])
