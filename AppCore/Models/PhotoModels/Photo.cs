@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using AppCore.Models.BookModels;
 
-namespace AppCore.Models.BookModels
+namespace AppCore.Models.PhotoModels
 {
-    [Table("Books_Photos")]
-    public class BookPhoto
+    [Table("Photos")]
+    public class Photo
     {
         [
             Key,
@@ -22,6 +23,20 @@ namespace AppCore.Models.BookModels
             StringLength(100, MinimumLength = 1)
         ]
         public string? Title { get; set; }
+
+        [
+            Required,
+            Column("is_book"),
+            NotNull,
+        ]
+        public bool IsBook { get; set; } = false;
+
+        [
+            Required,
+            Column("is_author"),
+            NotNull,
+        ]
+        public bool IsAuthor { get; set; } = false;
 
         [
             Column("description"),
@@ -44,5 +59,6 @@ namespace AppCore.Models.BookModels
         public DateTime DateCreated { get; set; } = DateTime.Now;
 
         public ICollection<Book>? Books { get; set; }
+        public ICollection<BookAuthor>? Authors { get; set; }
     }
 }

@@ -544,6 +544,7 @@ shopFiltersBtn && shopFiltersBtn.addEventListener("click", (e) => {
                 filters[type].push(input.name)
             }
         });
+        console.log(filters);
     });
 
     // Price slider
@@ -872,7 +873,6 @@ function numberInputOnFocusOutHandler(input, minusBtn) {
 
 myAccountNavLinks.forEach((navLink, index) => {
     navLink.addEventListener("click", (e) => {
-        e.preventDefault();
         const navLinkIcon = navLink.querySelector("svg");
         // Set up pages array
         const personalInfoPage = document.querySelector(".personal-info-form");

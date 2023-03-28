@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MindTheCodeApp.Controllers;
 
-[Route("/Auth/")]
+[Route("/my-acccount/")]
 public class UserController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -23,18 +23,18 @@ public class UserController : Controller
         _context = context;
     }
 
-    [HttpGet("Info")]
+    [HttpGet("")]
     [Authorize(Roles = "reuser, admin")]
-    public async Task<IActionResult> InfoView()
+    public async Task<IActionResult> Index()
     {
         var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "-1");
 
         var dto = await _userService.GetUserInfo(userId);
 
-        return View("/Views/MyAccount/MyAccount.cshtml", dto);
+        return View(dto);
     }
 
-    [HttpPost("ChangeInfo")]
+    [HttpPost("change-info")]
     [Authorize(Roles = "reuser, admin")]
     public async Task<IActionResult> InfoUpdate([FromForm] UserInfoDTO dto)
     {
@@ -42,10 +42,10 @@ public class UserController : Controller
 
         await _userService.UpdateUserInfo(dto, userId);
 
-        return RedirectToAction("InfoView", "User");
+        return RedirectToAction("Index", "User");
     }
 
-    [HttpPost("ChangePassword")]
+    [HttpPost("change-password")]
     [Authorize(Roles = "reuser, admin")]
     public async Task<IActionResult> UpdateUserPassword([FromForm] UserChangePasswordDTO dto)
     {
@@ -53,11 +53,11 @@ public class UserController : Controller
 
         await _userService.UpdateUserPassword(dto, userId);
 
-        return RedirectToAction("InfoView", "User");
+        return RedirectToAction("Index", "User");
     }
 
    
-    [HttpPost("Login")]
+    [HttpPost("login")]
     [AllowAnonymous]
     public async Task<IActionResult> Login([FromForm] User user)
     {
@@ -98,7 +98,7 @@ public class UserController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    [HttpGet("Logout")]
+    [HttpGet("logout")]
     [Authorize(Roles = "reuser, admin")]
     public async Task<IActionResult> Logout()
     {
@@ -107,17 +107,17 @@ public class UserController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    [HttpGet("Register")]
+    [HttpGet("register")]
     [AllowAnonymous]
-    public async Task<IActionResult> RegisterView()
+    public IActionResult Register()
     {
         if (User.Identity!.IsAuthenticated)
             return RedirectToAction("Index", "Home");
 
-        return View("/Views/Auth/Register.cshtml");
+        return View();
     }
 
-    [HttpPost("Register")]
+    [HttpPost("register")]
     [AllowAnonymous]
     public async Task<IActionResult> Register([FromForm] RegisterDTO registerDTO)
     {
@@ -134,7 +134,7 @@ public class UserController : Controller
         {
             TempData["msg"] = "<script>alert('All Fields are Obligatory');</script>";
 
-            return View("/Views/Auth/Register.cshtml");
+            return View();
         }
 
         var userCreated = await _userService.CreateUser(registerDTO);
@@ -148,6 +148,13 @@ public class UserController : Controller
             TempData["msg"] = "<script>alert('User Already Exists');</script>";
         }
 
-        return View("/Views/Auth/Register.cshtml");
+        return View();
+    }
+
+    [HttpGet("cart")]
+    [AllowAnonymous]
+    public IActionResult Cart()
+    {
+       return View();
     }
 }

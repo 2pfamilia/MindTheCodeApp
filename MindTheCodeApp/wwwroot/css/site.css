@@ -1358,21 +1358,23 @@
     cursor: pointer;
     visibility: visible;
 }
-
+.my-account-nav-link h4,
 .my-account-nav-link a {
     text-decoration: none;
     font-size: 1.6rem;
+    font-weight: 500;
     color: #212529;
     cursor: pointer;
 }
+    .my-account-nav-link h4:hover,
+    .my-account-nav-link a:hover {
+        text-shadow: 0 0 0.1rem #212529;
+    }
 
-.my-account-nav-link a:hover {
-    text-shadow: 0 0 0.1rem #212529;
-}
-
-.my-account-nav-link a:active {
-    text-shadow: 0 0 0.3rem #212529;
-}
+    .my-account-nav-link h4:active,
+    .my-account-nav-link a:active {
+        text-shadow: 0 0 0.3rem #212529;
+    }
 
 /* PERSONAL INFO SECTION */
 
@@ -1575,6 +1577,7 @@
 
 .my-cart-page-item-img-title-container img {
     max-height: 18rem;
+    max-width: 12rem;
     object-fit: contain;
 }
 
