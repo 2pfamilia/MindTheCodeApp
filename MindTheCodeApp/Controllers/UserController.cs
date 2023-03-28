@@ -65,7 +65,10 @@ public class UserController : Controller
             return RedirectToAction("Index", "Home");
 
         if (user is null || user.Email is null || user.Password is null)
-            return BadRequest();
+        {
+            TempData["loginErrorMsg"] = $"<script defer src=\"/js/login-error-msg.js\" id=\"user-email\" data-name={user.Email}></script>";
+            return RedirectToAction("Index", "Home");
+        }
 
         // Check if user exists in database with the correct password.
         try
@@ -77,8 +80,8 @@ public class UserController : Controller
                     u.Password.Equals(user.Password)
                 );
         }
-        catch (Exception)
-        {
+        catch (Exception)        {
+            TempData["loginErrorMsg"] = $"<script defer src=\"/js/login-error-msg.js\" id=\"user-email\" data-name={user.Email}></script>";
             return RedirectToAction("Index", "Home");
         }
 

@@ -416,8 +416,7 @@ formBtns.forEach((btn) => {
 });
 
 // Custom select element handler
-if (customSelects) {
-  customSelects.forEach((select) => {
+customSelects && customSelects.forEach((select) => {
     const btn = select.querySelector("svg");
     const list = select.querySelector("ul");
     const input = select.querySelector("input");
@@ -453,7 +452,6 @@ if (customSelects) {
       }
     });
   });
-}
 
 // Home boooks sections displauy add to cart overlay handler
 if (homeSectionBookImg) {
