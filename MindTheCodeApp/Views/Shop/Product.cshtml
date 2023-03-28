@@ -21,13 +21,13 @@
                 <a href="">@book.Author.Name</a>
             </div>
             <div class="hr-divider-100"></div>
-            @if (book.Count != 18)
+            @if (book.Count > 0)
             {
-                <span class="product-page-product-availability">Available Yess</span>
+                <span class="product-page-product-availability">Available</span>
             } 
             else
             {
-                <span class="product-page-product-availability">Available</span>
+                <span class="product-page-product-availability">Not Available</span>
             }
             <span class="product-page-product-price">@book.Price</span>
             <div class="product-page-product-btns">
