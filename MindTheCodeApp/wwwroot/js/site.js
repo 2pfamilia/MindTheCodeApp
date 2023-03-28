@@ -544,6 +544,7 @@ shopFiltersBtn && shopFiltersBtn.addEventListener("click", (e) => {
                 filters[type].push(input.name)
             }
         });
+        console.log(filters);
     });
 
     // Price slider
