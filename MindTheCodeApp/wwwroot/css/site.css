@@ -89,6 +89,52 @@
 }
 
 /**************************/
+/* Language bar */
+/**************************/
+
+.language-bar {
+    max-width: 136.6rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 2.4rem;
+}
+
+
+    .language-bar ul {
+        display: flex;
+        gap: 2.4rem;
+        list-style-type: none;
+    }
+
+        .language-bar ul li {
+            color: #868e96;
+            font-weight: 500;
+            font-size: 1.6rem;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+            .language-bar ul li.selected {
+                color: #212529;
+                font-weight: 700;
+            }
+
+            .language-bar ul li:hover {
+                text-shadow: 0 0 0.1rem #212529;
+            }
+
+            .language-bar ul li:active {
+                text-shadow: 0 0 0.3rem #212529;
+            }
+
+            .language-bar ul li:not(:last-child) {
+                padding-right: 2.4rem;
+                border-right: 0.1rem solid;
+            }
+
+/**************************/
 /* Topbar */
 /**************************/
 .topbar {
@@ -676,6 +722,7 @@
     justify-content: center;
     background-color: rgba(255, 255, 255, 0.8);
     z-index: 2;
+    text-align:center;
 }
 
 .add-to-cart-overlay-btn {

@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using AppCore.Models.AuthModels;
+using Microsoft.AspNetCore.Localization;
 
 namespace MindTheCodeApp.Controllers
 {
+        
     [Route("")]
     [AllowAnonymous]
     public class HomeController : Controller
@@ -22,6 +24,18 @@ namespace MindTheCodeApp.Controllers
         {
             _logger = logger;
             _bookService = bookService;
+        }
+
+        [HttpPost]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            return LocalRedirect(returnUrl);
         }
 
         [HttpGet("")]

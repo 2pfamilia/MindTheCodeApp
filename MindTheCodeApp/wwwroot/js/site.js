@@ -4,6 +4,9 @@
 // Overlay effect div
 const overlayEffect = document.querySelector(".overlay");
 
+// Language bar on header
+const langBarListItems = document.querySelectorAll(".language-bar-list-item");
+
 // Sign in form
 const signinForm = document.querySelector(".signin-form");
 
@@ -164,6 +167,28 @@ window.addEventListener("click", function (e) {
     }
   });
 });
+
+langBarListItems.forEach(item => {
+    item.textContent = item.textContent.substring(0, 2);
+    const form = item.closest('form');
+    const input = form.querySelector('input');
+    if (input.value == item.getAttribute("data-id")) {
+        item.classList.add("selected");
+    }
+
+    item.addEventListener('click', () => {
+        if (!item.classList.contains("selected")) {
+           langBarListItems.forEach(i => {
+                i.classList.remove("selected");
+            })
+            item.classList.add("selected");
+            const selectedLang = item.getAttribute("data-id");
+            input.value = selectedLang;
+            form.submit();
+        }
+    })
+})
+
 
 // Header cart icon dropdown list fuctionality
 cartIcon.addEventListener("click", () => {
