@@ -10,7 +10,7 @@ namespace AppCore.Models.DTOs
 {
     public class CheckoutDTO
     {
-        public User User { get; set; }
-        public Dictionary<Book, int> bookQuantities { get; set; }
+        int bookId { get; set; }
+        int quantity { get; set; }
     }
 }

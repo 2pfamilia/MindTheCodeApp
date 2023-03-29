@@ -25,7 +25,7 @@ namespace AppCore.IRepositories
         Task<List<Book>> GetBooksByTitle(string titleQuery);
 
         //get books which has a title similar to the query
-        Task<List<Book>> GetBooksByPriceRange(int? minPrice, int? maxPrice);
+        Task<List<Book>> GetBooksByPriceRange(int maxPrice);
 
         //get books whose prices are within the price range
         Task<List<BookAuthor>> GetBestSellingAuthors();
@@ -35,6 +35,8 @@ namespace AppCore.IRepositories
         Task<List<BookAuthor>> GetAuthorsByName(string name);
 
         //Get Book Info by Id
-        public Book GetBookInfoById(int id);
+        Task<Book> GetBookInfoById(int id);
+        Task<BookCategory> GetBookCategoryById(int id);
+        Task<BookAuthor> GetAuthorInfoById(int id);
     }
 }

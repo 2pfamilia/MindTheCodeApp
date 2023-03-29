@@ -40,9 +40,9 @@ namespace MindTheCodeApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromBody] CheckoutDTO checkoutDTO)
+        public async Task<IActionResult> CreateOrder([FromBody] List<CheckoutDTO> checkoutDTO)
         {
-            var newOrder = await _orderService.CreateNewOrder(checkoutDTO.User, checkoutDTO.bookQuantities);
+           // var newOrder = await _orderService.CreateNewOrder(checkoutDTO.User, checkoutDTO.bookQuantities);
             return RedirectToAction("Index", "Home");
         }
     }

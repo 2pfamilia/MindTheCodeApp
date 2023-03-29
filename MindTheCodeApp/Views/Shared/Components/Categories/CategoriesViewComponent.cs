@@ -1,5 +1,7 @@
 ﻿using AppCore.IRepositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
+
 
 namespace MindTheCodeApp.Views.Shared.Components.Categories;
 
@@ -16,4 +18,7 @@ public class CategoriesViewComponent : ViewComponent
     {
         return View(await _bookRepository.GetAllCategories());
     }
+
 }
+
+    
