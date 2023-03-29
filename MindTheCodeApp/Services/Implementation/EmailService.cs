@@ -22,8 +22,8 @@ namespace MindTheCodeApp.Services.Implementation
                 var toEmail = new EmailAddress(orderEmailDTO.CustomerEmail);
                 var fromEmail = new EmailAddress("mindthecodeteam3@gmail.com");
                 var emailSubject = "Order Confirmation";
-                var txtBody = ($"Thank you for your order {0},{1}. The total cost is {2} and will be shipped at {3} street.", orderEmailDTO.FirstName, orderEmailDTO.LastName, orderEmailDTO.TotalCost, orderEmailDTO.StreetAddress);
-                var htmlBody = ($"Thank you for your order {0},{1}. The total cost is {2} and will be shipped at {3} street.", orderEmailDTO.FirstName, orderEmailDTO.LastName, orderEmailDTO.TotalCost, orderEmailDTO.StreetAddress);
+                var txtBody = "Thank you for your order " + orderEmailDTO.FirstName + " " + orderEmailDTO.LastName + " " + ". The total cost is " + orderEmailDTO.TotalCost + " " + "and will be shipped at " + orderEmailDTO.StreetAddress + " " + "street.";
+                var htmlBody = "Thank you for your order " + orderEmailDTO.FirstName + " " + orderEmailDTO.LastName + " " + ". The total cost is " + orderEmailDTO.TotalCost + " " + "and will be shipped at " + orderEmailDTO.StreetAddress + " " + "street.";
                 await SendAPIEmail(toEmail, fromEmail, emailSubject, txtBody.ToString(), htmlBody.ToString());
                 return true;
             }

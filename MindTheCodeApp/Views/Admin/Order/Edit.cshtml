@@ -1,67 +1,57 @@
 ﻿@model MindTheCodeApp.ViewModels.OrderVMs.EditOrderVM
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Order";
 }
 
-<h1>Edit</h1>
+@Html.Partial("PartialViews/_AdminMenuPartial");
 
-<h4>Order</h4>
-<hr/>
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="admin-page-content">
+    <h1 class="page-title">Edit Order</h1>
+    <form class="admin-page-form" asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="admin-page-form-error-msg"></div>
             <input type="hidden" asp-for="EditOrderId"/>
-            <div class="form-group form-check">
+        <div class="admin-page-form-group-select">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Fulfilled"/> @Html.DisplayNameFor(model => model.Fulfilled)
+                     @Html.DisplayNameFor(model => model.Fulfilled)
                 </label>
+            <input class="form-check-input" asp-for="Fulfilled" />
             </div>
-            <br/>
-            <div class="form-group form-check">
+        <div class="admin-page-form-group-select">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Active"/> @Html.DisplayNameFor(model => model.Active)
+                     @Html.DisplayNameFor(model => model.Active)
                 </label>
-            </div>
-            <br/>
-            <div class="form-group form-check">
+                <input class="form-check-input" asp-for="Active" />
+         </div>
+            
+        <div class="admin-page-form-group-select">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Canceled"/> @Html.DisplayNameFor(model => model.Canceled)
+                @Html.DisplayNameFor(model => model.Canceled)
                 </label>
+                <input class="form-check-input" asp-for="Canceled"/>
             </div>
-            <br/>
-            <div class="form-group">
+        <div class="admin-page-form-group">
                 <label asp-for="Cost" class="control-label"></label>
                 <input asp-for="Cost" class="form-control"/>
-                <span asp-validation-for="Cost" class="text-danger"></span>
+                <span asp-validation-for="Cost" class="admin-page-form-error-msg"></span>
             </div>
-            <br/>
-            <div class="form-group">
+        <div class="admin-page-form-group">
                 <label asp-for="OrderCreated" class="control-label"></label>
                 <input asp-for="OrderCreated" class="form-control"/>
-                <span asp-validation-for="OrderCreated" class="text-danger"></span>
+                <span asp-validation-for="OrderCreated" class="admin-page-form-error-msg"></span>
             </div>
-            <br/>
-            <div class="form-group">
+        <div class="admin-page-form-group">
                 <label asp-for="UserId" class="control-label">Category</label>
                 <select asp-for="UserId" class="form-control" asp-items="ViewBag.Users" value="ViewBag.Value"></select>
             </div>
-            <br/>
-            <div class="form-group">
+
+        <div class="admin-page-form-group">
                 <label asp-for="AddressInformationId" class="control-label">Address</label>
                 <select asp-for="AddressInformationId" class="form-control" asp-items="ViewBag.Addresses" value="ViewBag.Value"></select>
             </div>
-            <br/>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary"/>
-            </div>
+        <button type="submit" class="btn">SAVE</button>
         </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+        <a class="admin-page-back-link link-btn-revert" asp-action="Index">BACK TO LIST</a>
 </div>
 
 @section Scripts {
