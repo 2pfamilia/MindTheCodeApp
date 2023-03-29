@@ -573,7 +573,6 @@ shopFiltersBtn && shopFiltersBtn.addEventListener("click", (e) => {
                 filters[type].push(input.name)
             }
         });
-        console.log(filters);
     });
 
     // Price slider
@@ -587,8 +586,22 @@ shopFiltersBtn && shopFiltersBtn.addEventListener("click", (e) => {
 
     if (filters.price != 0 || filters.category.length != 0 || filters.author.length != 0) {
 
-        const filtersForm = shopFiltersBtn.closest("form");
+        //const filtersForm = shopFiltersBtn.closest("form");
         //filtersForm.submit();
+        //Add the endpoint of shop page e.g xhr.open("POST", "/shop/filters");
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/");
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                console.log(xhr.status);
+                console.log(xhr.responseText);
+            }
+        };
+
+        console.log(filters);
+        xhr.send(JSON.stringify(filters));
 
     }
 
