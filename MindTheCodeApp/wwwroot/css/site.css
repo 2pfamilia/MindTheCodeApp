@@ -104,7 +104,7 @@
 
     .language-bar ul {
         display: flex;
-        gap: 2.4rem;
+        gap: 1.2rem;
         list-style-type: none;
     }
 
@@ -130,7 +130,7 @@
             }
 
             .language-bar ul li:not(:last-child) {
-                padding-right: 2.4rem;
+                padding-right: 1.2rem;
                 border-right: 0.1rem solid;
             }
 
