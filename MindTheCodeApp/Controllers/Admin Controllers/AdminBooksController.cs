@@ -10,9 +10,12 @@ using Infrastructure.Data;
 using MindTheCodeApp.ViewModels.BookVMs;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Serilog;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace MindTheCodeApp.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class AdminBooksController : Controller
     {
         Serilog.ILogger myLog = Log.ForContext<AdminBooksController>();

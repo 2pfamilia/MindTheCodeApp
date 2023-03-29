@@ -1,13 +1,16 @@
 ﻿using AppCore.Models.BookModels;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MindTheCodeApp.ViewModels.OrderVMs;
 using Serilog;
+using System.Data;
 
 namespace MindTheCodeApp.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class AdminOrderDetailsController : Controller
     {
         Serilog.ILogger myLog = Log.ForContext<AdminOrderDetailsController>();
