@@ -12,9 +12,12 @@ using Serilog;
 using System.Net;
 using AppCore.Models.DTOs;
 using MindTheCodeApp.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace MindTheCodeApp.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class AdminOrderController : Controller
     {
         Serilog.ILogger myLog = Log.ForContext<AdminOrderController>();
