@@ -33,8 +33,10 @@ namespace MindTheCodeApp.Controllers
             return View("/Views/Shop/Shop.cshtml", books);
         }
 
+       
+
         [HttpPost("")]
-        public async Task<IActionResult> Search([FromBody] SearchPostDTO? searchPostDTO)
+        public async Task<IActionResult> Search([FromBody] SearchDTO? searchDTO)
         {
             //  Return a list of books for the view to display
             /*
@@ -45,7 +47,9 @@ namespace MindTheCodeApp.Controllers
                 The business logic will need to be in a service.
              */
             //var books = new List<Book>();
-           
+            SearchPostDTO searchPostDTO = null;
+            if(searchDTO!=null) searchPostDTO = _bookService.GetSearchPostDTO(searchDTO.SearchTerm, searchDTO.CategoryIDs, searchDTO.AuthorIDs, searchDTO.maxPrice);
+            
 
             if (searchPostDTO == null)
             {
