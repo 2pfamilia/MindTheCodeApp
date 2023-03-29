@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using static System.Reflection.Metadata.BlobBuilder;
 using Microsoft.Win32;
 using AppCore.Models.BookModels;
+using MindTheCodeApp.ViewModels.BookVMs;
 
 namespace MindTheCodeApp.Controllers
 {
@@ -35,6 +36,12 @@ namespace MindTheCodeApp.Controllers
             return View("/Views/Shop/Shop.cshtml", books);
         }
 
+        public async Task<IActionResult> SearchByCategory(string category)
+        { 
+            //return View("/Views/Shop/Shop.cshtml");
+            SearchDTO searchDTO = new SearchDTO { SearchTerm = category};
+            return RedirectToAction("Search", searchDTO);
+        }
        
 
         [HttpPost("")]

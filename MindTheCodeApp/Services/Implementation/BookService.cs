@@ -94,7 +94,7 @@ namespace AppCore.Services.Implementation
             return dto;
         }
 
-        public SearchPostDTO GetSearchPostDTO(string? searchTerm, int[]? categoryIDs, int[]? authorIDs, int? maxPrice)
+        public SearchPostDTO GetSearchPostDTO(string? searchTerm, List<int>? categoryIDs, List<int>? authorIDs, int? maxPrice)
         {
             //filters applied by order:
             //-matching title

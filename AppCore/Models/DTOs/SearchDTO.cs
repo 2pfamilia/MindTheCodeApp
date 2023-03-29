@@ -11,8 +11,8 @@ namespace AppCore.Models.DTOs
     public class SearchDTO
     {
         public string? SearchTerm { get; set; }
-        public int[]? CategoryIDs { get; set; }
-        public int[]? AuthorIDs { get; set; }
+        public List<int>? CategoryIDs { get; set; }
+        public List<int>? AuthorIDs { get; set; }
         public int? maxPrice;
     
     }

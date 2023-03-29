@@ -13,7 +13,7 @@ namespace MindTheCodeApp.Services.IServices
         Task<List<Book>> GetBestSellers();
         Task<List<BookAuthor>> GetAllAuthors();
         HomeDTO GetHomeDTO();
-        SearchPostDTO GetSearchPostDTO(string? searchTerm, int[]? categoryIDs, int[]? authorIDs, int? maxPrice);
+        SearchPostDTO GetSearchPostDTO(string? searchTerm, List<int>? categoryIDs, List<int>? authorIDs, int? maxPrice);
         Task<List<Book>> GetNewArrivals();
         Task<List<Book>> GetBooksByCategory(BookCategory category);
         Task<List<Book>> GetBooksByAuthor(BookAuthor author);
