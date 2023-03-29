@@ -130,23 +130,33 @@ namespace MindTheCodeApp.Utils
             var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "authors");
             var jpgFiles = Directory.GetFiles(imagePath, "*.jpg");
 
-            var authorImages = jpgFiles.Select(imagePath => new Photo
+            var increment = 0;
+
+            var authorImages = jpgFiles.Select(imagePath =>
             {
-                Title = Path.GetFileName(imagePath),
-                Description = Path.GetFileName(imagePath),
-                IsAuthor = true,
-                FilePath = $"/authors/{Path.GetFileName(imagePath)}"
+                increment++;
+                return new Photo
+                {
+                    Title = $"AutoGen - Author Title - {increment}",
+                    Description = $"AutoGen - Author Description - {increment}",
+                    IsAuthor = true,
+                    FilePath = $"/authors/{Path.GetFileName(imagePath)}"
+                };
             }).ToList();
 
             imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "products");
             jpgFiles = Directory.GetFiles(imagePath, "*.jpg");
 
-            var bookImages = jpgFiles.Select(imagePath => new Photo
+            var bookImages = jpgFiles.Select(imagePath =>
             {
-                Title = Path.GetFileName(imagePath),
-                Description = Path.GetFileName(imagePath),
-                IsBook = true,
-                FilePath = $"/products/{Path.GetFileName(imagePath)}"
+                increment++;
+                return new Photo
+                {
+                    Title = $"AutoGen - Book Title - {increment}",
+                    Description = $"AutoGen - Book Description - {increment}",
+                    IsBook = true,
+                    FilePath = $"/products/{Path.GetFileName(imagePath)}"
+                };
             }).ToList();
 
             var data = authorImages.Concat(bookImages).ToList();
