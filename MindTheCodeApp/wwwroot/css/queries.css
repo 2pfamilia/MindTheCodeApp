@@ -10,9 +10,7 @@
     .home-section-books-container {
         flex-wrap: wrap;
         justify-content: space-evenly
-    }
-
-  
+    } 
 }
 
 @media (max-width: 46em) {
@@ -61,9 +59,10 @@
     .carousel-book-img {
         max-height: 20rem
     }
+
 }
 
-@media (max-width: 46em) {
+@media (max-width: 28em) {
     .search-bar input{
         width: 24rem;
     }
@@ -75,5 +74,8 @@
 
     .carousel-book-img {
         max-height: 18rem
+    }
+    .footer-inner-container {
+        padding: 2.4rem;
     }
 }
