@@ -1,9 +1,12 @@
-﻿@model AppCore.Models.AuthModels.User
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model AppCore.Models.AuthModels.User
 
 <form asp-controller="User" asp-action="Login" class="signin-form">
     <div class="signin-form-header">
-        <h2>Already have an account?</h2>
-        <span>Sign in with your email and password</span>
+        <h2>@Localizer["haveAccount"]</h2>
+        <span>@Localizer["signInMsg"]</span>
     </div>
     <span style="max-width: 22rem;" class="form-main-error-msg"></span>
     <div class="form-input">
@@ -12,9 +15,9 @@
         <span class="form-error-msg"></span>
     </div>
     <div class="form-input">
-        <label class="form-input-label" asp-for="Password">Password</label>
+        <label class="form-input-label" asp-for="Password">@Localizer["password"]</label>
         <input type="password" asp-for="Password" class="singin" required autocomplete="of"/>
         <span class="form-error-msg"></span>
     </div>    
-    <button type="submit" class="btn form-btn">SIGN IN</button>
+    <button type="submit" class="btn form-btn">@Localizer["signIn"]</button>
 </form>

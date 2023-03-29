@@ -453,8 +453,14 @@ customSelects && customSelects.forEach((select) => {
       label.classList.contains("form-input-label")
     ) {
       label.classList.add("form-input-label-up");
-      label.classList.remove("form-input-label");
-      inputTxt.textContent = input.value;
+        label.classList.remove("form-input-label");
+
+        const listItem = document.querySelectorAll(".custom-select-container-dropdown-list li");
+        listItem.forEach(li => {
+            if (li.getAttribute("data-id") == input.value) {
+                inputTxt.textContent = input.value;
+            }
+        })
     }
 
     select.addEventListener("click", (e) => {
@@ -464,8 +470,8 @@ customSelects && customSelects.forEach((select) => {
         btn.style.setProperty("transform", "rotate(90deg)");
       } else {
         if (e.target.tagName == "LI") {
-          input.value = e.target.textContent.replace(/\s+/g, " ").trim();
-          inputTxt.textContent = input.value;
+            input.value = e.target.getAttribute("data-id").replace(/\s+/g, " ").trim();
+            inputTxt.textContent = e.target.textContent.replace(/\s+/g, " ").trim();
         }
         list.style.setProperty("display", "none");
         btn.style.setProperty("transform", "rotate(0)");
