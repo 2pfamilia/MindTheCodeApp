@@ -14,12 +14,14 @@ namespace MindTheCodeApp.Controllers
     {
         private readonly ILogger<ShopController> _logger;
         private readonly IBookService _bookService;
+      
 
         public ShopController(ILogger<ShopController> logger, IBookService bookService)
         {
             _logger = logger;
             _bookService = bookService;
         }
+
 
         [HttpGet("")]
         public async Task<IActionResult> Index()
@@ -50,7 +52,6 @@ namespace MindTheCodeApp.Controllers
             SearchPostDTO searchPostDTO = null;
             if(searchDTO!=null) searchPostDTO = _bookService.GetSearchPostDTO(searchDTO.SearchTerm, searchDTO.CategoryIDs, searchDTO.AuthorIDs, searchDTO.maxPrice);
             
-
             if (searchPostDTO == null)
             {
                 var books = await _bookService.GetAllBooks();
@@ -74,8 +75,6 @@ namespace MindTheCodeApp.Controllers
             ViewData["Book"] = book;
 
             return View("/Views/Shop/Product.cshtml");
-            //return View("/Views/Auth/Register.cshtml");
-
         }
     }
 }

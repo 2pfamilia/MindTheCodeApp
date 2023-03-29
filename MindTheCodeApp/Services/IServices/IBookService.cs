@@ -24,7 +24,5 @@ namespace MindTheCodeApp.Services.IServices
         Task<List<Book>> GetBooksByPriceRange(int maxRange);
         Task<List<BookAuthor>> GetBestSellingAuthors();
         Task<Book> GetBookById(int bookId);
-
-
     }
 }

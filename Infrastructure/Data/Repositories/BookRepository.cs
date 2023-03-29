@@ -106,8 +106,6 @@ namespace Infrastructure.Data.Repositories
             return categories;
         }
 
-
-
         public async Task<Book> GetBookInfoById(int id)
         {
             var book = await _context.BookEntity.Include(x => x.Author).Include(x => x.Category)
@@ -124,7 +122,7 @@ namespace Infrastructure.Data.Repositories
 
         public async Task<BookAuthor> GetAuthorInfoById(int id)
         {
-            var author = await _context.BookAuthorEntity.SingleOrDefaultAsync(x=>x.AuthorId== id);
+            var author = await _context.BookAuthorEntity.SingleOrDefaultAsync(x => x.AuthorId == id);
             return author;
         }
     }

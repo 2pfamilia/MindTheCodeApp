@@ -9,11 +9,14 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
+using Serilog;
+
 namespace MindTheCodeApp.Controllers;
 
 [Route("/my-account/")]
 public class UserController : Controller
 {
+    Serilog.ILogger myLog = Log.ForContext<AdminBookAuthorController>();
     private readonly ApplicationDbContext _context;
     private readonly IUserService _userService;
 
@@ -127,32 +130,44 @@ public class UserController : Controller
         if (User.Identity!.IsAuthenticated)
             return RedirectToAction("Index", "Home");
 
-        User user = new User();
-
-        //user.Email = registerDTO.Email;
-
-        if (registerDTO.Email is null || registerDTO.FirstName is null || registerDTO.LastName is null
-            || registerDTO.City is null || registerDTO.StreetAddress is null || registerDTO.Country is null
-            || registerDTO.PostalCode is null || registerDTO.Phone is null || registerDTO.Password is null)
-        {
-            TempData["msg"] = "<script>alert('All Fields are Obligatory');</script>";
-
-            return View();
-        }
-
-        var userCreated = await _userService.CreateUser(registerDTO);
+        
+        bool userCreated = await _userService.CreateUser(registerDTO);
 
         if (userCreated)
         {
-            TempData["msg"] = "<script>alert('User Created');</script>";
-            return RedirectToAction("Index", "Home");
+            try
+            {
+                User user = new User();
+                user = _context.UserEntity
+                    .Include(u => u.Role)
+                    .Single(u =>
+                        u.Email.Equals(registerDTO.Email)
+                    );
+
+                // Create claims for the user
+                var claims = new List<Claim> {
+                    new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role.Code),
+                    new Claim(ClaimTypes.Email, user.Email),
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(claimsIdentity);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+           
         }
         else
         {
             TempData["registerErrorMsg"] = $"<script defer src=\"/js/register-error-msg.js\"></script>";
             return View();
-        }
-        
+        }        
     }
 
     [HttpGet("cart")]

@@ -1,14 +1,17 @@
-﻿@{
-    ViewData["Title"] = "Register";
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["pageTitle"];
 }
 
 
 <div class="signup-page-container">
-    <h1 class="page-title">Create Account</h1>
+    <h1 class="page-title">@Localizer["title"]</h1>
     <form class="signup-page-form" asp-controller="User" asp-action="Register" method="post">
         <span style="max-width: 30rem;" class="form-main-error-msg"> Email Address is Already Registered</span>
         <div class="signup-page-form-section-header">
-            <h3>Login Info</h3>
+            <h3>@Localizer["loginInfo"]</h3>
             <div class="hr-divider-100"></div>
         </div>
         <div class="form-input">
@@ -18,72 +21,72 @@
         </div>
         <div class="form-row-inputs password-confirmation">
             <div class="form-input">
-                <label class="form-input-label" for="new-password">Password *</label>
+                <label class="form-input-label" for="new-password">@Localizer["password"] *</label>
                 <input type="password" name="Password" autocomplete="of" />
                 <span class="form-error-msg"></span>
             </div>
             <div class="form-input">
                 <label class="form-input-label" for="password-confirmation">
-                    Confirm password *
+                    @Localizer["confirmPassword"] *
                 </label>
                 <input type="password" name="password-confirmation" autocomplete="of" />
                 <span class="form-error-msg"></span>
             </div>
         </div>
         <div class="signup-page-form-section-header">
-            <h3>Personal Info</h3>
+            <h3>@Localizer["personalInfo"]</h3>
             <div class="hr-divider-100"></div>
         </div>
         <div class="form-row-inputs">
             <div class="form-input">
-                <label class="form-input-label" for="FirstName">First name *</label>
+                <label class="form-input-label" for="FirstName">@Localizer["firstName"] *</label>
                 <input type="text" name="FirstName"/>
                 <span class="form-error-msg"></span>
             </div>
             <div class="form-input">
-                <label class="form-input-label" for="LastName">Last name *</label>
+                <label class="form-input-label" for="LastName">@Localizer["lastName"] *</label>
                 <input type="text" name="LastName"/>
                 <span class="form-error-msg"></span>
             </div>
         </div>
         <div class="custom-select">
             <div class="custom-select-container form-select required">
-                <label class="form-input-label" for="Country">Country *</label>
+                <label class="form-input-label" for="Country">@Localizer["country"] *</label>
                 <input type="text" name="Country" placeholder="Country"/>
                 <span class="custom-select-text"></span>
                 <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
                     <path d="M9.4 18 8 16.6l4.6-4.6L8 7.4 9.4 6l6 6Z"/>
                 </svg>
                 <ul class="custom-select-container-dropdown-list">
-                    <li>Greece</li>
-                    <li>Cyprus</li>
+                    <li data-id="Greece">@Localizer["greece"]</li>
+                    <li data-id="Cyprus">@Localizer["cyprus"]</li>
                 </ul>
             </div>
             <span class="form-error-msg"></span>
         </div>
         <div class="form-row-inputs">
             <div class="form-input">
-                <label class="form-input-label" for="City">Town / City *</label>
+                <label class="form-input-label" for="City">@Localizer["town"] *</label>
                 <input type="text" name="City"/>
                 <span class="form-error-msg"></span>
             </div>
             <div class="form-input">
-                <label class="form-input-label" for="PostalCode">Zip code *</label>
+                <label class="form-input-label" for="PostalCode">@Localizer["zipCode"] *</label>
                 <input type="text" name="PostalCode"/>
                 <span class="form-error-msg"></span>
             </div>
         </div>
         <div class="form-input">
-            <label class="form-input-label" for="StreetAddress">Street address *</label>
+            <label class="form-input-label" for="StreetAddress">@Localizer["streetAddress"] *</label>
             <input type="text" name="StreetAddress"/>
             <span class="form-error-msg"></span>
         </div>
         <div class="form-input">
-            <label class="form-input-label" for="phone">Phone *</label>
+            <label class="form-input-label" for="phone">@Localizer["phone"] *</label>
             <input type="text" name="Phone" />
             <span class="form-error-msg"></span>
         </div>        
-        <button type="submit" class="btn-revert form-btn">SIGN UP</button>
+        <button type="submit" class="btn-revert form-btn">@Localizer["signUp"]</button>
     </form>
 </div>
 

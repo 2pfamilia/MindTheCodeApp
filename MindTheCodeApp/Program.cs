@@ -8,6 +8,9 @@ using MindTheCodeApp.Services.IServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using MindTheCodeApp.Utils;
 using MindTheCodeApp.Services.Implementation;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +52,25 @@ builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 
+//Add Localization
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+var supportedCultures = new[]
+{
+    new CultureInfo("en-GB"),
+    new CultureInfo("el")
+};
+
+builder.Services.Configure<RequestLocalizationOptions>(options => {
+    options.DefaultRequestCulture = new RequestCulture("en-GB");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
+
+builder.Services
+    .AddControllersWithViews()
+    .AddViewLocalization();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -63,6 +85,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
 
 app.UseAuthentication();
 app.UseAuthorization();

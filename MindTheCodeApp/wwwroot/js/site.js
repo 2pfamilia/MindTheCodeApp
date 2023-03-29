@@ -4,6 +4,9 @@
 // Overlay effect div
 const overlayEffect = document.querySelector(".overlay");
 
+// Language bar on header
+const langBarListItems = document.querySelectorAll(".language-bar-list-item");
+
 // Sign in form
 const signinForm = document.querySelector(".signin-form");
 
@@ -164,6 +167,28 @@ window.addEventListener("click", function (e) {
     }
   });
 });
+
+langBarListItems.forEach(item => {
+    item.textContent = item.textContent.substring(0, 2);
+    const form = item.closest('form');
+    const input = form.querySelector('input');
+    if (input.value == item.getAttribute("data-id")) {
+        item.classList.add("selected");
+    }
+
+    item.addEventListener('click', () => {
+        if (!item.classList.contains("selected")) {
+           langBarListItems.forEach(i => {
+                i.classList.remove("selected");
+            })
+            item.classList.add("selected");
+            const selectedLang = item.getAttribute("data-id");
+            input.value = selectedLang;
+            form.submit();
+        }
+    })
+})
+
 
 // Header cart icon dropdown list fuctionality
 cartIcon.addEventListener("click", () => {
@@ -428,8 +453,14 @@ customSelects && customSelects.forEach((select) => {
       label.classList.contains("form-input-label")
     ) {
       label.classList.add("form-input-label-up");
-      label.classList.remove("form-input-label");
-      inputTxt.textContent = input.value;
+        label.classList.remove("form-input-label");
+
+        const listItem = document.querySelectorAll(".custom-select-container-dropdown-list li");
+        listItem.forEach(li => {
+            if (li.getAttribute("data-id") == input.value) {
+                inputTxt.textContent = input.value;
+            }
+        })
     }
 
     select.addEventListener("click", (e) => {
@@ -439,8 +470,8 @@ customSelects && customSelects.forEach((select) => {
         btn.style.setProperty("transform", "rotate(90deg)");
       } else {
         if (e.target.tagName == "LI") {
-          input.value = e.target.textContent.replace(/\s+/g, " ").trim();
-          inputTxt.textContent = input.value;
+            input.value = e.target.getAttribute("data-id").replace(/\s+/g, " ").trim();
+            inputTxt.textContent = e.target.textContent.replace(/\s+/g, " ").trim();
         }
         list.style.setProperty("display", "none");
         btn.style.setProperty("transform", "rotate(0)");
@@ -542,7 +573,6 @@ shopFiltersBtn && shopFiltersBtn.addEventListener("click", (e) => {
                 filters[type].push(input.name)
             }
         });
-        console.log(filters);
     });
 
     // Price slider
@@ -556,8 +586,22 @@ shopFiltersBtn && shopFiltersBtn.addEventListener("click", (e) => {
 
     if (filters.price != 0 || filters.category.length != 0 || filters.author.length != 0) {
 
-        const filtersForm = shopFiltersBtn.closest("form");
+        //const filtersForm = shopFiltersBtn.closest("form");
         //filtersForm.submit();
+        //Add the endpoint of shop page e.g xhr.open("POST", "/shop/filters");
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/");
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                console.log(xhr.status);
+                console.log(xhr.responseText);
+            }
+        };
+
+        console.log(filters);
+        xhr.send(JSON.stringify(filters));
 
     }
 

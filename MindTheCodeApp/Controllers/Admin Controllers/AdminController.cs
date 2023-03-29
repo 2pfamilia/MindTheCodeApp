@@ -1,8 +1,11 @@
 ﻿using AppCore.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace MindTheCodeApp.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         private readonly ILogger<AdminController> _logger;

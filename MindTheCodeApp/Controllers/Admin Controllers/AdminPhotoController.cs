@@ -1,12 +1,15 @@
 ﻿using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MindTheCodeApp.ViewModels.BookVMs;
 using Serilog;
+using System.Data;
 
 namespace MindTheCodeApp.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class AdminPhotoController : Controller
     {
         Serilog.ILogger myLog = Log.ForContext<AdminPhotoController>();
