@@ -149,7 +149,6 @@ namespace MindTheCodeApp.Controllers
                 myLog.Error(ex, "Exception on Create");
                 throw;
             }
-            
         }
 
         // GET: Order/Edit/5
