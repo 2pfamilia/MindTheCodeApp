@@ -93,7 +93,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     /* Only works if there is nothing absolutely positioned in relation to body */
-    /* overflow-x: hidden; */
+    overflow-y: hidden; 
 }
 
 main {

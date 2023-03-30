@@ -1,4 +1,5 @@
 ﻿@using AppCore.Models.BookModels
+@using AppCore.Models.PhotoModels;
 
 @{
     ViewData["Title"] = "Product Page";
@@ -7,7 +8,11 @@
 
 <div class="product-page-content">
     <section class="product-page-product">
-        <img src="/img/books/never-never.jpg" alt=""/>
+        @{
+            var photo = ViewData["Photo"] as Photo;
+        }
+        <!-- <img src="/img/books/never-never.jpg" alt=""/>-->
+        <img src=@photo.FilePath alt="" />
         <div class="product-page-product-info">
             <h2 class="product-page-product-title">
                 @{
@@ -64,7 +69,10 @@
     <div class="hr-divider-100"></div>
     <section class="product-page-author">
         <div class="product-page-author-img-container">
-            <img src="/img/authors/colleen-hoover-3.jpeg" alt=""/>
+            @{
+                var authorPhoto = ViewData["AuthorPhoto"] as Photo;
+            }
+            <img src=@authorPhoto.FilePath alt="" />
         </div>
         <div class="product-page-author-info">
             <h4>About the Author</h4>

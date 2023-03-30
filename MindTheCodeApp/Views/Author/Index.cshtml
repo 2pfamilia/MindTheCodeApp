@@ -11,7 +11,7 @@
     {
         <div class="authors-page-item">
             <div>
-                <img src="/img/books/placeholder.png" alt="@author.Name photo" />
+                <img src="@Url.Content((@author.Photo?.FilePath ?? "img/books/placeholder.png"))" alt="@author.Name photo" />
             </div>
             <a asp-controller="Author" asp-action="Details" asp-route-id="@author.AuthorId">
                 <span>@author.Name</span>

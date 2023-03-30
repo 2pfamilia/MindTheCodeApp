@@ -1,4 +1,5 @@
 ﻿using AppCore.Models.BookModels;
+using AppCore.Models.PhotoModels;
 
 namespace AppCore.IRepositories
 {
@@ -38,5 +39,7 @@ namespace AppCore.IRepositories
         Task<Book> GetBookInfoById(int id);
         Task<BookCategory> GetBookCategoryById(int id);
         Task<BookAuthor> GetAuthorInfoById(int id);
+        Task<Photo> GetPhotoById(int photoId);
+
     }
 }

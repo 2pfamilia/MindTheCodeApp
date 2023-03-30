@@ -101,6 +101,32 @@
                 <a href="#" class="navlink">@Localizer["ContactUsC"]</a>
         </div>
     </nav>
+    <nav class="mobile-navbar-container">            
+            <div class="mobile-navbar">
+                <svg class="mobile-navbar-icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48">
+                    <path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z" />
+                </svg>
+                <div class="mobile-navbar-menu">
+
+                    <svg class="mobile-navbar-close-icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z" /></svg>
+                <ul class="mobile-navbar-menu-list">
+
+                    <li>
+                            <span class="mobile-navbar-shop-btn">@Localizer["ShopC"]</span>
+                            <div class="mobile-navbar-menu-subcategory-container">
+                                @await Component.InvokeAsync("Categories")
+                            </div>
+                    </li>
+                    <li>
+                        <a href="#" class="mobile-navlink">@Localizer["AboutUsC"]</a>
+                    </li>
+                    <li>
+                        <a href="#" class="mobile-navlink">@Localizer["ContactUsC"]</a>
+                    </li>
+                </ul>
+                </div>
+            </div>
+    </nav>
 </header>
 <main role="main">
     @RenderBody()

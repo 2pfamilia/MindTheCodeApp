@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using AppCore.IRepositories;
 using AppCore.Models.BookModels;
 using System.Net;
+using AppCore.Models.PhotoModels;
 
 namespace Infrastructure.Data.Repositories
 {
@@ -29,7 +30,7 @@ namespace Infrastructure.Data.Repositories
         public async Task<List<BookAuthor>> GetAllAuthors()
         {
             //george
-            var allAuthors = await _context.BookAuthorEntity.Include(ba => ba.Photo).Take(5).ToListAsync();
+            var allAuthors = await _context.BookAuthorEntity.Include(ba => ba.Photo).ToListAsync();
             return allAuthors;
         }
 
@@ -73,7 +74,7 @@ namespace Infrastructure.Data.Repositories
 
         public async Task<List<Book>> GetNewArrivals()
         {
-            //get the first 5 books that are newer in the library
+            //get the first 4 books that are newer in the library
             var newArrivals = await _context.BookEntity.Include(b => b.Photo)
                 .OrderByDescending(mybook => mybook.DateCreated).Take(4)
                 .ToListAsync();
@@ -108,10 +109,16 @@ namespace Infrastructure.Data.Repositories
 
         public async Task<Book> GetBookInfoById(int id)
         {
-            var book = await _context.BookEntity.Include(x => x.Author).Include(x => x.Category)
+            var book = await _context.BookEntity.Include(x => x.Author).Include(x => x.Category).Include(x => x.Photo)
                 .SingleOrDefaultAsync(bookById => bookById.BookId == id);
 
             return book;
+        }
+
+        public async Task<Photo> GetPhotoById(int photoId)
+        {
+            var photo = await _context.PhotoEntity.SingleOrDefaultAsync(photoById => photoById.PhotoId == photoId);
+            return photo;
         }
 
         public async Task<BookCategory> GetBookCategoryById(int id)

@@ -14,6 +14,14 @@ const signinForm = document.querySelector(".signin-form");
 const singinBtn = document.querySelector(".signin-btn");
 
 // Header icons
+
+// Mobile navbar menu icon
+const mobileNavbarIcon = document.querySelector(".mobile-navbar-icon");
+const mobileMenuContainer = document.querySelector(".mobile-navbar-menu");
+const mobileNavbarCloseIcon = document.querySelector(".mobile-navbar-close-icon");
+const mobileNavbarShopBtn = document.querySelector(".mobile-navbar-shop-btn");
+
+
 // Cart elements
 const cartIcon = document.querySelector(".cart-icon");
 const cartDropdownList = document.querySelector(".cart-dropdown-list");
@@ -156,6 +164,12 @@ window.addEventListener("click", function (e) {
   if (overlayEffect.contains(e.target) && !signinForm.contains(e.target)) {
     overlayEffect.style.setProperty("display", "none");
     signinForm.style.setProperty("display", "none");
+    }
+
+
+    if (!mobileMenuContainer.contains(e.target) && !mobileNavbarIcon.contains(e.target)) {
+        console.log("skata");
+      mobileMenuContainer.style.setProperty("display", "none");
   }
 
   customSelects.forEach((select) => {
@@ -168,8 +182,28 @@ window.addEventListener("click", function (e) {
   });
 });
 
+
+mobileNavbarIcon && mobileNavbarIcon.addEventListener("click", () => {
+    mobileMenuContainer.style.setProperty("display", "flex");
+})
+
+mobileNavbarCloseIcon && mobileNavbarCloseIcon.addEventListener("click", () => {
+    mobileMenuContainer.style.setProperty("display", "none");
+})
+
+mobileNavbarShopBtn && mobileNavbarShopBtn.addEventListener("click", () => {
+    const shopMenuContainer = document.querySelector(".mobile-navbar-menu-subcategory-container");
+    const display = shopMenuContainer.style.getPropertyValue("display");
+    if (display == "none" || display == "") {
+        shopMenuContainer.style.setProperty("display", "flex");
+    } else {
+        shopMenuContainer.style.setProperty("display", "none");
+    }
+})
+
+
+
 langBarListItems.forEach(item => {
-    item.textContent = item.textContent.substring(0, 2);
     const form = item.closest('form');
     const input = form.querySelector('input');
     if (input.value == item.getAttribute("data-id")) {

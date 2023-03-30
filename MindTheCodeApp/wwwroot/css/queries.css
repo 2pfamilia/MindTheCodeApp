@@ -29,16 +29,6 @@
     }
 
 
-        .footer-inner-container a {
-            
-        }
-    .footer-info:nth-child(2) {
-
-    }
-    .footer-info:nth-child(3) {
-    }
-    .footer-info:nth-child(4) {
-    }
 }
 
 
@@ -62,20 +52,69 @@
 
 }
 
-@media (max-width: 28em) {
-    .search-bar input{
-        width: 24rem;
-    }
-
-    .carousel-book-author,
-    .carousel-book-title {
-        font-size: 2rem;
-    }
-
-    .carousel-book-img {
-        max-height: 18rem
-    }
-    .footer-inner-container {
-        padding: 2.4rem;
+@media (min-width: 37em) {
+    .mobile-navbar-container {
+        display: none;
     }
 }
+
+@media (max-width: 37em) {
+    .navbar{
+        display: none;
+    }
+}
+
+
+    @media (max-width: 28em) {
+        .search-bar input {
+            width: 24rem;
+        }
+        .mobile-navbar-menu {
+            min-width: 80vw;
+        }
+            .carousel {
+            padding: 2.4rem
+        }
+
+        .carousel-book-author,
+        .carousel-book-title {
+            font-size: 2rem;
+        }
+
+        .carousel-book-img {
+            max-height: 18rem
+        }
+
+        .footer-inner-container {
+            padding: 2.4rem;
+        }
+    }
+
+    @media (max-width: 24em) {
+        .carousel {
+            padding: 2.4rem
+        }
+
+        .carousel-book-title,
+        .carousel-book-author {
+            font-size: 1.6rem;
+        }
+
+        home-section-books-header-title {
+            max-height: 14rem;
+        }
+
+        .home-section-books-header-title {
+            font-size: 1.6rem;
+        }
+
+        .footer-inner-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-info h3 {
+            text-align: center;
+        }
+    }
