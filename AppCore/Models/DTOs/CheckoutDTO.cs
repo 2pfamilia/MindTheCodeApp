@@ -10,7 +10,7 @@ namespace AppCore.Models.DTOs
 {
     public class CheckoutDTO
     {
-        int bookId { get; set; }
-        int quantity { get; set; }
+        public int bookId { get; set; }
+        public int quantity { get; set; }
     }
 }
