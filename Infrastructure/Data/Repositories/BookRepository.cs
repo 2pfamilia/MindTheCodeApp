@@ -74,7 +74,7 @@ namespace Infrastructure.Data.Repositories
 
         public async Task<List<Book>> GetNewArrivals()
         {
-            //get the first 5 books that are newer in the library
+            //get the first 4 books that are newer in the library
             var newArrivals = await _context.BookEntity.Include(b => b.Photo)
                 .OrderByDescending(mybook => mybook.DateCreated).Take(4)
                 .ToListAsync();

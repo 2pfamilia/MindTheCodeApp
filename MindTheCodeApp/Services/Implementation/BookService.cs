@@ -89,7 +89,7 @@ namespace AppCore.Services.Implementation
             {
                 BestSellers = _bookRepository.GetBestSellers().Result,
                 NewArrivals = _bookRepository.GetNewArrivals().Result,
-                Authors = _bookRepository.GetAllAuthors().Result
+                Authors = _bookRepository.GetBestSellingAuthors().Result
             };
 
             return dto;
