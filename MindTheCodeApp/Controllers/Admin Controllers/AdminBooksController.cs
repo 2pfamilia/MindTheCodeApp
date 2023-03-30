@@ -12,6 +12,10 @@ using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Serilog;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using MindTheCodeApp.Utils;
+using AppCore.Models.DTOs;
+using CsvHelper;
+using System.Globalization;
 
 namespace MindTheCodeApp.Controllers
 {
@@ -23,10 +27,12 @@ namespace MindTheCodeApp.Controllers
         private List<IndexBookVM> IndexBooksVM { get; set; } = new List<IndexBookVM>();
         private EditBookVM EditBookVM { get; set; } = new EditBookVM();
         private IndexBookVM DetailBookVM { get; set; } = new IndexBookVM();
+        private readonly CsvUtils _csvUtils;
 
-        public AdminBooksController(ApplicationDbContext context)
+        public AdminBooksController(ApplicationDbContext context, CsvUtils csvUtils)
         {
-            _context = context;
+             _csvUtils = csvUtils;
+             _context = context;
         }
 
         // GET: Books
@@ -261,6 +267,43 @@ namespace MindTheCodeApp.Controllers
                 throw;
             }
             
+        }
+
+        [HttpGet]
+        public IActionResult UploadCsv()
+        {
+            return View("/Views/Admin/Books/CSVTest.cshtml");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadCsv(IFormFile file)
+        {
+            if (file is null)
+                return BadRequest();
+
+            using (var reader = new StreamReader(file.OpenReadStream()))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                csv.Context.RegisterClassMap<BookCsvDTOMap>();
+                csv.Context.RegisterClassMap<AuthorCsvDTOMap>();
+                csv.Context.RegisterClassMap<CategoryCsvDTOMap>();
+
+                var records = csv.GetRecords<BookCsvDTO>().ToList();
+
+                _csvUtils.ProcessCsv(
+                    records,
+                    out List<Book> books,
+                    out List<BookAuthor> bookAuthors,
+                    out List<BookCategory> bookCategories);
+
+                _context.AddRange(bookAuthors);
+                _context.AddRange(bookCategories);
+                _context.AddRange(books);
+
+                _context.SaveChanges();
+
+                return RedirectToPage("/Views/Admin/Books/Index.cshtml");
+            }
         }
 
         private bool BookExists(int id)
