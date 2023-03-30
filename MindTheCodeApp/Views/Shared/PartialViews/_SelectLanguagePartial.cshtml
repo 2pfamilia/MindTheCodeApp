@@ -25,7 +25,7 @@
         <ul>
             @foreach (var lang in cultureItems)
             {
-                <li data-id="@lang.Value" class="language-bar-list-item">@lang.Value</li>
+                <li data-id="@lang.Value" class="language-bar-list-item">@lang.Value.Substring(0,2)</li>
             }
         </ul>
     </form>

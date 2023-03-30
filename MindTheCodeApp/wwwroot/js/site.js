@@ -169,7 +169,6 @@ window.addEventListener("click", function (e) {
 });
 
 langBarListItems.forEach(item => {
-    item.textContent = item.textContent.substring(0, 2);
     const form = item.closest('form');
     const input = form.querySelector('input');
     if (input.value == item.getAttribute("data-id")) {
