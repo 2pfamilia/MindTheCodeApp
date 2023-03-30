@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using AppCore.Models.BookModels;
 using MindTheCodeApp.ViewModels.BookVMs;
 using AppCore.Models.PhotoModels;
+using System.Text.Json;
 
 namespace MindTheCodeApp.Controllers
 {
@@ -37,11 +38,13 @@ namespace MindTheCodeApp.Controllers
             return View("/Views/Shop/Shop.cshtml", books);
         }
 
-        public async Task<IActionResult> SearchByFilters(string? name, List<int>? categories, List<int>? authors, int? maxPrice)
+        [HttpPost]
+        [Route("shop/filters")]
+        public async Task<IActionResult> SearchByFilters([FromBody] SearchDTO searchDTO)
         {
             //return View("/Views/Shop/Shop.cshtml");
-            SearchDTO searchDTO = new SearchDTO { SearchTerm = name, CategoryIDs = categories, AuthorIDs = authors, maxPrice = maxPrice };
-            return RedirectToAction("Search", searchDTO);
+            var searchFieldsSereialize = JsonSerializer.Serialize(searchDTO);
+            return Ok(searchFieldsSereialize);
         }
 
 

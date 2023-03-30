@@ -111,7 +111,7 @@ namespace AppCore.Services.Implementation
             List<BookAuthor> allAuthors = _bookRepository.GetAllAuthors().Result;
             foreach (var category in allCategories)
             {
-                categoryFilters.Add(new FilterDTO { Id = category.CategoryId, Name = category.Code });
+                categoryFilters.Add(new FilterDTO { Id = category.CategoryId, Name = category.Title });
             }
             foreach (var author in allAuthors)
             {
