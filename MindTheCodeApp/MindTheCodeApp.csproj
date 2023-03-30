@@ -42,6 +42,7 @@
 
   <ItemGroup>
     <Folder Include="Resources\Views\Shared\Components\Categories\" />
+    <Folder Include="Views\CSVTest\" />
     <Folder Include="Views\Shared\Components" />
     <Folder Include="wwwroot\authors\" />
     <Folder Include="wwwroot\products\" />
