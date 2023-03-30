@@ -7,7 +7,7 @@
 <div class="author-details-page-content">
     <section class="author-details-page-author-section">
         <div class="author-details-page-author-img-container">
-            <img src="/img/books/placeholder.png" alt="@Model.Author?.Name photo" />
+            <img src="@Url.Content((@Model.Author?.Photo.FilePath ?? "/img/books/placeholder.png"))" alt="@Model.Author?.Name photo" />
         </div>
         <div class="author-details-page-author-details">
             <h2>@Model.Author?.Name</h2>
