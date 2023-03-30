@@ -18,7 +18,7 @@ namespace MindTheCodeApp.Controllers
         [Route("/authors")]
         public IActionResult Index()
         {
-            var authors = _context.BookAuthorEntity.ToList();
+            var authors = _context.BookAuthorEntity.Include(a => a.Photo).ToList();
             ViewBag.Authors = authors;
             return View();
         }
@@ -28,17 +28,17 @@ namespace MindTheCodeApp.Controllers
         {
             if (id == null || _context.BookAuthorEntity == null)
             {
-                return NotFound();
+                return RedirectToAction("Index");
             }
 
             var authorDetailsVM = new AuthorDetailsVM();
-            var author = _context.BookAuthorEntity.FirstOrDefault(a => a.AuthorId == id);
+            var author = _context.BookAuthorEntity.Where(a => a.AuthorId == id).Include(a => a.Photo).FirstOrDefault();
 
 
             if (author != null)
             {
                 authorDetailsVM.Author = author;
-                var books =  _context.BookEntity.Where(b => b.Author == author).ToList();
+                var books =  _context.BookEntity.Where(b => b.Author == author).Include(b => b.Photo).ToList();
                 authorDetailsVM.Books = books;
             }
 
