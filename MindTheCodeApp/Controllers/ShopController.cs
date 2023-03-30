@@ -16,7 +16,7 @@ namespace MindTheCodeApp.Controllers
     {
         private readonly ILogger<ShopController> _logger;
         private readonly IBookService _bookService;
-      
+
 
         public ShopController(ILogger<ShopController> logger, IBookService bookService)
         {
@@ -37,13 +37,14 @@ namespace MindTheCodeApp.Controllers
             return View("/Views/Shop/Shop.cshtml", books);
         }
 
-        public async Task<IActionResult> SearchByCategory(string category)
-        { 
+        public async Task<IActionResult> SearchByFilters(string? name, List<int>? categories, List<int>? authors, int? maxPrice)
+        {
             //return View("/Views/Shop/Shop.cshtml");
-            SearchDTO searchDTO = new SearchDTO { SearchTerm = category};
+            SearchDTO searchDTO = new SearchDTO { SearchTerm = name, CategoryIDs = categories, AuthorIDs = authors, maxPrice = maxPrice };
             return RedirectToAction("Search", searchDTO);
         }
-       
+
+
 
         [HttpPost("")]
         public async Task<IActionResult> Search([FromBody] SearchDTO? searchDTO)
@@ -58,8 +59,8 @@ namespace MindTheCodeApp.Controllers
              */
             //var books = new List<Book>();
             SearchPostDTO searchPostDTO = null;
-            if(searchDTO!=null) searchPostDTO = _bookService.GetSearchPostDTO(searchDTO.SearchTerm, searchDTO.CategoryIDs, searchDTO.AuthorIDs, searchDTO.maxPrice);
-            
+            if (searchDTO != null) searchPostDTO = _bookService.GetSearchPostDTO(searchDTO.SearchTerm, searchDTO.CategoryIDs, searchDTO.AuthorIDs, searchDTO.maxPrice);
+
             if (searchPostDTO == null)
             {
                 var books = await _bookService.GetAllBooks();
@@ -72,7 +73,7 @@ namespace MindTheCodeApp.Controllers
         }
 
         [Route("Product/{id}")]
-        public async Task <IActionResult> ProductInfo([FromRoute]int id)
+        public async Task<IActionResult> ProductInfo([FromRoute] int id)
         {
             Book book = _bookService.GetBookById(id).Result;
             

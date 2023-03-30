@@ -1,9 +1,11 @@
 ﻿using AppCore.Models.DTOs;
+using AppCore.Models.BookModels;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Mvc;
 using MindTheCodeApp.Services.IServices;
 using System.Net;
 using System.Net.Cache;
+using System.Security.Claims;
 using System.Web;
 
 namespace MindTheCodeApp.Controllers
@@ -42,7 +44,16 @@ namespace MindTheCodeApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] List<CheckoutDTO> checkoutDTO)
         {
-           // var newOrder = await _orderService.CreateNewOrder(checkoutDTO.User, checkoutDTO.bookQuantities);
+            //create user
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "-1");
+           // var user = await _userService.Get
+            //create the dictionary of ordered books and their quantities
+            Dictionary<Book,int> orderedBooks= new Dictionary<Book, int>();
+            foreach (var book in checkoutDTO) 
+            {
+                orderedBooks.Add(await _bookService.GetBookById(book.bookId), book.quantity);
+            }
+            var newOrder = await _orderService.CreateNewOrder(userId, orderedBooks);
             return RedirectToAction("Index", "Home");
         }
     }
