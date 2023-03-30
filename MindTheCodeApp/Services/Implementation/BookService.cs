@@ -3,6 +3,7 @@ using AppCore.Models.AuthModels;
 using AppCore.Models.BookModels;
 using AppCore.Models.DTOs;
 using AppCore.Models.OrderModels;
+using AppCore.Models.PhotoModels;
 using MindTheCodeApp.Services.IServices;
 
 namespace AppCore.Services.Implementation
@@ -235,10 +236,14 @@ namespace AppCore.Services.Implementation
         }
         public async Task<Book> GetBookById(int bookId)
         {
-            //BookAuthor author = new BookAuthor();
-
             Book book = await _bookRepository.GetBookInfoById(bookId);
             return book;
+        }
+
+        public async Task<Photo> GetPhotoById(int photoId)
+        {
+            Photo photo = await _bookRepository.GetPhotoById(photoId);
+            return photo;
         }
 
         #endregion

@@ -6,6 +6,7 @@ using static System.Reflection.Metadata.BlobBuilder;
 using Microsoft.Win32;
 using AppCore.Models.BookModels;
 using MindTheCodeApp.ViewModels.BookVMs;
+using AppCore.Models.PhotoModels;
 
 namespace MindTheCodeApp.Controllers
 {
@@ -73,13 +74,21 @@ namespace MindTheCodeApp.Controllers
         [Route("Product/{id}")]
         public async Task <IActionResult> ProductInfo([FromRoute]int id)
         {
-            //int x = id;
-
             Book book = _bookService.GetBookById(id).Result;
-            string str = book.Author.Name;
-            string str2 = book.Category.Title;
             
+            //Get Photo of the Book
+            int photoBookId = book.Photo.PhotoId;
+            Photo photoBook = _bookService.GetPhotoById(photoBookId).Result;
+
+            //Get Author's Photo
+            BookAuthor bookAuthor = _bookService.GetAuthorById(book.Author.AuthorId).Result;
+            Photo authorPhoto = bookAuthor.Photo;
+
+            //Send Data to View Page
+            ViewData["AuthorPhoto"] = authorPhoto;
+            ViewData["Photo"] = photoBook;
             ViewData["Book"] = book;
+
 
             return View("/Views/Shop/Product.cshtml");
         }
