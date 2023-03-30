@@ -3,6 +3,7 @@ using AppCore.Models.DTOs;
 using AppCore.Models.OrderModels;
 using AppCore.Models.AuthModels;
 using System.Runtime.CompilerServices;
+using AppCore.Models.PhotoModels;
 
 namespace MindTheCodeApp.Services.IServices
 {
@@ -24,5 +25,8 @@ namespace MindTheCodeApp.Services.IServices
         Task<List<Book>> GetBooksByPriceRange(int maxRange);
         Task<List<BookAuthor>> GetBestSellingAuthors();
         Task<Book> GetBookById(int bookId);
+
+        Task<Photo> GetPhotoById(int photoId);
+        
     }
 }
