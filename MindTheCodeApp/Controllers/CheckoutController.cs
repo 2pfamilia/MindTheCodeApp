@@ -16,14 +16,16 @@ namespace MindTheCodeApp.Controllers
         private readonly IOrderService _orderService;
         private readonly IUserService _userService;
         private readonly IBookService _bookService;
+        private readonly IEmailService _emailService;
 
         public CheckoutController(ILogger<CheckoutController> logger, IOrderService orderService,
-            IUserService userService, IBookService bookService)
+            IUserService userService, IBookService bookService, IEmailService emailService)
         {
             _logger = logger;
             _orderService = orderService;
             _userService = userService;
             _bookService = bookService;
+            _emailService = emailService;
         }
 
         public async Task<IActionResult> Index(string userCart, string userCartTotal)
@@ -44,17 +46,33 @@ namespace MindTheCodeApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] List<CheckoutDTO> checkoutDTO)
         {
-            //create user
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "-1");
-           // var user = await _userService.Get
-            //create the dictionary of ordered books and their quantities
-            Dictionary<Book,int> orderedBooks= new Dictionary<Book, int>();
-            foreach (var book in checkoutDTO) 
+            try
             {
-                orderedBooks.Add(await _bookService.GetBookById(book.bookId), book.quantity);
+                //create user
+                var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "-1");
+                var user = await _userService.GetUserInfo(userId);
+                // var user = await _userService.Get
+                //create the dictionary of ordered books and their quantities
+                Dictionary<Book, int> orderedBooks = new Dictionary<Book, int>();
+                foreach (var book in checkoutDTO)
+                {
+                    orderedBooks.Add(await _bookService.GetBookById(book.bookId), book.quantity);
+                }
+                var newOrder = await _orderService.CreateNewOrder(userId, orderedBooks);
+                var emailDTO = new OrderEmailDTO();
+                emailDTO.FirstName = user.FirstName; 
+                emailDTO.LastName = user.LastName;
+                emailDTO.CustomerEmail = user.Email;
+                emailDTO.TotalCost = newOrder.Cost;
+                emailDTO.StreetAddress = user.StreetAddress;
+                await _emailService.SendOrderConfirmationEmail(emailDTO);
+                return Ok(true);
             }
-            var newOrder = await _orderService.CreateNewOrder(userId, orderedBooks);
-            return RedirectToAction("Index", "Home");
+            catch (Exception ex)
+            {
+                throw;
+            }
+            
         }
     }
 }
