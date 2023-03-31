@@ -1,8 +1,8 @@
-using Microsoft.EntityFrameworkCore;
 using AppCore.IRepositories;
 using AppCore.Models.BookModels;
-using System.Net;
+using AppCore.Models.DTOs;
 using AppCore.Models.PhotoModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data.Repositories
 {
@@ -17,7 +17,7 @@ namespace Infrastructure.Data.Repositories
 
         public async Task<List<Book>> GetAllBooks()
         {
-            var books = await _context.BookEntity.Include(b => b.Photo).ToListAsync();
+            var books = await _context.BookEntity.Include(b => b.Photo).Include(b => b.Author).Include(b => b.Category).ToListAsync();
             return books;
         }
 
@@ -47,10 +47,10 @@ namespace Infrastructure.Data.Repositories
             return booksByAuthors;
         }
 
-        public async Task<List<Book>> GetBooksByCategory(BookCategory category)
+        public async Task<List<Book>> GetBooksByCategoryId(int categoryId)
         {
             var categoryBooks = await _context.BookEntity.Include(mybook => mybook.Category)
-                .Where(mybook => mybook.Category == category).ToListAsync();
+                .Where(mybook => mybook.Category.CategoryId == categoryId).Include(b => b.Photo).Include(b => b.Author).ToListAsync();
             return categoryBooks;
         }
 
@@ -68,7 +68,43 @@ namespace Infrastructure.Data.Repositories
         public async Task<List<Book>> GetBooksByTitle(string titleQuery)
         {
             var similarTitleBooks =
-                await _context.BookEntity.Where(mybook => mybook.Title.Contains(titleQuery)).ToListAsync();
+                await _context.BookEntity.Where(mybook => mybook.Title.Contains(titleQuery)).Include(b => b.Photo).Include(b => b.Author).Include(b => b.Category).ToListAsync();
+            return similarTitleBooks;
+        }
+
+        public async Task<List<SearchByFilterResultDTO>> GetBooksByFilters(string? searchTerm, List<int>? categoryIDs, List<int>? authorIDs, int? maxPrice)
+        {
+            var similarTitleBooks = await _context.BookEntity.Where(b => b.Title.Contains(searchTerm))
+                .Include(b => b.Category).Where(b => categoryIDs.Contains(b.Category.CategoryId))
+                .Include(b => b.Author).Where(b => authorIDs.Contains(b.Author.AuthorId))
+                .Include(b => b.Photo).Select(b => new SearchByFilterResultDTO
+            {
+                BookId = b.BookId,
+                Title = b.Title,
+                Description = b.Description,
+                Price = b.Price,
+                Author = new BookAuthor
+                {
+                    AuthorId = b.Author.AuthorId,
+                    Name = b.Author.Name,
+                },
+                Category = new BookCategory
+                {
+                    CategoryId = b.Category.CategoryId,
+                    Title = b.Category.Title
+                },
+                Photo = new Photo
+                {
+                    PhotoId = b.Photo.PhotoId,
+                    FilePath = b.Photo.FilePath,
+                }
+            }).ToListAsync();
+
+
+            //var similarTitleBooks =
+            //    await _context.BookEntity.Where(mybook => mybook.Title.Contains(searchTerm)).Include(b => categoryIDs.Contains(b.Category.CategoryId)).Where(b => authorIDs.Contains(b.Author.AuthorId)).ToListAsync();
+
+
             return similarTitleBooks;
         }
 
@@ -84,7 +120,7 @@ namespace Infrastructure.Data.Repositories
         public async Task<List<Book>> GetBooks(int number)
         {
             int absNumber = (int)MathF.Abs(number); //safety measure
-            var books = await _context.BookEntity.Take(absNumber).ToListAsync();
+            var books = await _context.BookEntity.Take(absNumber).Include(b => b.Photo).Include(b => b.Author).ToListAsync();
             return books;
         }
 

@@ -37,9 +37,9 @@ namespace AppCore.Services.Implementation
             return booksByAuthor;
         }
 
-        public async Task<List<Book>> GetBooksByCategory(BookCategory category)
+        public async Task<List<Book>> GetBooksByCategoryId(int categoryId)
         {
-            var categoryBooks = await _bookRepository.GetBooksByCategory(category);
+            var categoryBooks = await _bookRepository.GetBooksByCategoryId(categoryId);
             return categoryBooks;
         }
 
@@ -53,6 +53,12 @@ namespace AppCore.Services.Implementation
         {
             var booksByTitle = await _bookRepository.GetBooksByTitle(titleQuery);
             return booksByTitle;
+        }
+
+        public async Task<List<SearchByFilterResultDTO>> GetBooksByFilters(string? searchTerm, List<int>? categoryIDs, List<int>? authorIDs, int? maxPrice)
+        {
+            var booksByFilter = await _bookRepository.GetBooksByFilters(searchTerm, categoryIDs, authorIDs, maxPrice);
+            return booksByFilter;
         }
 
         public async Task<List<Book>> GetNewArrivals()
@@ -95,6 +101,45 @@ namespace AppCore.Services.Implementation
             return dto;
         }
 
+        //public SearchPostDTO GetSearchPostDTO(string? searchTerm, List<int>? categoryIDs, List<int>? authorIDs, int? maxPrice)
+        //{
+        //    //filters applied by order:
+        //    //-matching title
+        //    //-category
+        //    //-author
+        //    //-price
+
+
+        //    List<Book> filteredItems = new List<Book>();
+        //    List<FilterDTO> categoryFilters = new List<FilterDTO>();
+        //    List<FilterDTO> authorFilters = new List<FilterDTO>();
+
+        //    //initialization of filterDTOs
+
+        //    if (searchTerm!=null)
+        //    {
+        //        filteredItems = _bookRepository.GetBooksByTitle(searchTerm).Result;
+
+        //    }
+            
+
+        //    List<BookCategory> allCategories = _bookRepository.GetAllCategories().Result;
+        //    List<BookAuthor> allAuthors = _bookRepository.GetAllAuthors().Result;
+
+           
+
+        //    SearchPostDTO searchPostDTO = new SearchPostDTO
+        //    {
+        //        BooksFound = filteredItems,
+        //        AuthorFiltersFound = authorFilters,
+        //        CategoryFiltersFound = categoryFilters,
+        //        maxPrice = maxPrice
+        //    };
+        //    return searchPostDTO;
+        //}
+
+
+
         public SearchPostDTO GetSearchPostDTO(string? searchTerm, List<int>? categoryIDs, List<int>? authorIDs, int? maxPrice)
         {
             //filters applied by order:
@@ -102,6 +147,8 @@ namespace AppCore.Services.Implementation
             //-category
             //-author
             //-price
+
+
             List<Book> filteredItems = new List<Book>();
             List<FilterDTO> categoryFilters = new List<FilterDTO>();
             List<FilterDTO> authorFilters = new List<FilterDTO>();
@@ -109,6 +156,7 @@ namespace AppCore.Services.Implementation
             //initialization of filterDTOs
             List<BookCategory> allCategories = _bookRepository.GetAllCategories().Result;
             List<BookAuthor> allAuthors = _bookRepository.GetAllAuthors().Result;
+
             foreach (var category in allCategories)
             {
                 categoryFilters.Add(new FilterDTO { Id = category.CategoryId, Name = category.Title });
@@ -179,7 +227,7 @@ namespace AppCore.Services.Implementation
             }
 
             //4th filter: price range
-            if (maxPrice != null) 
+            if (maxPrice != null)
             {
                 filteredItems.RemoveAll(x => x.Price > maxPrice);
             }

@@ -2,5 +2,5 @@
 
 @foreach (var category in @Model)
 {
-    <a class="navbar-dropdown-menu-subcategory" href="">@category.Title</a>
+    <a class="navbar-dropdown-menu-subcategory" asp-controller="Shop" asp-action="SearchByCategory" asp-route-id="@category.CategoryId">@category.Title</a>
 }

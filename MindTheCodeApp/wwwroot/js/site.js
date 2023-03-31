@@ -168,7 +168,6 @@ window.addEventListener("click", function (e) {
 
 
     if (!mobileMenuContainer.contains(e.target) && !mobileNavbarIcon.contains(e.target)) {
-        console.log("skata");
       mobileMenuContainer.style.setProperty("display", "none");
   }
 
@@ -604,7 +603,7 @@ shopFiltersBtn && shopFiltersBtn.addEventListener("click", (e) => {
         const inputs = filter.querySelectorAll(".shop-filters-box-filter-item input")
         inputs.forEach(input => {
             if (input.checked) {
-                filters[type].push(input.name)
+                filters[type].push(input.value)
             }
         });
     });

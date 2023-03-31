@@ -1,4 +1,5 @@
 ﻿using AppCore.Models.BookModels;
+using AppCore.Models.DTOs;
 using AppCore.Models.PhotoModels;
 
 namespace AppCore.IRepositories
@@ -17,13 +18,15 @@ namespace AppCore.IRepositories
         Task<List<BookCategory>> GetAllCategories();
 
         //get all categories
-        Task<List<Book>> GetBooksByCategory(BookCategory category);
+        Task<List<Book>> GetBooksByCategoryId(int categoryId);
 
         //get books by category
         Task<List<Book>> GetBooksByAuthor(BookAuthor bookAuthor);
 
         //get books by author
         Task<List<Book>> GetBooksByTitle(string titleQuery);
+
+        Task<List<SearchByFilterResultDTO>> GetBooksByFilters(string? searchTerm, List<int>? categoryIDs, List<int>? authorIDs, int? maxPrice);
 
         //get books which has a title similar to the query
         Task<List<Book>> GetBooksByPriceRange(int maxPrice);
