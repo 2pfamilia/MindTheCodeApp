@@ -162,7 +162,7 @@ namespace MindTheCodeApp.Controllers
             myLog.Verbose("Start - Edit");
             try
             {
-                var author = _context.BookAuthorEntity.FirstOrDefault(b => b.AuthorId == id);
+                var author = _context.BookAuthorEntity.Include(p => p.Photo).FirstOrDefault(b => b.AuthorId == id);
                 if (author != null)
                 {
                     if (id != author.AuthorId)
@@ -172,7 +172,7 @@ namespace MindTheCodeApp.Controllers
 
                     author.Name = editBookAuthorVM.Name;
                     author.Description = editBookAuthorVM.Description;
-                    author.Photo.PhotoId = editBookAuthorVM.PhotoId;
+                    author.Photo = _context.PhotoEntity.FirstOrDefault(p => p.PhotoId == editBookAuthorVM.PhotoId);
 
                     await _context.SaveChangesAsync();
                 }
@@ -186,7 +186,7 @@ namespace MindTheCodeApp.Controllers
             catch (Exception ex)
             {
                 myLog.Error(ex, "Exception at Edit");
-                return null;
+                throw;
             }
             
         }

@@ -196,12 +196,14 @@ namespace MindTheCodeApp.Controllers
 
                     book.Title = editBookVM.Title;
                     book.Description = editBookVM.Description;
-                    book.Author.AuthorId = editBookVM.AuthorId;
-                    book.Category.CategoryId = editBookVM.CategoryId;
-                    book.Photo.PhotoId = editBookVM.PhotoId;
+
+                    book.Author = _context.BookAuthorEntity.FirstOrDefault(a =>a.AuthorId == editBookVM.AuthorId);
+                    book.Category = _context.BookCategoryEntity.FirstOrDefault(c => c.CategoryId == editBookVM.CategoryId);
+                    book.Photo = _context.PhotoEntity.FirstOrDefault(p => p.PhotoId == editBookVM.PhotoId);
                     book.Count = editBookVM.Count;
                     book.Price = editBookVM.Price;
 
+                    _context.BookEntity.Update(book);
                     await _context.SaveChangesAsync();
                     myLog.Verbose("End - Edit");
                 }
