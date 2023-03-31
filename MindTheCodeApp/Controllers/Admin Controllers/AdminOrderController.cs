@@ -200,8 +200,8 @@ namespace MindTheCodeApp.Controllers
                     order.Fulfilled = editOrderVM.Fulfilled;
                     order.Active = editOrderVM.Active;
                     order.Canceled = editOrderVM.Canceled;
-                    order.User.UserId = editOrderVM.UserId;
-                    order.AddressInformation.AddressInformationId = editOrderVM.AddressInformationId;
+                    order.User = _context.UserEntity.FirstOrDefault(u => u.UserId == editOrderVM.UserId);
+                    order.AddressInformation = _context.AddressInformationEntity.FirstOrDefault(a => a.AddressInformationId == editOrderVM.AddressInformationId);
                     order.Cost = editOrderVM.Cost;
                     order.DateCreated = editOrderVM.OrderCreated;
 
