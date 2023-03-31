@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using MindTheCodeApp.ViewModels.BookVMs;
 using Serilog;
 using System.Data;
+using System.IO;
 
 namespace MindTheCodeApp.Controllers
 {
@@ -115,14 +116,14 @@ namespace MindTheCodeApp.Controllers
                 return NotFound();
             }
 
-            var order = await _context.PhotoEntity
+            var photo = await _context.PhotoEntity
                 .FirstOrDefaultAsync(m => m.PhotoId == id);
-            if (order == null)
+            if (photo == null)
             {
                 return NotFound();
             }
 
-            return View("/Views/Admin/Photo/Delete.cshtml", order);
+            return View("/Views/Admin/Photo/Delete.cshtml", photo);
         }
 
         // POST: Order/Delete/5
@@ -141,6 +142,7 @@ namespace MindTheCodeApp.Controllers
                 var photo = await _context.PhotoEntity.FindAsync(id);
                 if (photo != null)
                 {
+                    DeleteFile(photo.FilePath);
                     _context.PhotoEntity.Remove(photo);
                 }
 
@@ -152,6 +154,25 @@ namespace MindTheCodeApp.Controllers
             {
                 myLog.Error(ex, "Exception on Delete");
                 throw;
+            }
+        }
+
+        public static void DeleteFile(string fileName)
+        {
+            string webRootPath = AppContext.BaseDirectory.Substring(0, AppContext.BaseDirectory.IndexOf("bin"));
+            string filePath = Path.Combine(webRootPath, "wwwroot", fileName);
+
+            try
+            {
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors that occur while deleting the file
+                Console.WriteLine(ex.Message);
             }
         }
     }

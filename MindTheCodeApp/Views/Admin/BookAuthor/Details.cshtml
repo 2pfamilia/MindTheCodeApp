@@ -1,29 +1,25 @@
 ﻿@model MindTheCodeApp.ViewModels.BookVMs.BookAuthorVM
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Author Details";
 }
 
 @Html.Partial("PartialViews/_AdminMenuPartial");
 
-<h1>Details</h1>
-<div>
-    <h4>Book Author</h4>
-    <hr/>
-    <dl class="row">
-        <dt class="col-sm-2">
-            <label style="font-weight:bold;">Name</label>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            <label style="font-weight:bold;">Description</label>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="admin-page-content">
+    <h1 class="page-title">Author Details</h1>
+    <div class="admin-page-table">
+        <header class="admin-page-table-header">
+            <h4 class="width-5">ID</h4>
+            <h4 class="width-15">Name</h4>
+            <h4 class="width-40">Description</h4>
+            <h4 class="width-40">Photo File Path</h4>
+        </header>
+        <div class="admin-page-table-row">
+            <span class="width-5">@Html.DisplayFor(model => model.AuthorId)</span>
+            <span class="width-15">@Html.DisplayFor(model => model.Name)</span>
+            <span class="width-40">@Html.DisplayFor(model => model.Description)</span>
+            <span class="width-40">@Html.DisplayFor(model => model.PhotoFilePath)</span>
+        </div>
+    </div>
+    <a class="admin-page-back-link link-btn-revert" asp-action="Index">BACK TO LIST</a>
 </div>

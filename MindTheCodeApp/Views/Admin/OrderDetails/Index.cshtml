@@ -1,61 +1,57 @@
 ﻿@model IEnumerable<MindTheCodeApp.ViewModels.OrderVMs.IndexOrderDetailsVM>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Admin - Order Details";
 }
 
-@Html.Partial("PartialViews/_AdminMenuPartial");
+@Html.Partial("PartialViews/_AdminMenuPartial")
 
-<h1>Index</h1>
+<div class="admin-page-content">
+    <h1 class="page-title">Order Details</h1>
 
-<p>
-    <a asp-action="Create">Create New Book</a>
-</p>
-<table class="table">
-    <thead>
-    <tr>
-        <th>
-            <label>Order Email</label>
-        </th>
-        <th>
-            <label>Book Title</label>
-        </th>
-        <th>
-            <label>Unit Cost</label>
-        </th>
-        <th>
-            <label>Total Cost</label>
-        </th>
-        <th>
-            <label>Quantity</label>
-        </th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UnitCost)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalCost)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Count)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IndexOrderDetailsId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IndexOrderDetailsId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IndexOrderDetailsId">Delete</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+    <div class="admin-page-main-btns-container">
+        <a class="link-btn" asp-action="Create">CREATE NEW ORDER DETAILS</a>
+    </div>
+
+    <div class="admin-page-table">
+        <header class="admin-page-table-header">
+            <h4 class="width-10">ID</h4>
+
+            <h4 class="width-20">@Html.DisplayNameFor(model => model.OrderEmail)</h4>
+            <h4 class="width-15">
+                @Html.DisplayNameFor(model => model.BookTitle)
+            </h4>
+            <h4 class="width-10">
+                @Html.DisplayNameFor(model => model.UnitCost)
+            </h4>
+            <h4 class="width-10">
+                @Html.DisplayNameFor(model => model.TotalCost)
+            </h4>
+            <h4 class="width-10">
+                @Html.DisplayNameFor(model => model.Count)
+            </h4>
+            <div class="width-25"></div>
+        </header>
+        @foreach (var item in Model)
+        {
+            <div class="admin-page-table-row">
+                <span class="width-10">@Html.DisplayFor(modelItem => item.IndexOrderDetailsId)</span>
+                <span class="width-20">@Html.DisplayFor(modelItem => item.OrderEmail)</span>
+                <span class="width-15">
+                    @Html.DisplayFor(modelItem => item.BookTitle)
+                </span>
+                <span class="width-10">@Html.DisplayFor(modelItem => item.UnitCost)</span>
+                <span class="width-10">
+                    @Html.DisplayFor(modelItem => item.TotalCost)
+                </span>
+                <span class="width-10">
+                    @Html.DisplayFor(modelItem => item.Count)
+                </span>
+                <div class="admin-page-table-btns-cell width-25">
+                    <a class="table-link-btn" asp-action="Edit" asp-route-id="@item.IndexOrderDetailsId">Edit</a>
+                    <a class="table-link-btn" asp-action="Details" asp-route-id="@item.IndexOrderDetailsId">Details</a>
+                    <a class="table-link-btn" asp-action="Delete" asp-route-id="@item.IndexOrderDetailsId">Delete</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
