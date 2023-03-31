@@ -213,8 +213,8 @@ namespace MindTheCodeApp.Controllers
                     details.Unitcost = editDetailsVM.UnitCost;
                     details.Count = editDetailsVM.Count;
                     details.TotalCost = editDetailsVM.UnitCost * editDetailsVM.Count;
-                    details.Order.OrderId = editDetailsVM.OrderId;
-                    details.Book.BookId = editDetailsVM.BookId;
+                    details.Order = _context.OrderEntity.FirstOrDefault(o => o.OrderId == editDetailsVM.OrderId);
+                    details.Book = _context.BookEntity.FirstOrDefault(b => b.BookId == editDetailsVM.BookId);
 
                     await _context.SaveChangesAsync();
                     myLog.Verbose("End - Edit");
