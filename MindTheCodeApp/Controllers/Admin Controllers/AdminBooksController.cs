@@ -38,14 +38,14 @@ namespace MindTheCodeApp.Controllers
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            var books = await _context.BookEntity.Include(b => b.Author).Include(b => b.Category).ToListAsync();
+            var books = await _context.BookEntity.Include(b => b.Author).Include(b => b.Category).Include(p => p.Photo).ToListAsync();
 
             foreach (var book in books)
             {
                 var bookVM = new IndexBookVM();
                 var bookCategory = _context.BookEntity.FirstOrDefault(c => c.BookId == book.BookId).Category.Title;
                 var bookAuthor = _context.BookEntity.FirstOrDefault(c => c.BookId == book.BookId).Author.Name;
-                //var bookPhoto = _context.BookEntity.FirstOrDefault(c => c.BookId == book.BookId).Photo.FilePath;
+                var bookPhoto = _context.BookEntity.FirstOrDefault(c => c.BookId == book.BookId).Photo.FilePath;
                 bookVM.BookId = book.BookId;
                 bookVM.Title = book.Title;
                 bookVM.Description = book.Description;
@@ -59,10 +59,10 @@ namespace MindTheCodeApp.Controllers
                 {
                     bookVM.Author = bookAuthor;
                 }
-                //if (bookPhoto != null)
-                //{
-                //    bookVM.PhotoPath = bookPhoto;
-                //}
+                if (bookPhoto != null)
+                {
+                    bookVM.PhotoPath = bookPhoto;
+                }
 
                 bookVM.Price = (decimal)book.Price;
                 IndexBooksVM.Add(bookVM);
@@ -79,7 +79,7 @@ namespace MindTheCodeApp.Controllers
                 return NotFound();
             }
 
-            var book = await _context.BookEntity.Include(b => b.Author).Include(b => b.Category)
+            var book = await _context.BookEntity.Include(b => b.Author).Include(b => b.Category).Include(p => p.Photo)
                 .FirstOrDefaultAsync(m => m.BookId == id);
             var bookCategory = _context.BookEntity.FirstOrDefault(c => c.BookId == book.BookId).Category.Title;
             var bookAuthor = _context.BookEntity.FirstOrDefault(c => c.BookId == book.BookId).Author.Name;
@@ -154,7 +154,7 @@ namespace MindTheCodeApp.Controllers
         // GET: Books/Edit/5
         public IActionResult Edit(int id)
         {
-            var book = _context.BookEntity.Include(b => b.Author).Include(b => b.Category)
+            var book = _context.BookEntity.Include(b => b.Author).Include(b => b.Category).Include(p => p.Photo)
                 .FirstOrDefault(b => b.BookId == id);
             if (book != null)
             {
@@ -185,7 +185,7 @@ namespace MindTheCodeApp.Controllers
             try
             {
                 myLog.Verbose("Start - Edit");
-                var book = _context.BookEntity.Include(b => b.Author).Include(b => b.Category)
+                var book = _context.BookEntity.Include(b => b.Author).Include(b => b.Category).Include(p => p.Photo)
                 .FirstOrDefault(b => b.BookId == id);
                 if (book != null)
                 {

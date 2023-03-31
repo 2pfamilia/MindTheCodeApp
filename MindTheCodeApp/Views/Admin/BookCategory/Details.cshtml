@@ -5,30 +5,23 @@
 @Html.Partial("PartialViews/_AdminMenuPartial");
 
 <div class="admin-page-content">
-<h1 class="page-title">Details</h1>
-    <h4>Book Author</h4>
-    <hr/>
-    <dl class="row">
-        <dt class="col-sm-2">
-            <label style="font-weight:bold;">Code</label>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Code)
-        </dd>
-        <dt class="col-sm-2">
-            <label style="font-weight:bold;">Title</label>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class="col-sm-2">
-            <label style="font-weight:bold;">Description</label>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-    </dl>
+    <h1 class="page-title">Book Category Details</h1>
+        <div class="admin-page-table">
+            <header class="admin-page-table-header">
+                <h4 class="width-10">ID</h4>
+                <h4 class="width-15">CODE</h4>
+                <h4 class="width-15">TITLE</h4>
+                <h4 class="width-60">DESCRIPTION</h4>
+            </header>
+            <div class="admin-page-table-row">
+                <span class="width-10">@Html.DisplayFor(model => model.CategoryId)</span>
+                <span class="width-15">@Html.DisplayFor(model => model.Code)</span>
+                <span class="width-15">@Html.DisplayFor(model => model.Title)</span>
+                <span class="width-60">@Html.DisplayFor(model => model.Description)</span>
+
+            </div>
+        </div>
 </div>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="admin-page-back-link link-btn-revert" asp-action="Index">BACK TO LIST</a>
 </div>

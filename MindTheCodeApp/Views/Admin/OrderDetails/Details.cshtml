@@ -1,47 +1,29 @@
 ﻿@model MindTheCodeApp.ViewModels.OrderVMs.IndexOrderDetailsVM
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Order Detail Details";
 }
 
 @Html.Partial("PartialViews/_AdminMenuPartial");
 
-<h1>Details</h1>
-<div>
-    <h4>Order Details</h4>
-    <hr/>
-    <dl class="row">
-        <dt class="col-sm-2">
-            <label style="font-weight:bold;">Order Email</label>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrderEmail)
-        </dd>
-        <dt class="col-sm-2">
-            <label style="font-weight:bold;">Book Title</label>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BookTitle)
-        </dd>
-        <dt class="col-sm-2">
-            <label style="font-weight:bold;">Unit Cost</label>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UnitCost)
-        </dd>
-        <dt class="col-sm-2">
-            <label style="font-weight:bold;">Total Cost</label>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TotalCost)
-        </dd>
-        <dt class="col-sm-2">
-            <label style="font-weight:bold;">Count</label>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Count)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="admin-page-content">
+    <h1 class="page-title">Book Details</h1>
+    <div class="admin-page-table">
+        <header class="admin-page-table-header">
+            <h4 class="width-10">ID</h4>
+            <h4 class="width-30">Order Email</h4>
+            <h4 class="width-30">Book Title</h4>
+            <h4 class="width-10">Unit Cost</h4>
+            <h4 class="width-10">Total Cost</h4>
+            <h4 class="width-10">Count</h4>
+        </header>
+        <div class="admin-page-table-row">
+            <span class="width-10">@Html.DisplayFor(model => model.IndexOrderDetailsId)</span>
+            <span class="width-30">@Html.DisplayFor(model => model.OrderEmail)</span>
+            <span class="width-30">@Html.DisplayFor(model => model.BookTitle)</span>
+            <span class="width-10">@Html.DisplayFor(model => model.UnitCost)</span>
+            <span class="width-10">@Html.DisplayFor(model => model.TotalCost)</span>
+            <span class="width-10">@Html.DisplayFor(model => model.Count)</span>
+        </div>
+    </div>
+    <a class="admin-page-back-link link-btn-revert" asp-action="Index">BACK TO LIST</a>
 </div>
