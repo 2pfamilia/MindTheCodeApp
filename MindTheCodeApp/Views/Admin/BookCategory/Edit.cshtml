@@ -4,42 +4,33 @@
 }
 @Html.Partial("PartialViews/_AdminMenuPartial");
 
-<h1>Edit</h1>
-<h4>Book Category</h4>
-<hr/>
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+<div class="admin-page-content">
+        <form class="admin-page-form" asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="EditBookCategoryId"/>
-            <div class="form-group">
+            <div class="admin-page-form-group">
                 <label asp-for="Code" class="control-label"></label>
                 <input asp-for="Code" class="form-control" value="@Model.Code"/>
                 <span asp-validation-for="Code" class="text-danger"></span>
             </div>
             <br/>
-            <div class="form-group">
+            <div class="admin-page-form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <textarea asp-for="Title" class="form-control" value="@Model.Title"></textarea>
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <br/>
-            <div class="form-group">
+            <div class="admin-page-form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" value="@Model.Description"/>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <br/>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary"/>
-            </div>
+            <button type="submit" class="btn">SAVE</button>
         </form>
-    </div>
+    <a class="admin-page-back-link link-btn-revert" asp-action="Index">BACK TO LIST</a>
 </div>
-<br/>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
 
 @section Scripts {
     @{

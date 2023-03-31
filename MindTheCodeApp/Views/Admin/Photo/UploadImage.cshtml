@@ -1,26 +1,26 @@
 ﻿@model MindTheCodeApp.ViewModels.BookVMs.PhotoVM
 @{
-    ViewData["Title"] = "UploadImage";
+    ViewData["Title"] = "Upload Image";
 }
 @Html.Partial("PartialViews/_AdminMenuPartial");
 
-<form method="post" enctype="multipart/form-data">
-    <div class="form-group">
+<form class="admin-page-form" method="post" enctype="multipart/form-data">
+    <div class="admin-page-form-group">
         <label asp-for="Title" class="control-label"></label>
         <input asp-for="Title" class="form-control" />
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    <div class="admin-page-form-group">
         <label asp-for="Description" class="control-label"></label>
         <input asp-for="Description" class="form-control" />
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
-    <div class="form-group form-check">
+    <div class="admin-page-form-group form-check">
         <label class="form-check-label">
             <input class="form-check-input" asp-for="IsBook" /> @Html.DisplayNameFor(model => model.IsBook)
         </label>
     </div>
-    <div class="form-group form-check">
+    <div class="admin-page-form-group form-check">
         <label class="form-check-label">
             <input class="form-check-input" asp-for="IsAuthor" /> @Html.DisplayNameFor(model => model.IsAuthor)
         </label>
@@ -30,7 +30,7 @@
         <input asp-for="ImageFile" type="file">
         <span asp-validation-for="ImageFile" class="text-danger"></span>
     </div>
-    <button type="submit">Upload</button>
+    <button type="submit">UPLOAD</button>
 </form>
 
 @*@if (Model.ImageFile != null)

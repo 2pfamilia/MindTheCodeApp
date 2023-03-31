@@ -1,57 +1,58 @@
 ﻿@model IEnumerable<MindTheCodeApp.ViewModels.BookVMs.PhotoVM>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Admin - Photos";
 }
 
 @Html.Partial("PartialViews/_AdminMenuPartial");
 
-<h1>Index</h1>
-<p>
-    <a asp-controller="AdminPhoto" asp-action="UploadImage">Upload New Book</a>
-</p>
-<table class="table">
-    <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsBook)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsAuthor)
-        </th>
-        <th>
-            <label>Image Path</label>
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsBook)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsAuthor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImagePath)
-            </td>
-            <td>
-                <a asp-action="Delete" asp-route-id="@item.PhotoId">Delete</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+<div class="admin-page-content">
+    <h1 class="page-title">Photos</h1>
+
+    <div class="admin-page-main-btns-container">
+        <a class="link-btn" asp-controller="AdminPhoto" asp-action="UploadImage">UPLOAD NEW PHOTO</a>
+    </div>
+
+    <div class="admin-page-table">
+        <header class="admin-page-table-header">
+            <h4 class="width-5">ID</h4>
+            <h4 class="width-25">
+                @Html.DisplayNameFor(model => model.ImagePath)
+            </h4>
+            <h4 class="width-10">
+                @Html.DisplayNameFor(model => model.Title)
+            </h4>
+            <h4 class="width-25">
+                @Html.DisplayNameFor(model => model.Description)
+            </h4>
+            <h4 class="width-5">
+                @Html.DisplayNameFor(model => model.IsBook)
+            </h4>
+            <h4 class="width-5">
+                @Html.DisplayNameFor(model => model.IsAuthor)
+            </h4>
+            <div class="width-25"></div>
+        </header>
+        @foreach (var item in Model)
+        {
+            <div class="admin-page-table-row">
+                <span class="width-5">@Html.DisplayFor(modelItem => item.PhotoId)</span>
+                <span class="width-25">@Html.DisplayFor(modelItem => item.ImagePath)</span>
+                <span class="width-10">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </span>
+                <span class="width-25">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </span>
+                <span class="width-5">
+                    @Html.DisplayFor(modelItem => item.IsBook)
+                </span>
+                <span class="width-5">
+                    @Html.DisplayFor(modelItem => item.IsAuthor)
+                </span>
+                <div class="admin-page-table-btns-cell width-25">
+                    <a class="table-link-btn" asp-action="Delete" asp-route-id="@item.PhotoId">Delete</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

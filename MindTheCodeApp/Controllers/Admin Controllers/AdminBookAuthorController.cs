@@ -27,16 +27,16 @@ namespace MindTheCodeApp.Controllers
         public async Task<IActionResult> Index()
         {
             myLog.Verbose("Start - Index");
-            var authors = await _context.BookAuthorEntity.ToListAsync();
+            var authors = await _context.BookAuthorEntity.Include(p => p.Photo).ToListAsync();
             
             foreach (var author in authors)
             {
-                //var photo = _context.BookAuthorEntity.FirstOrDefault(a => a.AuthorId == author.AuthorId).Photo.FilePath;
+                var photo = _context.BookAuthorEntity.FirstOrDefault(a => a.AuthorId == author.AuthorId).Photo.FilePath;
                 var authorVM = new BookAuthorVM();
                 authorVM.AuthorId = author.AuthorId;
                 authorVM.Name = author.Name;
                 authorVM.Description = author.Description;
-                //authorVM.PhotoFilePath = photo;
+                authorVM.PhotoFilePath = photo;
                 IndexAuthorsVM.Add(authorVM);
             }
             myLog.Verbose("End - Index");
@@ -119,10 +119,8 @@ namespace MindTheCodeApp.Controllers
                 return NotFound();
             }
 
-            var author = await _context.BookAuthorEntity
+            var author = await _context.BookAuthorEntity.Include(p => p.Photo)
                 .FirstOrDefaultAsync(m => m.AuthorId == id);
-            var authorPhoto = _context.BookAuthorEntity.FirstOrDefault(c => c.AuthorId == id).Photo.FilePath;
-
 
             if (author == null)
             {
@@ -133,7 +131,7 @@ namespace MindTheCodeApp.Controllers
                 DetailsBookAuthorVM.AuthorId = author.AuthorId;
                 DetailsBookAuthorVM.Name = author.Name;
                 DetailsBookAuthorVM.Description = author.Description;
-                DetailsBookAuthorVM.PhotoFilePath = authorPhoto;
+                DetailsBookAuthorVM.PhotoFilePath = author.Photo.FilePath;
             }
 
             return View("/Views/Admin/BookAuthor/Details.cshtml", DetailsBookAuthorVM);
@@ -141,13 +139,13 @@ namespace MindTheCodeApp.Controllers
 
         public IActionResult Edit(int id)
         {
-            var author = _context.BookAuthorEntity.FirstOrDefault(b => b.AuthorId == id);
+            var author = _context.BookAuthorEntity.Include(p => p.Photo).FirstOrDefault(b => b.AuthorId == id);
             if (author != null)
             {
                 EditBookAuthorVM.EditBookAuthorId = author.AuthorId;
                 EditBookAuthorVM.Name = author.Name;
                 EditBookAuthorVM.Description = author.Description;
-                //EditBookAuthorVM.PhotoId = author.Photo.PhotoId;
+                EditBookAuthorVM.PhotoId = author.Photo.PhotoId;
             }
 
             ViewData["AuthorPhoto"] = new SelectList(_context.PhotoEntity.Where(b => b.IsAuthor == true), "PhotoId", "Title");

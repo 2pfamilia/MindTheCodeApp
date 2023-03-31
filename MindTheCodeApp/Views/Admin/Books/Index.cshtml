@@ -27,9 +27,9 @@
             <h4 class ="width-10">Availability</h4>
             <h4 class ="width-15"> @Html.DisplayNameFor(model => model.Author)
             </h4>            
-           @* <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>*@
+            <h4 class="width-15">
+                @Html.DisplayNameFor(model => model.PhotoPath)
+            </h4>
             <h4 class ="width-10">              @Html.DisplayNameFor(model => model.Price)
             </h4>
             <div class="width-25"></div>            
@@ -46,9 +46,9 @@
                 <span class ="width-15">
                     @Html.DisplayFor(modelItem => item.Author)
                 </span>
-                @* <th>
-            @Html.DisplayFor(modelItem => item.Description)
-            </th>*@
+                <span class="width-15">
+                    @Html.DisplayFor(modelItem => item.PhotoPath)
+                </span>
                 <span class="width-10">
                     @Html.DisplayFor(modelItem => item.Price)
                 </span>

@@ -1,50 +1,42 @@
 ﻿@model MindTheCodeApp.ViewModels.OrderVMs.EditOrderDetailsVM
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Order Details";
 }
 @Html.Partial("PartialViews/_AdminMenuPartial");
 
-<h1>Edit</h1>
+<div class="admin-page-content">
+    <h1 class="page-title">Edit Order Details</h1>
+    <form class="admin-page-form" asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="admin-page-form-error-msg"></div>
+        <input type="hidden" asp-for="EditDetailsId" />
+        <div class="admin-page-form-group">
+            <label asp-for="OrderId" class="control-label">Order Email</label>
+            <select asp-for="OrderId" class="form-control" asp-items="ViewBag.Orders" value="ViewBag.Value"></select>
+        </div>
+        <div class="admin-page-form-group">
+            <label asp-for="BookId" class="control-label">Book</label>
+            <select asp-for="BookId" class="form-control" asp-items="ViewBag.Books" value="ViewBag.Value"></select>
+        </div>
+        <div class="admin-page-form-group">
+            <label asp-for="Count" class="control-label"></label>
+            <input asp-for="Count" class="form-control" />
+            <span asp-validation-for="Count" class="admin-page-form-error-msg"></span>
+        </div>
+        <div class="admin-page-form-group">
+            <label asp-for="UnitCost" class="control-label"></label>
+            <input asp-for="UnitCost" class="form-control" />
+            <span asp-validation-for="UnitCost" class="admin-page-form-error-msg"></span>
+        </div>
+        <div class="admin-page-form-group">
+            <label asp-for="TotalCost" class="control-label"></label>
+            <input asp-for="TotalCost" class="form-control" />
+            <span asp-validation-for="TotalCost" class="admin-page-form-error-msg"></span>
+        </div>
+        <button type="submit" class="btn">SAVE</button>
+    </form>
+    <a class="admin-page-back-link link-btn-revert" asp-action="Index">BACK TO LIST</a>
+</div>
 
-<h4>Order Details</h4>
-<hr/>
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="EditDetailsId"/>
-            <div class="form-group">
-                <label asp-for="UnitCost" class="control-label"></label>
-                <input asp-for="UnitCost" class="form-control" value="@Model.UnitCost"/>
-                <span asp-validation-for="UnitCost" class="text-danger"></span>
-            </div>
-            <br/>
-            <div class="form-group">
-                <label asp-for="Count" class="control-label"></label>
-                <input asp-for="Count" class="form-control"/>
-                <span asp-validation-for="Count" class="text-danger"></span>
-            </div>
-            <br/>
-            <div class="form-group">
-                <label asp-for="OrderId" class="control-label">Category</label>
-                <select asp-for="OrderId" class="form-control" asp-items="ViewBag.Orders" value="ViewBag.Value"></select>
-            </div>
-            <br/>
-            <div class="form-group">
-                <label asp-for="BookId" class="control-label">Author</label>
-                <select asp-for="BookId" class="form-control" asp-items="ViewBag.Books" value="ViewBag.Value"></select>
-            </div>
-            <br/>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary"/>
-            </div>
-        </form>
-    </div>
-</div>
-<br/>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{
