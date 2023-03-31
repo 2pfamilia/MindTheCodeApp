@@ -13,6 +13,7 @@ using MindTheCodeApp.ViewModels.AuthorVMs;
 using MindTheCodeApp.ViewModels.ShopVMs;
 using Microsoft.Extensions.Options;
 using System.Text.Json.Serialization;
+using System;
 
 namespace MindTheCodeApp.Controllers
 {
@@ -64,7 +65,7 @@ namespace MindTheCodeApp.Controllers
         }
 
         [HttpPost]
-        [Route("/search/")]
+        [Route("search/")]
         public async Task<IActionResult> SearchBox(string? search)
         {
             var shopVM = new ShopVM();
@@ -98,7 +99,7 @@ namespace MindTheCodeApp.Controllers
 
 
         [HttpGet]
-        [Route("/category/{id}")]
+        [Route("category/{id}")]
         public async Task<IActionResult> SearchByCategory(int id)
         {
             var shopVM = new ShopVM();
@@ -132,16 +133,14 @@ namespace MindTheCodeApp.Controllers
         public async Task<IActionResult> SearchByFilters([FromBody] SearchDTO searchDTO)
         {
             //return View("/Views/Shop/Shop.cshtml");
+            decimal maxPrice;
+            Decimal.TryParse(searchDTO.maxPrice, out maxPrice);
 
-             var shopVM = await _bookService.GetBooksByFilters(searchDTO.SearchTerm, searchDTO.CategoryIDs, searchDTO.AuthorIDs, searchDTO.maxPrice);
 
-            var  options = new JsonSerializerOptions()
-            {
-                ReferenceHandler = ReferenceHandler.Preserve,
-                WriteIndented = true
-            };
+            var shopVM = await _bookService.GetBooksByFilters(searchDTO.SearchTerm, searchDTO.CategoryIDs, searchDTO.AuthorIDs, maxPrice);
 
-            var searchFieldsSereialize = JsonSerializer.Serialize(shopVM, options);
+            
+            var searchFieldsSereialize = JsonSerializer.Serialize(shopVM);
 
             return Ok(searchFieldsSereialize);
         }

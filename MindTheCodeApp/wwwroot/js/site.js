@@ -117,6 +117,12 @@ let accountCurrentPageIndex = 0;
 // My cart page
 const myCartPageContainer = document.querySelector(".my-cart-page-container");
 
+
+
+// Site URL
+
+const siteUrl = "https://localhost:44362/";
+
 let userCart = [];
 let Products = [];
 let userCartTotal = 0;
@@ -598,15 +604,12 @@ shopFiltersBtn && shopFiltersBtn.addEventListener("click", (e) => {
         maxPrice: 0
     }
 
-
-
     let currentFilters = {
         SearchTerm: "",
         CategoryIDs: [],
         AuthorIDs: [],
         maxPrice: 0
     }
-
 
     // Fieldsets
     const filterContainers = document.querySelectorAll('.shop-filters-filter-container')
@@ -620,10 +623,10 @@ shopFiltersBtn && shopFiltersBtn.addEventListener("click", (e) => {
 
         
         inputs.forEach(input => {
-            currentFilters[type].push((input.value))
+            currentFilters[type].push(parseInt(input.value))
 
             if (input.checked) {
-                filters[type].push(input.value)
+                filters[type].push(parseInt(input.value))
             }
         });
     });
@@ -631,33 +634,24 @@ shopFiltersBtn && shopFiltersBtn.addEventListener("click", (e) => {
     // Price slider
     const priceSlider = document.querySelector('.shop-filters-price-container input');
     currentFilters.maxPrice = parseFloat(priceSlider.getAttribute('max'));
-    const selectedPrice = parseFloat(priceSlider.value);
-    
-       console.log(currentFilters);
+    filters.maxPrice = parseFloat(priceSlider.value);
 
-
-    const test = {
-        SearchTerm: "a",
-        CategoryIDs: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        AuthorIDs: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        maxPrice: 70.00
-    };
-
+      
     let needsUpdate = false
 
     for (let key in filters) {
-        if (typeof (filters[key]) == "object") {
+        if (key == "CategoryIDs" || key == "AuthorIDs") {
             if (filters[key].length == 0) {
                 filters[key] = [...currentFilters[key]]
             } else {
                 needsUpdate = true;
             }
-        } else if (typeof (filters[key]) == "string") {
+        } else if (key =="SearchTerm") {
             if (filters[key] != currentFilters[key]) {
                 filters[key] = currentFilters[key].slice();
                 needsUpdate = true;
             }
-        } else if (filters[key] != currentFilters[key]) {
+        } else if (key == "maxPrice") {
             if (filters[key] > 0) {
                 needsUpdate = true;
             } else {
@@ -666,23 +660,23 @@ shopFiltersBtn && shopFiltersBtn.addEventListener("click", (e) => {
             }
             
         }
+        filters.maxPrice = String(filters.maxPrice);
     }
-
-
     console.log(filters);
-        //postFilters(filters);
+    needsUpdate && postFilters(filters);
 })
 
 async function postFilters(filters = {}) {
-    const products = await fetch("shop/filters",{
+    const products = await fetch(`${siteUrl}shop/filters`, {
         method: "POST",
         body: JSON.stringify(filters),
         headers: {
             "Content-Type": "application/json",
         },
     }).then((response) => response.json())
-        .then(response => response.$values)
-    console.log(products);
+        .catch((error) => {
+            console.error("Error:", error);
+        });
     updateShopPage(products);    
            
 }
@@ -709,7 +703,8 @@ function createShopProductItems(product) {
     // Product Author
     const productAuthor = document.createElement("a");
     productAuthor.classList.add("product-card-author");
-    productAuthor.setAttribute("href", `authors/details/${product.Author.$id}`);
+    productAuthor.setAttribute("href", `authors/details/${product.Author.AuthorId
+}`);
     productAuthor.textContent = product.Author.Name
       
     //Price
@@ -766,8 +761,6 @@ function updateShopPage(products) {
     while (productCardsContainer.lastElementChild) {
         productCardsContainer.removeChild(productCardsContainer.lastElementChild);
     }
-
-
     products.forEach(item => productCardsContainer.appendChild(createShopProductItems(item)));
 
 }
@@ -1316,5 +1309,9 @@ function arraysEqual(a, b) {
     return true;
 }
 
+
+function floatToString(num) {
+    return num.toFixed(Math.max(1, num.toString().substr(num.toString().indexOf(".") + 1).length));
+}
 
 
