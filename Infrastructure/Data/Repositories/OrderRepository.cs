@@ -19,21 +19,33 @@ namespace Infrastructure.Data.Repositories
         {
             var order = new Order
             {
-                Active = true,
                 User = user,
-                Fulfilled = false,
-                Canceled = false,
                 AddressInformation = user.AddressInformation,
-                DateCreated = DateTime.Now
             };
             var orderDetails = new List<OrderDetails>();
+
+            decimal? totalCost = 0;
+
             foreach (var book in books.Keys)
             {
-                orderDetails.Add(await CreateOrderDetails(order, book, books[book]));
+                totalCost += book.Price;
+                orderDetails.Add(new OrderDetails()
+                {
+                    Order = order,
+                    Book = book,
+                    Unitcost = book.Price,
+                    TotalCost = book.Price * books[book],
+                    Count = books[book],
+                });
             }
 
+            order.Cost = (int)totalCost;
+
             await _context.OrderEntity.AddAsync(order);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+            await _context.OrderDetailsEntity.AddRangeAsync(orderDetails);
+            await _context.SaveChangesAsync();
+
             return order;
         }
 
@@ -44,6 +56,7 @@ namespace Infrastructure.Data.Repositories
                 Book = book,
                 Order = order,
                 Unitcost = book.Price,
+                TotalCost = book.Price * count,
                 Count = count
             };
             orderDetails.TotalCost = orderDetails.Count * orderDetails.Unitcost;
@@ -72,14 +85,14 @@ namespace Infrastructure.Data.Repositories
                 .Include(o => o.User)
                 .Where(o => o.User.UserId.Equals(userId))
                 .Include(o => o.OrderDetails)!
-                    .ThenInclude(od => od.Book)
-                    .ThenInclude(b => b.Author)
+                .ThenInclude(od => od.Book)
+                .ThenInclude(b => b.Author)
                 .Include(o => o.OrderDetails)!
-                    .ThenInclude(od => od.Book)
-                    .ThenInclude(b => b.Photo)
+                .ThenInclude(od => od.Book)
+                .ThenInclude(b => b.Photo)
                 .Include(o => o.OrderDetails)!
-                    .ThenInclude(od => od.Book)
-                    .ThenInclude(b => b.Category)
+                .ThenInclude(od => od.Book)
+                .ThenInclude(b => b.Category)
                 .Where(o => o.User.UserId.Equals(userId))
                 .ToListAsync();
 
