@@ -55,7 +55,7 @@ namespace AppCore.Services.Implementation
             return booksByTitle;
         }
 
-        public async Task<List<SearchByFilterResultDTO>> GetBooksByFilters(string? searchTerm, List<int>? categoryIDs, List<int>? authorIDs, int? maxPrice)
+        public async Task<List<SearchByFilterResultDTO>> GetBooksByFilters(string? searchTerm, List<int>? categoryIDs, List<int>? authorIDs, decimal? maxPrice)
         {
             var booksByFilter = await _bookRepository.GetBooksByFilters(searchTerm, categoryIDs, authorIDs, maxPrice);
             return booksByFilter;

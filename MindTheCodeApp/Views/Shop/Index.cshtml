@@ -68,22 +68,8 @@
 <div class="shop-content">
 <header class="shop-content-header">
             <span>
-                Showing 1–@(
-                    Model.Books.Count < 16 ? Model.Books.Count : 16
-                ) of @Model.Books.Count results
-            </span>
-            <svg xmlns="http://www.w3.org/2000/svg"
-         height="24"
-         width="24"
-         class="shop-content-header-left-arrow">
-        <path d="m14 18-6-6 6-6 1.4 1.4-4.6 4.6 4.6 4.6Z"/>
-    </svg>
-    <svg xmlns="http://www.w3.org/2000/svg"
-         height="24"
-         width="24"
-         class="shop-content-header-right-arrow">
-        <path d="M9.4 18 8 16.6l4.6-4.6L8 7.4 9.4 6l6 6Z"/>
-    </svg>
+                @Model.Books.Count results
+            </span>          
 </header>
 <div class="shop-content-list">
 
