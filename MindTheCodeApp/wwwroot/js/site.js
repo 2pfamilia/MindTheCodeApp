@@ -702,8 +702,8 @@ function createShopProductItems(product) {
     const productAuthor = document.createElement("a");
     productAuthor.classList.add("product-card-author");
     productAuthor.setAttribute("href", `authors/details/${product.Author.AuthorId
-}`);
-    productAuthor.textContent = product.Author.Name
+        }`);
+    productAuthor.textContent = product.Author.Name;
       
     //Price
     const productPrice = document.createElement("span");
@@ -736,14 +736,14 @@ function createShopProductItems(product) {
         iconSVG.addEventListener("click", () => {
             const container = cartIcon.closest(".product-card");
             const product = {
-                id: container.getAttribute("data-id"),
-                img: productCardImg[index].getAttribute("src"),
-                title: productCardTitle[index].textContent.replace(/\s+/g, " ").trim(),
-                author: productCardAuthor[index].textContent
+                id: product.BookId,
+                img: product.Photo.FilePath,
+                title: product.Title.replace(/\s+/g, " ").trim(),
+                author: product.Author.Name
                     .replace(/\s+/g, " ")
                     .trim(),
                 price: parseFloat(
-                    productCardPrice[index].textContent.replace(/[$€]+/g, "")
+                    product.Price.textContent.replace(/[$€]+/g, "")
                 ),
             };
 
