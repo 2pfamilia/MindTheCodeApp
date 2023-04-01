@@ -662,7 +662,6 @@ shopFiltersBtn && shopFiltersBtn.addEventListener("click", (e) => {
         }
         filters.maxPrice = String(filters.maxPrice);
     }
-    console.log(filters);
     needsUpdate && postFilters(filters);
 })
 
@@ -762,6 +761,70 @@ function updateShopPage(products) {
         productCardsContainer.removeChild(productCardsContainer.lastElementChild);
     }
     products.forEach(item => productCardsContainer.appendChild(createShopProductItems(item)));
+
+}
+
+
+function createShopProductItems(product) {
+    // Product Card
+    const productContainer = document.createElement("div");
+    productContainer.classList.add("product-card");
+    productContainer.setAttribute('data-id', product.BookId);
+
+
+    // Product image
+    const productImg = document.createElement("img");
+    productImg.src = product.Photo.FilePath;
+    productImg.alt = `${product.Title} cover`;
+
+    // Product Title
+    const productTitle = document.createElement("a");
+    productTitle.classList.add("product-card-title");
+    productTitle.setAttribute("href", `shop/product/${product.BookId}`);
+
+    // Product Author
+    const productAuthor = document.createElement("a");
+    productAuthor.classList.add("product-card-author");
+    productAuthor.setAttribute("href", `authors/details/${product.Auhtor.$id}`);
+
+      
+    //Price
+    const productPrice = document.createElement("span");
+    productPrice.classList.add("product-card-price");
+
+    // Add to card icon
+    const iconSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    iconSVG.classList.add("product-card-bag-icon");
+    iconSVG.setAttribute("height", "24");
+    iconSVG.setAttribute("width", "24");
+    const iconPath = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "path"
+    );
+    iconPath.setAttribute(
+        "d",
+        "M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z"
+    );
+    iconSVG.appendChild(iconPath);
+    removeIconContainer.appendChild(iconSVG);
+
+
+    productContainer.appendChild(productImg);
+    productContainer.appendChild(productTitle);
+    productContainer.appendChild(productPrice);
+    productContainer.appendChild(iconSVG);   
+    return productContainer;
+}
+
+
+function updateShopPage() {
+    const productCardsContainer = document.querySelector(".shop-content-list");
+    while (productCardsContainer.lastElementChild) {
+        productCardsContainer.removeChild(myNode.lastElementChild);
+    }
+
+
+
 
 }
 
@@ -1313,5 +1376,8 @@ function arraysEqual(a, b) {
 function floatToString(num) {
     return num.toFixed(Math.max(1, num.toString().substr(num.toString().indexOf(".") + 1).length));
 }
+
+
+
 
 
