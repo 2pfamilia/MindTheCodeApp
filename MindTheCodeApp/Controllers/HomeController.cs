@@ -53,5 +53,35 @@ namespace MindTheCodeApp.Controllers
 
             return View("/Views/Home/Index.cshtml", dto);
         }
+
+        [HttpGet("AboutUs")]
+        public async Task<IActionResult> AboutUs()
+        {
+            return View("/Views/Home/AboutUs.cshtml");
+        }
+
+        [HttpGet("ContactUs")]
+        public async Task<IActionResult> ContactUs()
+        {
+            return View("/Views/Home/ContactUs.cshtml");
+        }
+
+        [HttpGet("Shipping")]
+        public async Task<IActionResult> Shipping()
+        {
+            return View("/Views/Home/Shipping.cshtml");
+        }
+
+        [HttpGet("PaymentMethods")]
+        public async Task<IActionResult> PaymentMethods()
+        {
+            return View("/Views/Home/PaymentMethods.cshtml");
+        }
+
+        [HttpGet("TermsOfUse")]
+        public async Task<IActionResult> TermsOfUse()
+        {
+            return View("/Views/Home/TermsOfUse.cshtml");
+        }
     }
 }
