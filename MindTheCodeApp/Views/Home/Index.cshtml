@@ -87,11 +87,11 @@
                 </div>
                 <img src="@Url.Content((@book.Photo?.FilePath ?? "img/books/placeholder.png"))"
                      alt="@book.Title cover" class="product-img"/>
-                <a href="#" class="home-section-books-item-title product-title">
+                <a asp-controller="Shop" asp-action="Product" asp-route-id="@book.BookId" class="home-section-books-item-title product-title">
                     @book.Title
                 </a>
-                <a href="#" class="home-section-books-item-author product-author">
-                    @((book.Author?.Name ?? "Unknown Author"))
+                <a asp-controller="Author" asp-action="Details" asp-route-id="@book.Author.AuthorId" class="home-section-books-item-author product-author">
+                    @(book.Author?.Name ?? "Unknown Author")
                 </a>
                 <span class="home-section-books-item-price product-price">€@book.Price</span>
             </div>
@@ -127,10 +127,10 @@
                     </div>
                 </div>
                 <img src="@Url.Content((@book.Photo?.FilePath ?? "img/books/placeholder.png"))" alt="@book.Title cover" class="product-img"/>
-                <a href="#" class="home-section-books-item-title product-title">
+                <a asp-controller="Shop" asp-action="Product" asp-route-id="@book.BookId" class="home-section-books-item-title product-title">
                     @book.Title
                 </a>
-                <a href="#" class="home-section-books-item-author product-author">
+                <a asp-controller="Author" asp-action="Details" asp-route-id="@book.Author.AuthorId" class="home-section-books-item-author product-author">
                     @((book.Author?.Name ?? "Unknown Author"))
                 </a>
                 <span class="home-section-books-item-price product-price">€@book.Price</span>
@@ -156,7 +156,7 @@
         {
             <div class="home-section-authors-item">
                 <div>
-                    <img src="@Url.Content((@author.Photo?.FilePath ?? "img/books/placeholder.png"))" alt="@author.Name photo" />
+                    <img src="@Url.Content((@author.Photo?.FilePath ?? "img/books/placeholder.png"))" alt="@author.Name photo"/>
                 </div>
                 <a asp-controller="Author" asp-action="Details" asp-route-id="@author.AuthorId">
                     <span>@author.Name</span>

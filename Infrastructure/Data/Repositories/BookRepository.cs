@@ -17,13 +17,15 @@ namespace Infrastructure.Data.Repositories
 
         public async Task<List<Book>> GetAllBooks()
         {
-            var books = await _context.BookEntity.Include(b => b.Photo).Include(b => b.Author).Include(b => b.Category).ToListAsync();
+            var books = await _context.BookEntity.Include(b => b.Photo).Include(b => b.Author).Include(b => b.Category)
+                .ToListAsync();
             return books;
         }
 
         public async Task<List<Book>> GetBestSellers()
         {
-            var bestSellers = await _context.BookEntity.Include(b => b.Photo).Take(4).ToListAsync();
+            var bestSellers = await _context.BookEntity.Include(b => b.Author).Include(b => b.Photo).Take(4)
+                .ToListAsync();
             return bestSellers;
         }
 
@@ -50,25 +52,22 @@ namespace Infrastructure.Data.Repositories
         public async Task<List<Book>> GetBooksByCategoryId(int categoryId)
         {
             var categoryBooks = await _context.BookEntity.Include(mybook => mybook.Category)
-                .Where(mybook => mybook.Category.CategoryId == categoryId).Include(b => b.Photo).Include(b => b.Author).ToListAsync();
+                .Where(mybook => mybook.Category.CategoryId == categoryId).Include(b => b.Photo).Include(b => b.Author)
+                .ToListAsync();
             return categoryBooks;
         }
 
         public async Task<List<Book>> GetBooksByPriceRange(int maxPrice)
         {
-            
-               
-          var minBooks = await _context.BookEntity.Where(mybook => mybook.Price <= maxPrice).ToListAsync();
-          return minBooks;
-              
-               
-            
+            var minBooks = await _context.BookEntity.Where(mybook => mybook.Price <= maxPrice).ToListAsync();
+            return minBooks;
         }
 
         public async Task<List<Book>> GetBooksByTitle(string titleQuery)
         {
             var similarTitleBooks =
-                await _context.BookEntity.Where(mybook => mybook.Title.Contains(titleQuery)).Include(b => b.Photo).Include(b => b.Author).Include(b => b.Category).ToListAsync();
+                await _context.BookEntity.Where(mybook => mybook.Title.Contains(titleQuery)).Include(b => b.Photo)
+                    .Include(b => b.Author).Include(b => b.Category).ToListAsync();
             return similarTitleBooks;
         }
 
@@ -78,27 +77,27 @@ namespace Infrastructure.Data.Repositories
                 .Include(b => b.Category).Where(b => categoryIDs.Contains(b.Category.CategoryId))
                 .Include(b => b.Author).Where(b => authorIDs.Contains(b.Author.AuthorId))
                 .Include(b => b.Photo).Select(b => new SearchByFilterResultDTO
-            {
-                BookId = b.BookId,
-                Title = b.Title,
-                Description = b.Description,
-                Price = b.Price,
-                Author = new BookAuthor
                 {
-                    AuthorId = b.Author.AuthorId,
-                    Name = b.Author.Name,
-                },
-                Category = new BookCategory
-                {
-                    CategoryId = b.Category.CategoryId,
-                    Title = b.Category.Title
-                },
-                Photo = new Photo
-                {
-                    PhotoId = b.Photo.PhotoId,
-                    FilePath = b.Photo.FilePath,
-                }
-            }).ToListAsync();
+                    BookId = b.BookId,
+                    Title = b.Title,
+                    Description = b.Description,
+                    Price = b.Price,
+                    Author = new BookAuthor
+                    {
+                        AuthorId = b.Author.AuthorId,
+                        Name = b.Author.Name,
+                    },
+                    Category = new BookCategory
+                    {
+                        CategoryId = b.Category.CategoryId,
+                        Title = b.Category.Title
+                    },
+                    Photo = new Photo
+                    {
+                        PhotoId = b.Photo.PhotoId,
+                        FilePath = b.Photo.FilePath,
+                    }
+                }).ToListAsync();
 
 
             //var similarTitleBooks =
@@ -111,7 +110,7 @@ namespace Infrastructure.Data.Repositories
         public async Task<List<Book>> GetNewArrivals()
         {
             //get the first 4 books that are newer in the library
-            var newArrivals = await _context.BookEntity.Include(b => b.Photo)
+            var newArrivals = await _context.BookEntity.Include(b => b.Author).Include(b => b.Photo)
                 .OrderByDescending(mybook => mybook.DateCreated).Take(4)
                 .ToListAsync();
             return newArrivals;
@@ -120,7 +119,8 @@ namespace Infrastructure.Data.Repositories
         public async Task<List<Book>> GetBooks(int number)
         {
             int absNumber = (int)MathF.Abs(number); //safety measure
-            var books = await _context.BookEntity.Take(absNumber).Include(b => b.Photo).Include(b => b.Author).ToListAsync();
+            var books = await _context.BookEntity.Take(absNumber).Include(b => b.Photo).Include(b => b.Author)
+                .ToListAsync();
             return books;
         }
 
