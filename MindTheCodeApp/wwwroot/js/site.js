@@ -397,15 +397,18 @@ formInputs.forEach((inputContainer) => {
     input.addEventListener("change", () => {
         if (input.name == "Email") {
             if (!validateEmail(input.value)) {
+                errorMsg.style.setProperty("display", "inline");
                 errorMsg.textContent = "Invalid email address.";
             }
-        } else if (input.name == "phone") {
+        } else if (input.name == "Phone") {
             if (!ValidatePhone(input.value)) {
                 errorMsg.textContent = "Invalid phone number.";
+                errorMsg.style.setProperty("display", "inline");
             }
-        } else if (input.name == "zip-code") {
+        } else if (input.name == "PostalCode") {
             if (!ValidateZipCode(input.value)) {
                 errorMsg.textContent = "Invalid Zip code.";
+                errorMsg.style.setProperty("display", "inline");
             }
         } else if (input.type == "password") {
             const parent = document.querySelector(".password-confirmation");
@@ -427,12 +430,14 @@ formInputs.forEach((inputContainer) => {
             if (!input.classList.contains("singin") && !checkPassword(input.value)) {
                 errorMsg.textContent =
                     "At least 1 numeric digit, 1 uppercase and 1 lowercaser letter (6 to 20 characters).";
+                errorMsg.style.setProperty("display", "inline");
             }
         } else if (input.name.includes("PasswordConfirmation")) {
             const parent = document.querySelector(".password-confirmation");
             const passwordInput = parent.querySelector('input[type="password"]:first');
             if (!passwordCofirmation(input.value, passwordInput.value)) {
                 errorMsg.textContent = "Password confirmation does not match.";
+                errorMsg.style.setProperty("display", "inline");
             }
         }
     });
@@ -455,6 +460,7 @@ formBtns.forEach((btn) => {
             }
             if (input.hasAttribute("required") && input.value.length == 0) {
                 errorMsg.textContent = "This field is required.";
+                errorMsg.style.setProperty("display", "inline");
                 hasErrors = true;
             }
         });
@@ -467,6 +473,7 @@ formBtns.forEach((btn) => {
                     const parent = selectContainer.parentNode;
                     const errorMsg = parent.querySelector(".form-error-msg");
                     errorMsg.textContent = "This field is required.";
+                    errorMsg.style.setProperty("display", "inline");
                     hasErrors = true;
                 }
             }

@@ -290,6 +290,7 @@ main {
 
 .form-error-msg {
     font-size: 1.4rem;
+    max-width: 18rem;
 }
     .form-main-error-msg {
         font-size: 1.6rem;
