@@ -661,7 +661,6 @@ shopFiltersBtn && shopFiltersBtn.addEventListener("click", (e) => {
         }
         filters.maxPrice = String(filters.maxPrice);
     }
-    console.log(filters);
     needsUpdate && postFilters(filters);
 })
 
