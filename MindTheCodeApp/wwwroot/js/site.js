@@ -662,7 +662,6 @@ shopFiltersBtn && shopFiltersBtn.addEventListener("click", (e) => {
         }
         filters.maxPrice = String(filters.maxPrice);
     }
-    console.log(filters);
     needsUpdate && postFilters(filters);
 })
 
@@ -674,10 +673,13 @@ async function postFilters(filters = {}) {
             "Content-Type": "application/json",
         },
     }).then((response) => response.json())
+        .then(data => {
+            console.log(data);
+            updateShopPage(data)
+        })
         .catch((error) => {
             console.error("Error:", error);
         });
-    updateShopPage(products);    
            
 }
 
@@ -703,8 +705,7 @@ function createShopProductItems(product) {
     // Product Author
     const productAuthor = document.createElement("a");
     productAuthor.classList.add("product-card-author");
-    productAuthor.setAttribute("href", `authors/details/${product.Author.AuthorId
-}`);
+    productAuthor.setAttribute("href", `authors/details/${product.Author.AuthorId}`);
     productAuthor.textContent = product.Author.Name
       
     //Price
@@ -738,14 +739,14 @@ function createShopProductItems(product) {
         iconSVG.addEventListener("click", () => {
             const container = cartIcon.closest(".product-card");
             const product = {
-                id: container.getAttribute("data-id"),
-                img: productCardImg[index].getAttribute("src"),
-                title: productCardTitle[index].textContent.replace(/\s+/g, " ").trim(),
-                author: productCardAuthor[index].textContent
+                id: product.BookId,
+                img: productImg.getAttribute("src"),
+                title: product.Title,
+                author: product.Author.Name
                     .replace(/\s+/g, " ")
                     .trim(),
                 price: parseFloat(
-                    productCardPrice[index].textContent.replace(/[$€]+/g, "")
+                    productPrice.textContent.replace(/[$€]+/g, "")
                 ),
             };
 
@@ -764,6 +765,7 @@ function updateShopPage(products) {
     products.forEach(item => productCardsContainer.appendChild(createShopProductItems(item)));
 
 }
+
 
 
 // Add to cart handler
@@ -1313,5 +1315,8 @@ function arraysEqual(a, b) {
 function floatToString(num) {
     return num.toFixed(Math.max(1, num.toString().substr(num.toString().indexOf(".") + 1).length));
 }
+
+
+
 
 
