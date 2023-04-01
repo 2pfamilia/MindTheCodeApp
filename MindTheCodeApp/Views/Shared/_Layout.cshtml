@@ -1,6 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
 
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -97,8 +102,8 @@
                     @await Component.InvokeAsync("Categories")
                 </div>
             </div>
-                <a href="#" class="navlink">@Localizer["AboutUsC"]</a>
-                <a href="#" class="navlink">@Localizer["ContactUsC"]</a>
+                <a asp-controller="Home" asp-action="AboutUs" class="navlink">@Localizer["AboutUsC"]</a>
+                <a asp-controller="Home" asp-action="ContactUs" class="navlink">@Localizer["ContactUsC"]</a>
         </div>
     </nav>
     <nav class="mobile-navbar-container">            
@@ -118,7 +123,7 @@
                             </div>
                     </li>
                     <li>
-                        <a href="#" class="mobile-navlink">@Localizer["AboutUsC"]</a>
+                        <a asp-controller="Home" asp-action="AboutUs" class="mobile-navlink">@Localizer["AboutUsC"]</a>
                     </li>
                     <li>
                         <a href="#" class="mobile-navlink">@Localizer["ContactUsC"]</a>
@@ -172,16 +177,16 @@
                 <h3 class="footer-info-header">@Localizer["InformationC"]</h3>
                 <ul class="footer-info-list">
                     <li class="footer-info-list-item">
-                            <span class="box-bullet-sm"></span><a href="#">@Localizer["AboutUsL"]</a>
+                            <span class="box-bullet-sm"></span><a asp-controller="Home" asp-action="AboutUs" class="navlink">@Localizer["AboutUsC"]</a>
                     </li>
                     <li class="footer-info-list-item">
-                            <span class="box-bullet-sm"></span><a href="#">@Localizer["ShippingMethods"]</a>
+                            <span class="box-bullet-sm"></span><a asp-controller="Home" asp-action="Shipping" class="navlink">@Localizer["ShippingMethods"]</a>
                     </li>
                     <li class="footer-info-list-item">
-                            <span class="box-bullet-sm"></span><a href="#">@Localizer["PaymentMethods"]</a>
+                            <span class="box-bullet-sm"></span><a asp-controller="Home" asp-action="PaymentMethods" class="navlink">@Localizer["PaymentMethods"]</a>
                     </li>
                     <li class="footer-info-list-item">
-                            <span class="box-bullet-sm"></span><a href="#">@Localizer["TermsOfUse"]</a>
+                            <span class="box-bullet-sm"></span><a asp-controller="Home" asp-action="TermsOfUse" class="navlink">@Localizer["TermsOfUse"]</a>
                     </li>
                 </ul>
             </div>
