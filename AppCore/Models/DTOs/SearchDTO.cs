@@ -13,7 +13,8 @@ namespace AppCore.Models.DTOs
         public string? SearchTerm { get; set; }
         public List<int>? CategoryIDs { get; set; }
         public List<int>? AuthorIDs { get; set; }
-        public int? maxPrice;
-    
+
+        public string? maxPrice { get; set; }
+
     }
 }

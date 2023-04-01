@@ -26,7 +26,7 @@ namespace AppCore.IRepositories
         //get books by author
         Task<List<Book>> GetBooksByTitle(string titleQuery);
 
-        Task<List<SearchByFilterResultDTO>> GetBooksByFilters(string? searchTerm, List<int>? categoryIDs, List<int>? authorIDs, int? maxPrice);
+        Task<List<SearchByFilterResultDTO>> GetBooksByFilters(string? searchTerm, List<int>? categoryIDs, List<int>? authorIDs, decimal? maxPrice);
 
         //get books which has a title similar to the query
         Task<List<Book>> GetBooksByPriceRange(int maxPrice);

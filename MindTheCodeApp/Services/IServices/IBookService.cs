@@ -16,7 +16,7 @@ namespace MindTheCodeApp.Services.IServices
         HomeDTO GetHomeDTO();
         SearchPostDTO GetSearchPostDTO(string? searchTerm, List<int>? categoryIDs, List<int>? authorIDs, int? maxPrice);
 
-        Task<List<SearchByFilterResultDTO>> GetBooksByFilters(string? searchTerm, List<int>? categoryIDs, List<int>? authorIDs, int? maxPrice);
+        Task<List<SearchByFilterResultDTO>> GetBooksByFilters(string? searchTerm, List<int>? categoryIDs, List<int>? authorIDs, decimal? maxPrice);
         Task<List<Book>> GetNewArrivals();
         Task<List<Book>> GetBooksByCategoryId(int categoryId);
         Task<List<Book>> GetBooksByAuthor(BookAuthor author);

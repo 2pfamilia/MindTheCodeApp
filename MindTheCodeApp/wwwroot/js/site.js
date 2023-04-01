@@ -117,7 +117,14 @@ let accountCurrentPageIndex = 0;
 // My cart page
 const myCartPageContainer = document.querySelector(".my-cart-page-container");
 
+
+
+// Site URL
+
+const siteUrl = "https://localhost:44362/";
+
 let userCart = [];
+let Products = [];
 let userCartTotal = 0;
 
 // If user cart data is empty get it from local storage
@@ -589,56 +596,174 @@ if (shopPriceFilter) {
 // Shop page apply filters button
 shopFiltersBtn && shopFiltersBtn.addEventListener("click", (e) => {
     e.preventDefault();
+
     let filters = {
-        category: [],
-        author: [],
-        price: 0
+        SearchTerm: "",
+        CategoryIDs: [],
+        AuthorIDs: [],
+        maxPrice: 0
     }
+
+    let currentFilters = {
+        SearchTerm: "",
+        CategoryIDs: [],
+        AuthorIDs: [],
+        maxPrice: 0
+    }
+
     // Fieldsets
     const filterContainers = document.querySelectorAll('.shop-filters-filter-container')
 
-    filterContainers.forEach(filter => {
-        const type = filter.querySelector(".shop-filters-filter-label-container h3").textContent.toLowerCase();
 
+
+    filterContainers.forEach(filter => {
+
+        const type = filter.getAttribute("data-name");
         const inputs = filter.querySelectorAll(".shop-filters-box-filter-item input")
+
+        
         inputs.forEach(input => {
+            currentFilters[type].push(parseInt(input.value))
+
             if (input.checked) {
-                filters[type].push(input.value)
+                filters[type].push(parseInt(input.value))
             }
         });
     });
-
+   
     // Price slider
     const priceSlider = document.querySelector('.shop-filters-price-container input');
-    const maxPrice = parseFloat(priceSlider.getAttribute('max'));
-    const selectedPrice = parseFloat(priceSlider.value);
+    currentFilters.maxPrice = parseFloat(priceSlider.getAttribute('max'));
+    filters.maxPrice = parseFloat(priceSlider.value);
 
-    if (maxPrice > selectedPrice) {
-        filters.price = selectedPrice;
-    }
+      
+    let needsUpdate = false
 
-    if (filters.price != 0 || filters.category.length != 0 || filters.author.length != 0) {
-
-        //const filtersForm = shopFiltersBtn.closest("form");
-        //filtersForm.submit();
-        //Add the endpoint of shop page e.g xhr.open("POST", "/shop/filters");
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", "/");
-        xhr.setRequestHeader("Accept", "application/json");
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                console.log(xhr.status);
-                console.log(xhr.responseText);
+    for (let key in filters) {
+        if (key == "CategoryIDs" || key == "AuthorIDs") {
+            if (filters[key].length == 0) {
+                filters[key] = [...currentFilters[key]]
+            } else {
+                needsUpdate = true;
             }
-        };
+        } else if (key =="SearchTerm") {
+            if (filters[key] != currentFilters[key]) {
+                filters[key] = currentFilters[key].slice();
+                needsUpdate = true;
+            }
+        } else if (key == "maxPrice") {
+            if (filters[key] > 0) {
+                needsUpdate = true;
+            } else {
+                filters[key] = currentFilters[key];
 
-        console.log(filters);
-        xhr.send(JSON.stringify(filters));
-
+            }
+            
+        }
+        filters.maxPrice = String(filters.maxPrice);
     }
-
+    console.log(filters);
+    needsUpdate && postFilters(filters);
 })
+
+async function postFilters(filters = {}) {
+    const products = await fetch(`${siteUrl}shop/filters`, {
+        method: "POST",
+        body: JSON.stringify(filters),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }).then((response) => response.json())
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+    updateShopPage(products);    
+           
+}
+
+
+function createShopProductItems(product) {
+    // Product Card
+    const productContainer = document.createElement("div");
+    productContainer.classList.add("product-card");
+    productContainer.setAttribute('data-id', product.BookId);
+
+
+    // Product image
+    const productImg = document.createElement("img");
+    productImg.src = product.Photo.FilePath;
+    productImg.alt = `${product.Title} cover`;
+
+    // Product Title
+    const productTitle = document.createElement("a");
+    productTitle.classList.add("product-card-title");
+    productTitle.setAttribute("href", `shop/product/${product.BookId}`);
+    productTitle.textContent = product.Title;
+
+    // Product Author
+    const productAuthor = document.createElement("a");
+    productAuthor.classList.add("product-card-author");
+    productAuthor.setAttribute("href", `authors/details/${product.Author.AuthorId
+}`);
+    productAuthor.textContent = product.Author.Name
+      
+    //Price
+    const productPrice = document.createElement("span");
+    productPrice.classList.add("product-card-price");
+    productPrice.textContent = product.Price;
+
+    // Add to card icon
+    const iconSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    iconSVG.classList.add("product-card-bag-icon");
+    iconSVG.setAttribute("height", "24");
+    iconSVG.setAttribute("width", "24");
+    const iconPath = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "path"
+    );
+    iconPath.setAttribute(
+        "d",
+        "M6 22q-.825 0-1.412-.587Q4 20.825 4 20V8q0-.825.588-1.412Q5.175 6 6 6h2q0-1.65 1.175-2.825Q10.35 2 12 2q1.65 0 2.825 1.175Q16 4.35 16 6h2q.825 0 1.413.588Q20 7.175 20 8v12q0 .825-.587 1.413Q18.825 22 18 22Zm0-2h12V8h-2v2q0 .425-.287.712Q15.425 11 15 11t-.712-.288Q14 10.425 14 10V8h-4v2q0 .425-.287.712Q9.425 11 9 11t-.712-.288Q8 10.425 8 10V8H6v12Zm4-14h4q0-.825-.587-1.412Q12.825 4 12 4q-.825 0-1.412.588Q10 5.175 10 6ZM6 20V8v12Z"
+    );
+    
+
+   
+    productContainer.appendChild(productImg);
+    productContainer.appendChild(productTitle);
+    productContainer.appendChild(productAuthor);
+    productContainer.appendChild(productPrice);
+    productContainer.appendChild(iconSVG);   
+
+   
+        iconSVG.addEventListener("click", () => {
+            const container = cartIcon.closest(".product-card");
+            const product = {
+                id: container.getAttribute("data-id"),
+                img: productCardImg[index].getAttribute("src"),
+                title: productCardTitle[index].textContent.replace(/\s+/g, " ").trim(),
+                author: productCardAuthor[index].textContent
+                    .replace(/\s+/g, " ")
+                    .trim(),
+                price: parseFloat(
+                    productCardPrice[index].textContent.replace(/[$€]+/g, "")
+                ),
+            };
+
+            addProductToCart(product, 1, true);
+        });
+
+    return productContainer;
+}
+
+
+function updateShopPage(products) {
+    const productCardsContainer = document.querySelector(".shop-content-list");
+    while (productCardsContainer.lastElementChild) {
+        productCardsContainer.removeChild(productCardsContainer.lastElementChild);
+    }
+    products.forEach(item => productCardsContainer.appendChild(createShopProductItems(item)));
+
+}
 
 
 // Add to cart handler
@@ -1166,6 +1291,27 @@ function passwordCofirmation(password, passwordCofirmation) {
     } else {
         return false;
     }
+}
+
+function arraysEqual(a, b) {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (a.length !== b.length) return false;
+
+    // If you don't care about the order of the elements inside
+    // the array, you should sort both arrays here.
+    // Please note that calling sort on an array will modify that array.
+    // you might want to clone your array first.
+
+    for (var i = 0; i < a.length; ++i) {
+        if (a[i] !== b[i]) return false;
+    }
+    return true;
+}
+
+
+function floatToString(num) {
+    return num.toFixed(Math.max(1, num.toString().substr(num.toString().indexOf(".") + 1).length));
 }
 
 

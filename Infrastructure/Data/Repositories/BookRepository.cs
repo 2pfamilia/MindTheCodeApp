@@ -72,9 +72,9 @@ namespace Infrastructure.Data.Repositories
             return similarTitleBooks;
         }
 
-        public async Task<List<SearchByFilterResultDTO>> GetBooksByFilters(string? searchTerm, List<int>? categoryIDs, List<int>? authorIDs, int? maxPrice)
+        public async Task<List<SearchByFilterResultDTO>> GetBooksByFilters(string? searchTerm, List<int>? categoryIDs, List<int>? authorIDs, decimal? maxPrice)
         {
-            var similarTitleBooks = await _context.BookEntity.Where(b => b.Title.Contains(searchTerm))
+            var similarTitleBooks = await _context.BookEntity.Where(b => b.Title.Contains(searchTerm) && maxPrice >= b.Price)
                 .Include(b => b.Category).Where(b => categoryIDs.Contains(b.Category.CategoryId))
                 .Include(b => b.Author).Where(b => authorIDs.Contains(b.Author.AuthorId))
                 .Include(b => b.Photo).Select(b => new SearchByFilterResultDTO
