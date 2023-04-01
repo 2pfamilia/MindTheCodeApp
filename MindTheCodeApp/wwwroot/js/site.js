@@ -1192,11 +1192,13 @@ checkout.forEach(element => {
             }));
 
             const url = `https://${window.location.host}/checkout`;
-            
+
             const response = await checkoutPostData(url, cart_data);
-            
-            if (response.status == 200){
+
+            if (response.status == 200) {
                 userCart = [];
+                userCartTotal = 0;
+                updateCartLocalStorage();
                 window.location.replace(`https://${window.location.host}/`);
             }
         });
