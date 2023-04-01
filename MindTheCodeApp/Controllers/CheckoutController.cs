@@ -7,9 +7,12 @@ using System.Net;
 using System.Net.Cache;
 using System.Security.Claims;
 using System.Web;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MindTheCodeApp.Controllers
 {
+    [Route("/checkout/")]
+    [Authorize(Roles = "reuser, admin")]
     public class CheckoutController : Controller
     {
         private readonly ILogger<CheckoutController> _logger;
@@ -28,6 +31,7 @@ namespace MindTheCodeApp.Controllers
             _emailService = emailService;
         }
 
+        [HttpGet("cart")]
         public async Task<IActionResult> Index(string userCart, string userCartTotal)
         {
             // var cart = 
@@ -36,14 +40,14 @@ namespace MindTheCodeApp.Controllers
             return View("/Views/User/Cart.cshtml");
         }
 
-        [HttpGet]
+        [HttpGet("create")]
         public async Task<IActionResult> Create()
         {
             //var checkoutDTO = new CheckoutDTO();
             return View("/Views/Checkout/Checkout.cshtml");
         }
 
-        [HttpPost]
+        [HttpPost("")]
         public async Task<IActionResult> CreateOrder([FromBody] List<CheckoutDTO> checkoutDTO)
         {
             try
@@ -58,21 +62,21 @@ namespace MindTheCodeApp.Controllers
                 {
                     orderedBooks.Add(await _bookService.GetBookById(book.bookId), book.quantity);
                 }
+
                 var newOrder = await _orderService.CreateNewOrder(userId, orderedBooks);
                 var emailDTO = new OrderEmailDTO();
-                emailDTO.FirstName = user.FirstName; 
+                emailDTO.FirstName = user.FirstName;
                 emailDTO.LastName = user.LastName;
                 emailDTO.CustomerEmail = user.Email;
                 emailDTO.TotalCost = newOrder.Cost;
                 emailDTO.StreetAddress = user.StreetAddress;
                 await _emailService.SendOrderConfirmationEmail(emailDTO);
-                return Ok(true);
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
                 throw;
             }
-            
         }
     }
 }
